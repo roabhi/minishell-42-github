@@ -1,3 +1,3 @@
 # minishell-42-github
 
-Project minishell for 42 school barcelona with (https://github.com/RaeldorDraken)[RaeldorDraken]
+Project minishell for 42 school barcelona with (RaeldorDraken)[https://github.com/RaeldorDraken]
