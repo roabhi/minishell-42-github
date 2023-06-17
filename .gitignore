@@ -1,3 +1,7 @@
+.gitignore
+minishell_tester/
 minishell_test.cfg
 minishell_test.log
-minishell_tester/
+*.o
+.DS_Store
+.vscode/
