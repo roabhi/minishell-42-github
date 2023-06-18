@@ -6,7 +6,7 @@
 /*   By: rabril-h <rabril-h@student.42barcelona.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/15 21:14:08 by rabril-h          #+#    #+#             */
-/*   Updated: 2023/06/18 17:21:55 by rabril-h         ###   ########.fr       */
+/*   Updated: 2023/06/18 18:46:56 by rabril-h         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ void	msh_exec_builtin(t_cmd *cmd, t_vars *vars)
 	else if (ft_strcmp(cmd->argv[0], "cd") == 0)
 		printf("exec cd\n");
 	else if (ft_strcmp(cmd->argv[0], "pwd") == 0)
-		printf("exec pwd\n");
+		msh_exec_pwd(cmd, vars);
 	else if (ft_strcmp(cmd->argv[0], "export") == 0)
 		printf("exec export\n");
 	else if (ft_strcmp(cmd->argv[0], "unset") == 0)
