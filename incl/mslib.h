@@ -6,7 +6,7 @@
 /*   By: rabril-h <rabril-h@student.42barcelona.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/27 10:06:39 by eros-gir          #+#    #+#             */
-/*   Updated: 2023/06/17 18:41:22 by rabril-h         ###   ########.fr       */
+/*   Updated: 2023/06/18 17:24:16 by rabril-h         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -122,8 +122,9 @@ void	msh_free_envar(t_vars *vars);
 
 // Built ins
 void	msh_exec_builtin(t_cmd *cmd, t_vars *vars);
-void	msh_exec_exit(t_vars *vars);
-void	msh_exec_echo(t_vars *vars);
+void	msh_exec_exit(t_cmd *cmd, t_vars *vars);
+void	msh_exec_echo(t_cmd *cmd, t_vars *vars);
+void	msh_exec_env(t_cmd *cmd, t_vars *vars);
 
 // Executions
 int		msh_execute_start(t_vars *vars);

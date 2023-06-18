@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ms_main.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: eros-gir <eros-gir@student.42barcel>       +#+  +:+       +#+        */
+/*   By: rabril-h <rabril-h@student.42barcelona.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/27 10:05:31 by eros-gir          #+#    #+#             */
-/*   Updated: 2023/06/17 19:39:46 by eros-gir         ###   ########.fr       */
+/*   Updated: 2023/06/18 17:37:54 by rabril-h         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,9 +103,9 @@ int	main(int ac, char **av, char **envp)
 	// // ? printing own env vars
 
 	// int env_length = 0;
-	// while (vars.envar_vars[env_length])
+	// while (vars.envar[env_length])
 	// {
-	// 	printf("\n%d - %s",env_length, vars.envar_vars[env_length]);
+	// 	printf("\n%d - %s",env_length, vars.envar[env_length]);
 	// 	env_length++;
 	// }
 
