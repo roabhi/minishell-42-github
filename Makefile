@@ -6,7 +6,7 @@
 #    By: rabril-h <rabril-h@student.42barcelona.    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/08/02 14:48:15 by eros-gir          #+#    #+#              #
-#    Updated: 2023/06/18 18:46:29 by rabril-h         ###   ########.fr        #
+#    Updated: 2023/06/19 20:37:05 by rabril-h         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -24,6 +24,9 @@ SRC = ./src/ms_main.c  \
 	./src/built_ins/execs/ms_exec_echo.c  \
 	./src/built_ins/execs/ms_exec_env.c \
 	./src/built_ins/execs/ms_exec_pwd.c \
+	./src/built_ins/execs/ms_exec_cd.c \
+	./src/built_ins/execs/ms_exec_unset.c \
+	./src/built_ins/execs/ms_exec_export.c \
 	./src/utils/ms_utils.c ./src/helpers/ms_helpers.c \
 	./src/validations/ms_validations.c ./src/destroyer/ms_destroyer.c
 

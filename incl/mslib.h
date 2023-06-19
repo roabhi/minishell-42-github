@@ -6,7 +6,7 @@
 /*   By: rabril-h <rabril-h@student.42barcelona.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/27 10:06:39 by eros-gir          #+#    #+#             */
-/*   Updated: 2023/06/18 18:46:10 by rabril-h         ###   ########.fr       */
+/*   Updated: 2023/06/19 20:36:03 by rabril-h         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,9 @@
 # include<term.h>
 
 # include"../libft/libft.h"
+
+// ? Global var
+int	g_return_status;
 
 typedef struct s_quotes {
 	int	quote;
@@ -84,6 +87,7 @@ int		msh_cmd_is_built_in(t_cmd *cmd);
 
 void	msh_print_element(char *input, int start, int end);
 void	msh_debug_cmd_list(t_cmd *first);
+void	msh_print_env_vars(t_vars *vars, char *str);
 
 
 //env parser
@@ -119,13 +123,39 @@ int		msh_how_many_argv_have_the_cmd(char *input);
 void	msh_free_cmd_list(t_cmd *first);
 void	msh_free_raw_array(char **arr);
 void	msh_free_envar(t_vars *vars);
+void	msh_free_ptr(void *ptr);
 
-// Built ins
+//  * Built ins
 void	msh_exec_builtin(t_cmd *cmd, t_vars *vars);
+
+// ? exit built in
 void	msh_exec_exit(t_cmd *cmd, t_vars *vars);
+
+// ? echo built in
 void	msh_exec_echo(t_cmd *cmd, t_vars *vars);
+int		msh_echo_has_n_flag(char *arg);
+void	msh_echo_print(char **args, int n_flags, int index);
+
+// ? env builtin
 void	msh_exec_env(t_cmd *cmd, t_vars *vars);
-void  msh_exec_pwd(t_cmd *cmd, t_vars *vars);
+int		is_valid_env_var_key(char *var_name); // ? more like utils for env
+
+// ? pwd builtin
+void	msh_exec_pwd(t_cmd *cmd, t_vars *vars);
+int		msh_get_env_index(t_vars *vars, char *env_name); // ? more like utils for env
+void	msh_print_env_value(t_vars *vars, int env_index); // ? more like utils for env
+char	*msh_get_env_value(t_vars *vars, int env_index); // ? more like utils for env
+
+// ? cd builtin
+void	msh_exec_cd(t_cmd *cmd, t_vars *vars);
+void	msh_cd_go_home(t_vars *vars);
+int		msh_cd_change_dir(t_vars *vars, char *path);
+
+// ? unset builtin
+void	msh_exec_unset(t_cmd *cmd, t_vars *vars);
+
+// ? export builtin
+void	msh_exec_export(t_cmd *cmd, t_vars *vars);
 
 // Executions
 int		msh_execute_start(t_vars *vars);
@@ -133,6 +163,5 @@ int		msh_cmd_execute(t_vars *vars);
 char	*msh_getpath_cmd(t_vars *vars, char *cmd);
 char	*msh_getpath_line(char **envp);
 void	msh_getpath(t_vars *vars, char **envp);
-
 
 #endif

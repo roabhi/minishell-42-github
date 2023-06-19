@@ -6,7 +6,7 @@
 /*   By: rabril-h <rabril-h@student.42barcelona.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/15 20:41:30 by rabril-h          #+#    #+#             */
-/*   Updated: 2023/06/15 20:54:37 by rabril-h         ###   ########.fr       */
+/*   Updated: 2023/06/19 20:59:24 by rabril-h         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,20 @@ void	msh_print_element(char *input, int start, int end)
 		start++;
 	}
 	printf("\n");
+}
+
+void	msh_print_env_vars(t_vars *vars, char *str)
+{
+	int	env_length;
+
+	env_length = 0;
+	if (!str)
+		str = "";
+	while (vars->envar[env_length])
+	{
+		printf("%s%s\n", str, vars->envar[env_length]);
+		env_length++;
+	}
 }
 
 void	msh_debug_cmd_list(t_cmd *first)

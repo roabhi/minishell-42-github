@@ -6,7 +6,7 @@
 /*   By: rabril-h <rabril-h@student.42barcelona.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/17 18:40:12 by rabril-h          #+#    #+#             */
-/*   Updated: 2023/06/18 16:57:40 by rabril-h         ###   ########.fr       */
+/*   Updated: 2023/06/19 17:15:30 by rabril-h         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,7 +64,7 @@ void	msh_exec_echo(t_cmd *cmd, t_vars *vars)
 
 	(void)vars;
 	// ? start after "echo" word
-	index = 0;
+	index = 0; //? Skip de first argument which is echo itself
 	n_flags = 0;
 	if (cmd)
 	{

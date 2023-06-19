@@ -6,7 +6,7 @@
 /*   By: rabril-h <rabril-h@student.42barcelona.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/27 10:05:31 by eros-gir          #+#    #+#             */
-/*   Updated: 2023/06/18 17:37:54 by rabril-h         ###   ########.fr       */
+/*   Updated: 2023/06/19 19:23:50 by rabril-h         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,8 +75,6 @@ void	msh_set_vars(t_vars *vars, char *input)
 
 }
 
-int g_return_status;
-
 int	main(int ac, char **av, char **envp)
 {
 	t_vars	vars;
@@ -100,16 +98,7 @@ int	main(int ac, char **av, char **envp)
 		return (-1);	
 	// ? End of caputuring env vars
 
-	// // ? printing own env vars
 
-	// int env_length = 0;
-	// while (vars.envar[env_length])
-	// {
-	// 	printf("\n%d - %s",env_length, vars.envar[env_length]);
-	// 	env_length++;
-	// }
-
-	// // ? end of printing own vars
 
 
 
@@ -171,12 +160,9 @@ int	main(int ac, char **av, char **envp)
 		//looping = msh_getting_commands(&vars, envp);
 		//msh_free_commands(&vars);
 }
-
-	
 	msh_free_envar(&vars);
 	free(vars.prompt);
-	//  s
-	//msh_clear_memory(&vars);
+	return (g_return_status);
 }
 
 
