@@ -6,13 +6,23 @@
 /*   By: rabril-h <rabril-h@student.42barcelona.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/18 17:21:04 by rabril-h          #+#    #+#             */
-/*   Updated: 2023/06/19 20:22:28 by rabril-h         ###   ########.fr       */
+/*   Updated: 2023/06/20 17:40:30 by rabril-h         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../../incl/mslib.h"
 
-int	is_valid_env_var_key(char *var_name)
+int	msh_get_env_vars_length(t_vars *vars)
+{
+	int	c;
+
+	c = 0;
+	while (vars->envar && vars->envar[c])
+		c++;
+	return (c);
+}
+
+int	msh_is_valid_env_var_key(char *var_name)
 {
 	int	i;
 

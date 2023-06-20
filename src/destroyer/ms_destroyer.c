@@ -6,13 +6,13 @@
 /*   By: rabril-h <rabril-h@student.42barcelona.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/11 17:11:39 by rabril-h          #+#    #+#             */
-/*   Updated: 2023/06/19 20:29:54 by rabril-h         ###   ########.fr       */
+/*   Updated: 2023/06/20 16:12:06 by rabril-h         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../incl/mslib.h"
 
-void	msh_free_envar(t_vars *vars)
+void	msh_free_envars(t_vars *vars)
 {
 	int	env_length;
 

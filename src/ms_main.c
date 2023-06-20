@@ -6,7 +6,7 @@
 /*   By: rabril-h <rabril-h@student.42barcelona.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/27 10:05:31 by eros-gir          #+#    #+#             */
-/*   Updated: 2023/06/19 19:23:50 by rabril-h         ###   ########.fr       */
+/*   Updated: 2023/06/20 16:16:10 by rabril-h         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -160,7 +160,7 @@ int	main(int ac, char **av, char **envp)
 		//looping = msh_getting_commands(&vars, envp);
 		//msh_free_commands(&vars);
 }
-	msh_free_envar(&vars);
+	msh_free_envars(&vars);
 	free(vars.prompt);
 	return (g_return_status);
 }

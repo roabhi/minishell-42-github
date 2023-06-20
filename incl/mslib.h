@@ -6,7 +6,7 @@
 /*   By: rabril-h <rabril-h@student.42barcelona.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/27 10:06:39 by eros-gir          #+#    #+#             */
-/*   Updated: 2023/06/19 20:36:03 by rabril-h         ###   ########.fr       */
+/*   Updated: 2023/06/20 18:52:34 by rabril-h         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,19 +89,16 @@ void	msh_print_element(char *input, int start, int end);
 void	msh_debug_cmd_list(t_cmd *first);
 void	msh_print_env_vars(t_vars *vars, char *str);
 
-
 //env parser
 
 int		msh_store_env_own_vars(t_vars *vars, char **envp);
 int		msh_store_env_own_lines(t_vars *vars, char **envp, int index);
-
 
 //Parser
 
 char	*msh_sanitize_input(char *str);
 char	*msh_clean_irrelveant_spaces_in_input(char *input);
 int		msh_malformed_quotes(char *input);
-
 
 // Validators
 
@@ -117,12 +114,11 @@ char	**msh_prepare_splitted_input_in_cmds(t_vars *vars);
 t_cmd	*msh_tokenize(t_vars *vars);
 int		msh_how_many_argv_have_the_cmd(char *input);
 
-
 // Destroyers
 
 void	msh_free_cmd_list(t_cmd *first);
 void	msh_free_raw_array(char **arr);
-void	msh_free_envar(t_vars *vars);
+void	msh_free_envars(t_vars *vars);
 void	msh_free_ptr(void *ptr);
 
 //  * Built ins
@@ -138,7 +134,8 @@ void	msh_echo_print(char **args, int n_flags, int index);
 
 // ? env builtin
 void	msh_exec_env(t_cmd *cmd, t_vars *vars);
-int		is_valid_env_var_key(char *var_name); // ? more like utils for env
+int		msh_is_valid_env_var_key(char *var_name); // ? more like utils for env
+int		msh_get_env_vars_length(t_vars *vars);
 
 // ? pwd builtin
 void	msh_exec_pwd(t_cmd *cmd, t_vars *vars);
@@ -153,9 +150,13 @@ int		msh_cd_change_dir(t_vars *vars, char *path);
 
 // ? unset builtin
 void	msh_exec_unset(t_cmd *cmd, t_vars *vars);
+int		msh_remove_envar(t_vars *vars, int index); // ? more like uils for env
+char	**msh_realloc_env_vars(t_vars *vars, int length); // ? more like uils for env
 
 // ? export builtin
 void	msh_exec_export(t_cmd *cmd, t_vars *vars);
+int		msh_set_env_var(t_vars *vars, char *key, char *value);
+char	**msh_get_env_var_key_value_pair(char *str);
 
 // Executions
 int		msh_execute_start(t_vars *vars);
