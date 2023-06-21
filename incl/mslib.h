@@ -6,7 +6,7 @@
 /*   By: rabril-h <rabril-h@student.42barcelona.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/27 10:06:39 by eros-gir          #+#    #+#             */
-/*   Updated: 2023/06/20 18:52:34 by rabril-h         ###   ########.fr       */
+/*   Updated: 2023/06/21 22:42:27 by rabril-h         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -147,6 +147,7 @@ char	*msh_get_env_value(t_vars *vars, int env_index); // ? more like utils for e
 void	msh_exec_cd(t_cmd *cmd, t_vars *vars);
 void	msh_cd_go_home(t_vars *vars);
 int		msh_cd_change_dir(t_vars *vars, char *path);
+void	msh_cd_go_to_path(t_vars *vars, char *path);
 
 // ? unset builtin
 void	msh_exec_unset(t_cmd *cmd, t_vars *vars);

@@ -6,7 +6,7 @@
 /*   By: rabril-h <rabril-h@student.42barcelona.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/27 10:05:31 by eros-gir          #+#    #+#             */
-/*   Updated: 2023/06/20 16:16:10 by rabril-h         ###   ########.fr       */
+/*   Updated: 2023/06/21 22:07:11 by rabril-h         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -162,6 +162,7 @@ int	main(int ac, char **av, char **envp)
 }
 	msh_free_envars(&vars);
 	free(vars.prompt);
+	printf("Salgo pro aqui");
 	return (g_return_status);
 }
 

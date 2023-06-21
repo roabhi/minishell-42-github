@@ -6,7 +6,7 @@
 /*   By: rabril-h <rabril-h@student.42barcelona.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/19 16:57:11 by rabril-h          #+#    #+#             */
-/*   Updated: 2023/06/19 20:36:32 by rabril-h         ###   ########.fr       */
+/*   Updated: 2023/06/21 22:51:31 by rabril-h         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,6 @@ int	msh_cd_change_dir(t_vars *vars, char *path)
 {
 	int		env_index;
 	char	*new_pwd;
-
 	// printf("el actual PWD es %s\n", vars->envar[env_index]);
 
 	// ? Here we store current PWD in OLDPWD and set new PWD to home_Redls
@@ -49,6 +48,30 @@ void	msh_cd_go_home(t_vars *vars)
 	msh_cd_change_dir(vars, home_ref);
 }
 
+void	msh_cd_go_to_path(t_vars *vars, char *path)
+{
+	(void)vars;
+	
+	char	cwd[PATH_MAX];
+	char	*ret;
+
+	ret = NULL;
+	if (chdir(path) != 0)
+		printf("no se pudo cambiar el direcorio");
+	else
+	{
+		ret = getcwd(cwd, PATH_MAX);
+		if (!ret)
+			printf("Error");
+		else
+		{
+			ret = ft_strdup(cwd);
+			printf("return of ret is %s", ret);
+		}
+
+	}
+}
+
 void	msh_exec_cd(t_cmd *cmd, t_vars *vars)
 {
 	int	index;
@@ -59,7 +82,9 @@ void	msh_exec_cd(t_cmd *cmd, t_vars *vars)
 		if (cmd->argc == 1)
 			msh_cd_go_home(vars);
 		else if (cmd->argc == 2)
-			printf("go some other place");
+			msh_cd_go_to_path(vars, cmd->argv[1]);
+			//printf("go some other place"); // TODO identificar / como ruta absoluta y el resto relatdir
+
 		else
 			ft_putendl_fd("cd: Too many arguments ", 2);
 	}
