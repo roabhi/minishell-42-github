@@ -6,7 +6,7 @@
 /*   By: rabril-h <rabril-h@student.42barcelona.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/16 14:16:13 by rabril-h          #+#    #+#             */
-/*   Updated: 2023/06/21 22:32:01 by rabril-h         ###   ########.fr       */
+/*   Updated: 2023/06/22 19:14:18 by rabril-h         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,13 +29,13 @@ void	msh_exec_exit(t_cmd *cmd, t_vars *vars)
 	}
 	if (cmd->argc == 2)
 	{
-		printf("%s", cmd->argv[1]);
+		printf("Exit tiene mas de 2 argumentos y el adicional es %s\n", cmd->argv[1]);
+		g_return_status = 255;
+		
+	}
+	else{
 		//validar numero, si no es bueno salir con 255
 		// si es valido con el atoi de ese numero
 		g_return_status = 1;
-	}
-	else{
-		printf("Exit tiene mas de 2 argumentos\n");
-		g_return_status = 255;
 	}
 }
