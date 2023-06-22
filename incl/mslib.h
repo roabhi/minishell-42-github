@@ -6,7 +6,7 @@
 /*   By: rabril-h <rabril-h@student.42barcelona.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/27 10:06:39 by eros-gir          #+#    #+#             */
-/*   Updated: 2023/06/21 22:42:27 by rabril-h         ###   ########.fr       */
+/*   Updated: 2023/06/22 18:27:24 by rabril-h         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,7 +74,7 @@ typedef struct s_vars
 	t_cmd			*cmd;
 }	t_vars;
 
-// Utils
+// * Utils
 
 char	*msh_strjoinchr(char *str, char ch);
 void	msh_update_quotes_status(t_quotes *quotes, char c);
@@ -83,30 +83,30 @@ int		msh_no_quotes(t_quotes *quotes);
 char	*msh_free_return_null(char *ptr);
 int		msh_cmd_is_built_in(t_cmd *cmd);
 
-// Helpers
+// * Helpers
 
 void	msh_print_element(char *input, int start, int end);
 void	msh_debug_cmd_list(t_cmd *first);
 void	msh_print_env_vars(t_vars *vars, char *str);
 
-//env parser
+// * env parser
 
 int		msh_store_env_own_vars(t_vars *vars, char **envp);
 int		msh_store_env_own_lines(t_vars *vars, char **envp, int index);
 
-//Parser
+// * Parser
 
 char	*msh_sanitize_input(char *str);
 char	*msh_clean_irrelveant_spaces_in_input(char *input);
 int		msh_malformed_quotes(char *input);
 
-// Validators
+// * Validators
 
 int		msh_chr_can_be_separator(char c);
 int		msh_is_startarg(char *input, int c, t_quotes *quotes);
 int		msh_is_endarg(char *input, int c, t_quotes *quotes);
 
-// Tokenizer-ish
+// * Tokenizer-ish
 
 char	**msh_split_cmd_argvs(char *input, int argc);
 int		msh_count_tokens(char *input);
@@ -114,7 +114,7 @@ char	**msh_prepare_splitted_input_in_cmds(t_vars *vars);
 t_cmd	*msh_tokenize(t_vars *vars);
 int		msh_how_many_argv_have_the_cmd(char *input);
 
-// Destroyers
+// * Destroyers
 
 void	msh_free_cmd_list(t_cmd *first);
 void	msh_free_raw_array(char **arr);
@@ -148,6 +148,7 @@ void	msh_exec_cd(t_cmd *cmd, t_vars *vars);
 void	msh_cd_go_home(t_vars *vars);
 int		msh_cd_change_dir(t_vars *vars, char *path);
 void	msh_cd_go_to_path(t_vars *vars, char *path);
+void	msh_set_pwds(t_vars *vars, char *path);
 
 // ? unset builtin
 void	msh_exec_unset(t_cmd *cmd, t_vars *vars);
@@ -159,7 +160,7 @@ void	msh_exec_export(t_cmd *cmd, t_vars *vars);
 int		msh_set_env_var(t_vars *vars, char *key, char *value);
 char	**msh_get_env_var_key_value_pair(char *str);
 
-// Executions
+// ? Executions
 int		msh_execute_start(t_vars *vars);
 int		msh_cmd_execute(t_vars *vars);
 char	*msh_getpath_cmd(t_vars *vars, char *cmd);
