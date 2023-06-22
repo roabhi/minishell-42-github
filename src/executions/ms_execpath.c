@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ms_execpath.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rabril-h <rabril-h@student.42barcelona.    +#+  +:+       +#+        */
+/*   By: eros-gir <eros-gir@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/17 18:03:38 by eros-gir          #+#    #+#             */
-/*   Updated: 2023/06/17 18:35:40 by rabril-h         ###   ########.fr       */
+/*   Updated: 2023/06/22 19:29:31 by eros-gir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,13 +17,8 @@ char	*msh_getpath_line(char **envp)
 	int	i;
 
 	i = 0;
-	write(1 , "enters get pathline\n", 20);
 	while (envp[i] != NULL)
-	{
-		//write(1 , ft_itoa(i), ft_strlen(ft_itoa(i)));
 		i ++;
-	}
-	write(1 , "middle get pathline\n", 20);
 	i --;
 	while (ft_strncmp(envp[i], "PATH=", 5) != 0 && i != 0)
 		i --;
@@ -37,7 +32,6 @@ void	msh_getpath(t_vars *vars, char **envp)
 	char	*path_line;
 	int		i;
 
-	write(1 , "enters get path\n", 16);
 	path_line = msh_getpath_line(envp);
 	if (path_line == NULL)
 		path_line = "PATH=./";
@@ -70,6 +64,7 @@ char	*msh_getpath_cmd(t_vars *vars, char *cmd)
 	if (path_cmd == NULL)
 	{
 		printf("msh: %s: command not found\n", cmd);
+		g_return_status = 127;
 		return (NULL);
 	}
 	return (path_cmd);

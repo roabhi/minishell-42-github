@@ -6,7 +6,7 @@
 /*   By: rabril-h <rabril-h@student.42barcelona.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/27 10:06:39 by eros-gir          #+#    #+#             */
-/*   Updated: 2023/06/22 18:27:24 by rabril-h         ###   ########.fr       */
+/*   Updated: 2023/06/22 19:44:53 by rabril-h         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -162,7 +162,7 @@ char	**msh_get_env_var_key_value_pair(char *str);
 
 // ? Executions
 int		msh_execute_start(t_vars *vars);
-int		msh_cmd_execute(t_vars *vars);
+int		msh_cmd_execute(t_vars *vars, t_cmd *cmd);
 char	*msh_getpath_cmd(t_vars *vars, char *cmd);
 char	*msh_getpath_line(char **envp);
 void	msh_getpath(t_vars *vars, char **envp);
