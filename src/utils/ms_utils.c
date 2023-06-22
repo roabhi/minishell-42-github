@@ -6,7 +6,7 @@
 /*   By: rabril-h <rabril-h@student.42barcelona.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/05 17:21:49 by rabril-h          #+#    #+#             */
-/*   Updated: 2023/06/15 22:06:37 by rabril-h         ###   ########.fr       */
+/*   Updated: 2023/06/18 19:26:09 by rabril-h         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,8 +53,6 @@ void	msh_update_quotes_status(t_quotes *quotes, char c)
  * @brief Functions that generates
  *  a string char by char allocating the right memory
  * 
- * ? quote -> comillas normales
- * ? miniquote -> comillas simples
  * 
  * @param str *
  * @param ch
