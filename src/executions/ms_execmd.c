@@ -6,7 +6,7 @@
 /*   By: eros-gir <eros-gir@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/12 10:21:17 by eros-gir          #+#    #+#             */
-/*   Updated: 2023/06/22 19:05:19 by eros-gir         ###   ########.fr       */
+/*   Updated: 2023/06/23 17:41:44 by eros-gir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,9 +47,14 @@ int	msh_pipe_fork(t_vars *vars, t_cmd *cmd, int prev_pobj[2], int recursion)
 		dup2(pobj[1], STDOUT_FILENO);
 		close(pobj[1]);
 		//	write(2, "First pipe\n", 10);
-		msh_getpath(vars, vars->envar);
-		msh_cmd_execute(vars, &tcmd);
-		msh_free_raw_array(vars->paths); // ? free paths
+		if(msh_cmd_is_built_in(&tcmd))
+			msh_exec_builtin(&tcmd, vars);
+		else
+		{
+			msh_getpath(vars, vars->envar);
+			msh_cmd_execute(vars, &tcmd);
+			msh_free_raw_array(vars->paths); // ? free paths
+		}
 		exit (0);
 	}
 	if (recursion != 0)
@@ -70,11 +75,14 @@ int	msh_pipe_fork(t_vars *vars, t_cmd *cmd, int prev_pobj[2], int recursion)
 		//	write(2, "Last pipe\n", 10);
 			close(pobj[1]);
 			dup2(pobj[0], STDIN_FILENO);
-			close(pobj[0]);
-			//probando ejecucion de un comando simple
-			msh_getpath(vars, vars->envar);
-			msh_cmd_execute(vars, &tcmd);
-			msh_free_raw_array(vars->paths); // ? free paths
+			if(msh_cmd_is_built_in(&tcmd))
+				msh_exec_builtin(&tcmd, vars);
+			else
+			{
+				msh_getpath(vars, vars->envar);
+				msh_cmd_execute(vars, &tcmd);
+				msh_free_raw_array(vars->paths); // ? free paths
+			}
 			exit (0);
 		}
 	}	
@@ -96,18 +104,26 @@ int	msh_execute_start(t_vars *vars)
 	else
 	{
 	//probando ejecucion de un comando simple
-		single = fork();
-		if (single < 0)
-			return (1); //fork error
-		else if (single == 0)
+		if(msh_cmd_is_built_in(vars->cmd))
 		{
-			msh_getpath(vars, vars->envar);
-			msh_cmd_execute(vars, vars->cmd);
-			msh_free_raw_array(vars->paths); // ? free paths
-			exit (0);
+			write(2, "Built-in\n", 9);
+			msh_exec_builtin(vars->cmd, vars);
 		}
 		else
-			waitpid(single, NULL, 0);
+		{
+			single = fork();
+			if (single < 0)
+				return (1); //fork error
+			else if (single == 0)
+			{
+				msh_getpath(vars, vars->envar);
+				msh_cmd_execute(vars, vars->cmd);
+				msh_free_raw_array(vars->paths); // ? free paths
+				exit (0);
+			}
+			else
+				waitpid(single, NULL, 0);
+		}
 	}
 	return (0); // aqui poner return de error o result cuando toque
 }

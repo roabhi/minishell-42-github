@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ms_main.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rabril-h <rabril-h@student.42barcelona.    +#+  +:+       +#+        */
+/*   By: eros-gir <eros-gir@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/27 10:05:31 by eros-gir          #+#    #+#             */
-/*   Updated: 2023/06/21 22:07:11 by rabril-h         ###   ########.fr       */
+/*   Updated: 2023/06/23 17:42:34 by eros-gir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -134,15 +134,9 @@ int	main(int ac, char **av, char **envp)
 
 			vars.cmd = msh_tokenize(&vars);		
 			//msh_debug_cmd_list(vars.cmd); // debug tokens
-
-			// !WIP built-ins
-			if(msh_cmd_is_built_in(vars.cmd))
-				msh_exec_builtin(vars.cmd, &vars);
-			else
-			{
-				// ! entry point eduard
+			//Execution integrando builtins a pipes
+			if (vars.cmd != NULL)
 				msh_execute_start(&vars);
-			}
 
 			//msh_debug_cmd_list(vars.cmd);
 

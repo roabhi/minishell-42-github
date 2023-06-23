@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ms_exec_exit.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rabril-h <rabril-h@student.42barcelona.    +#+  +:+       +#+        */
+/*   By: eros-gir <eros-gir@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/16 14:16:13 by rabril-h          #+#    #+#             */
-/*   Updated: 2023/06/22 19:14:18 by rabril-h         ###   ########.fr       */
+/*   Updated: 2023/06/23 17:42:08 by eros-gir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,6 @@
 
 void	msh_exec_exit(t_cmd *cmd, t_vars *vars)
 {
-
 	(void)vars;
 	vars->looping = 0;
 
