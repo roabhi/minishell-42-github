@@ -6,7 +6,7 @@
 /*   By: eros-gir <eros-gir@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/27 10:05:31 by eros-gir          #+#    #+#             */
-/*   Updated: 2023/06/23 17:42:34 by eros-gir         ###   ########.fr       */
+/*   Updated: 2023/06/25 17:01:45 by eros-gir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,8 +38,9 @@
 // 	}
 // }
 
-
 //Global variable
+int	g_return_status;
+
 void	msh_sigint_handler(int sig)
 {
 	if (sig != 0)
@@ -111,9 +112,9 @@ int	main(int ac, char **av, char **envp)
 	{
 		vars.inpli = av[2];
 		vars.inplen = ft_strlen(vars.inpli);
-		msh_getting_commands(&vars, envp);
+		msh_execute_start(&vars);
 		exit(g_return_status);
-	}*/	
+	}*/
 	//End tesyting mode
 	
 	while (vars.looping)
@@ -125,7 +126,7 @@ int	main(int ac, char **av, char **envp)
 			if (vars.inpli[0] == '\0')
 			{
 				free(vars.inpli);
-				continue;
+				continue ;
 			}
 			add_history(vars.inpli);
 			vars.input = msh_sanitize_input(vars.inpli);
@@ -150,6 +151,8 @@ int	main(int ac, char **av, char **envp)
 			msh_free_raw_array(vars.tokens); // ? free tokens
 			free(vars.input); // ? free trimed input
 		}
+		else
+			vars.looping = 0; // this is ctrl-D exits shell
 
 		//looping = msh_getting_commands(&vars, envp);
 		//msh_free_commands(&vars);

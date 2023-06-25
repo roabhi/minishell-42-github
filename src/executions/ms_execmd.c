@@ -6,7 +6,7 @@
 /*   By: eros-gir <eros-gir@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/12 10:21:17 by eros-gir          #+#    #+#             */
-/*   Updated: 2023/06/23 17:41:44 by eros-gir         ###   ########.fr       */
+/*   Updated: 2023/06/25 16:17:17 by eros-gir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,7 +106,7 @@ int	msh_execute_start(t_vars *vars)
 	//probando ejecucion de un comando simple
 		if(msh_cmd_is_built_in(vars->cmd))
 		{
-			write(2, "Built-in\n", 9);
+			//write(2, "Built-in\n", 9);
 			msh_exec_builtin(vars->cmd, vars);
 		}
 		else
@@ -121,8 +121,7 @@ int	msh_execute_start(t_vars *vars)
 				msh_free_raw_array(vars->paths); // ? free paths
 				exit (0);
 			}
-			else
-				waitpid(single, NULL, 0);
+			waitpid(single, NULL, 0);
 		}
 	}
 	return (0); // aqui poner return de error o result cuando toque
@@ -138,7 +137,7 @@ int	msh_cmd_execute(t_vars *vars, t_cmd *cmd)
 	if (temp_cmd != NULL && cmd->argv[0])
 	{
 		//printf("cmd: %s\n", temp_cmd);
-		execve(temp_cmd, cmd->argv, vars->envar);
+		g_return_status = execve(temp_cmd, cmd->argv, vars->envar);
 	}
 	free(temp_cmd);
 	return (0);
