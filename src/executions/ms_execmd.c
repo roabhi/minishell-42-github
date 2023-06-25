@@ -6,7 +6,7 @@
 /*   By: eros-gir <eros-gir@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/12 10:21:17 by eros-gir          #+#    #+#             */
-/*   Updated: 2023/06/25 16:17:17 by eros-gir         ###   ########.fr       */
+/*   Updated: 2023/06/25 17:56:28 by eros-gir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -121,7 +121,8 @@ int	msh_execute_start(t_vars *vars)
 				msh_free_raw_array(vars->paths); // ? free paths
 				exit (0);
 			}
-			waitpid(single, NULL, 0);
+			else
+				waitpid(single, NULL, 0);
 		}
 	}
 	return (0); // aqui poner return de error o result cuando toque
