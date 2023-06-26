@@ -6,7 +6,7 @@
 /*   By: eros-gir <eros-gir@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/27 10:06:39 by eros-gir          #+#    #+#             */
-/*   Updated: 2023/06/25 15:59:55 by eros-gir         ###   ########.fr       */
+/*   Updated: 2023/06/26 17:16:41 by eros-gir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,7 @@ typedef struct s_cmd {
 	int				argc;
 	char			**argv;
 	int				is_separator;
-	struct s_cmd	*next;	
+	struct s_cmd	*next;
 }	t_cmd;
 
 typedef struct s_counters {
@@ -166,5 +166,9 @@ int		msh_cmd_execute(t_vars *vars, t_cmd *cmd);
 char	*msh_getpath_cmd(t_vars *vars, char *cmd);
 char	*msh_getpath_line(char **envp);
 void	msh_getpath(t_vars *vars, char **envp);
+
+// ? Redirections
+int		msh_is_redirect(t_cmd tcmd);
+int		msh_exec_redirect(t_cmd *cmd);
 
 #endif
