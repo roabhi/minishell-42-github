@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ms_main.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: eros-gir <eros-gir@student.42barcel>       +#+  +:+       +#+        */
+/*   By: rabril-h <rabril-h@student.42barcelona.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/27 10:05:31 by eros-gir          #+#    #+#             */
-/*   Updated: 2023/06/23 17:42:34 by eros-gir         ###   ########.fr       */
+/*   Updated: 2023/06/26 20:47:09 by rabril-h         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,11 +53,13 @@ void	msh_sigint_handler(int sig)
 
 void	msh_ignore_signals(t_vars *vars, int ac, char **av)
 {
-	if (ac > 1 || av[1] != NULL)
+	(void)ac;
+	(void)av;
+	/*if (ac > 1 || av[1] != NULL)
 	{
 		printf("ERROR: the program does not take any arguments!");
 		exit(1);
-	}
+	}*/
 	vars->sigbool = 1;
 	signal(SIGINT, msh_sigint_handler);
 	signal(SIGTSTP, SIG_IGN);
@@ -102,19 +104,32 @@ int	main(int ac, char **av, char **envp)
 
 
 
-	// Testing mode
+	// ! Testing mode
 	//Test 1: Got to /minishel_tester  and do bash test.sh
 	//Test 2: Desde raiz: python3 -m minishell_test
 	//https://github.com/thallard/minishell_tester
 	//https://github.com/cacharle/minishell_test
-/*	if (ac >= 3 && !ft_strncmp(av[1], "-c", 3))
-	{
-		vars.inpli = av[2];
-		vars.inplen = ft_strlen(vars.inpli);
-		msh_getting_commands(&vars, envp);
-		exit(g_return_status);
-	}*/	
-	//End tesyting mode
+	// if (ac >= 3 && !ft_strncmp(av[1], "-c", 3))
+	// {
+	// 	vars.inpli = av[2];
+	// 	vars.inplen = ft_strlen(vars.inpli);
+	// 	vars.input = msh_sanitize_input(vars.inpli);
+	// 	if (vars.input == NULL)
+	// 		exit(g_return_status);
+
+	// 	vars.cmd = msh_tokenize(&vars);		
+	// 	if (vars.cmd != NULL)
+	// 		msh_execute_start(&vars);
+
+
+	// 	msh_free_cmd_list(vars.cmd); // ? free args
+	// 	msh_free_raw_array(vars.tokens); // ? free tokens
+	// 	free(vars.input); // ? free trimed input);
+	// 	msh_free_envars(&vars);
+	//   free(vars.prompt);
+	// 	exit(g_return_status);
+	// }
+	// ! End tesyting mode
 	
 	while (vars.looping)
 	{
@@ -125,7 +140,7 @@ int	main(int ac, char **av, char **envp)
 			if (vars.inpli[0] == '\0')
 			{
 				free(vars.inpli);
-				continue;
+				continue ;
 			}
 			add_history(vars.inpli);
 			vars.input = msh_sanitize_input(vars.inpli);
@@ -136,7 +151,10 @@ int	main(int ac, char **av, char **envp)
 			//msh_debug_cmd_list(vars.cmd); // debug tokens
 			//Execution integrando builtins a pipes
 			if (vars.cmd != NULL)
+			{
+				msh_expander(&vars);
 				msh_execute_start(&vars);
+			}
 
 			//msh_debug_cmd_list(vars.cmd);
 
@@ -156,7 +174,6 @@ int	main(int ac, char **av, char **envp)
 }
 	msh_free_envars(&vars);
 	free(vars.prompt);
-	printf("Salgo pro aqui");
 	return (g_return_status);
 }
 

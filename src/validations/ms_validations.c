@@ -6,11 +6,19 @@
 /*   By: rabril-h <rabril-h@student.42barcelona.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/07 23:19:27 by rabril-h          #+#    #+#             */
-/*   Updated: 2023/06/11 15:18:30 by rabril-h         ###   ########.fr       */
+/*   Updated: 2023/06/25 20:51:16 by rabril-h         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../incl/mslib.h"
+
+int	msh_is_space(int c)
+{
+	if (c == ' ' || c == '\t' || c == '\n' || c == '\r'
+		|| c == '\v' || c == '\f')
+		return (c);
+	return (0);
+}
 
 int	msh_chr_can_be_separator(char c)
 {

@@ -6,7 +6,7 @@
 /*   By: rabril-h <rabril-h@student.42barcelona.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/06 22:07:56 by rabril-h          #+#    #+#             */
-/*   Updated: 2023/06/18 20:11:03 by rabril-h         ###   ########.fr       */
+/*   Updated: 2023/06/26 20:28:40 by rabril-h         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,6 +70,7 @@ char	*msh_sanitize_input(char *input)
 		return (NULL);
 	}
 	trimmed_input = ft_strtrim(input, " ");
+	// ! comment for testing
 	free(input);
 	input = msh_clean_irrelveant_spaces_in_input(trimmed_input);
 	return (input);

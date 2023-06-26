@@ -6,7 +6,7 @@
 /*   By: rabril-h <rabril-h@student.42barcelona.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/19 20:11:18 by rabril-h          #+#    #+#             */
-/*   Updated: 2023/06/20 21:00:38 by rabril-h         ###   ########.fr       */
+/*   Updated: 2023/06/25 20:03:08 by rabril-h         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,5 +100,5 @@ void	msh_exec_export(t_cmd *cmd, t_vars *vars)
 			}
 		}
 	}
-	g_return_status = 1; // ! SUCCESS SO FAR
+	g_return_status = EXIT_SUCCESS; // ! SUCCESS SO FAR
 }

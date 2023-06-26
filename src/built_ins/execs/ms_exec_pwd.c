@@ -6,7 +6,7 @@
 /*   By: rabril-h <rabril-h@student.42barcelona.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/18 18:45:26 by rabril-h          #+#    #+#             */
-/*   Updated: 2023/06/20 20:49:17 by rabril-h         ###   ########.fr       */
+/*   Updated: 2023/06/25 21:28:59 by rabril-h         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,18 +58,16 @@ void	msh_print_env_value(t_vars *vars, int env_index)
 	while (vars->envar[env_index][c++])
 		ft_putchar_fd(vars->envar[env_index][c], 1);
 	ft_putchar_fd('\n', 1);
+	g_return_status = 0;
 }
 
 void	msh_exec_pwd(t_cmd *cmd, t_vars *vars)
 {
 	int	env_index;
-	(void) cmd;
+	(void)cmd;
 	env_index = msh_get_env_index(vars, "PWD");
-	if (env_index >= 0 && !cmd->argv[1])
 	msh_print_env_value(vars, msh_get_env_index(vars, "PWD"));
-	else
-		ft_putendl_fd("pwd: Please use no arguments for minishell", 2);
-	g_return_status = 0;
+	
 }
 
 // * STDOUT_FILENO = 1

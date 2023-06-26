@@ -6,7 +6,7 @@
 /*   By: rabril-h <rabril-h@student.42barcelona.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/27 10:06:39 by eros-gir          #+#    #+#             */
-/*   Updated: 2023/06/22 19:44:53 by rabril-h         ###   ########.fr       */
+/*   Updated: 2023/06/26 22:29:26 by rabril-h         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,7 +79,6 @@ typedef struct s_vars
 char	*msh_strjoinchr(char *str, char ch);
 void	msh_update_quotes_status(t_quotes *quotes, char c);
 void	msh_init_quotes_struct(t_quotes *quote_struct);
-int		msh_no_quotes(t_quotes *quotes);
 char	*msh_free_return_null(char *ptr);
 int		msh_cmd_is_built_in(t_cmd *cmd);
 
@@ -105,6 +104,9 @@ int		msh_malformed_quotes(char *input);
 int		msh_chr_can_be_separator(char c);
 int		msh_is_startarg(char *input, int c, t_quotes *quotes);
 int		msh_is_endarg(char *input, int c, t_quotes *quotes);
+int		msh_is_space(int c);
+int		msh_no_quotes(t_quotes *quotes);
+int		msh_argv_need_expansion(char c);
 
 // * Tokenizer-ish
 
@@ -126,6 +128,9 @@ void	msh_exec_builtin(t_cmd *cmd, t_vars *vars);
 
 // ? exit built in
 void	msh_exec_exit(t_cmd *cmd, t_vars *vars);
+int		msh_check_exit_param(char *param, int *error);
+int		msh_check_out_range(int neg, unsigned long long num, int *error);
+int		msh_atoi(char *str, int *error);
 
 // ? echo built in
 void	msh_exec_echo(t_cmd *cmd, t_vars *vars);
@@ -166,5 +171,13 @@ int		msh_cmd_execute(t_vars *vars, t_cmd *cmd);
 char	*msh_getpath_cmd(t_vars *vars, char *cmd);
 char	*msh_getpath_line(char **envp);
 void	msh_getpath(t_vars *vars, char **envp);
+
+// * Expander
+
+void	msh_expander(t_vars *vars);
+void	msh_expand_argv(t_vars *vars, char **argv, int c);
+void	msh_expand_env_var(t_vars *vars, char *arg, char **new_arg);
+char	*msh_read_env_name(char *arg);
+int		msh_advance_from_env_var(char *arg);
 
 #endif
