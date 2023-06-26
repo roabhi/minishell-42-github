@@ -6,27 +6,11 @@
 /*   By: eros-gir <eros-gir@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/12 10:21:17 by eros-gir          #+#    #+#             */
-/*   Updated: 2023/06/26 17:15:50 by eros-gir         ###   ########.fr       */
+/*   Updated: 2023/06/26 18:32:09 by eros-gir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../incl/mslib.h"
-
-int	msh_is_redirect(t_cmd tcmd)
-{
-	if (tcmd.next != NULL && tcmd.next->is_separator == 1
-		&& tcmd.next->next != NULL
-		&& ft_strcmp(tcmd.next->argv[0], "<") == 0)
-		{
-			write(2, "Redirect\n", 9);
-			return (1);
-		}
-	else if (tcmd.next != NULL && tcmd.next->is_separator == 1
-		&& tcmd.next->next != NULL
-		&& ft_strcmp(tcmd.next->argv[0], ">") == 0)
-		return (2);
-	return (0);
-}
 
 int	msh_is_pipe(t_cmd tcmd)
 {
@@ -46,9 +30,11 @@ int	msh_pipe_fork(t_vars *vars, t_cmd *cmd, int prev_pobj[2], int recursion)
 	pid_t	child1;
 	pid_t	child2;
 	t_cmd	tcmd;
+	t_cmd	tcmd2;
 	int		pobj[2];
 
 	tcmd = *cmd;
+	tcmd2 = *cmd;
 	if (pipe(pobj) < 0)
 		return (1); //pipe error
 	child1 = fork();
@@ -56,11 +42,6 @@ int	msh_pipe_fork(t_vars *vars, t_cmd *cmd, int prev_pobj[2], int recursion)
 		return (1); //fork error
 	else if (child1 == 0)
 	{
-		if (msh_is_redirect(tcmd))
-		{
-			write(2, "Redirect\n", 9);
-			msh_exec_redirect(tcmd); //crear funcion necesario
-		}
 		if (recursion)
 		{
 		//	write(2, "Middle pipe\n", 11);
@@ -71,6 +52,15 @@ int	msh_pipe_fork(t_vars *vars, t_cmd *cmd, int prev_pobj[2], int recursion)
 		close(pobj[0]);
 		dup2(pobj[1], STDOUT_FILENO);
 		close(pobj[1]);
+		write(2, "Redirect\n", 9);// no funciona
+		while (!msh_is_pipe(tcmd2) && tcmd2.next != NULL)
+		{
+			if (msh_is_redirect(tcmd2) == 1)
+				dup2(msh_exec_redirect(&tcmd2, pobj[0]), STDIN_FILENO);
+			else if (msh_is_redirect(tcmd2) == 2)
+				dup2(msh_exec_redirect(&tcmd2, pobj[1]), STDOUT_FILENO);
+				tcmd2 = *tcmd2.next->next;
+		}
 		//	write(2, "First pipe\n", 10);
 		if(msh_cmd_is_built_in(&tcmd))
 			msh_exec_builtin(&tcmd, vars);
@@ -100,12 +90,16 @@ int	msh_pipe_fork(t_vars *vars, t_cmd *cmd, int prev_pobj[2], int recursion)
 		//	write(2, "Last pipe\n", 10);
 			close(pobj[1]);
 			dup2(pobj[0], STDIN_FILENO);
-			if (msh_is_redirect(tcmd))
+			write(2, "Redirect\n", 9);// no funciona
+			while (!msh_is_pipe(tcmd2) && tcmd2.next != NULL)
 			{
-				write(2, "Redirect\n", 9);
-				msh_exec_redirect(&tcmd); //crear funcion necesario
+				if (msh_is_redirect(tcmd2) == 1)
+					dup2(msh_exec_redirect(&tcmd2, pobj[0]), STDIN_FILENO);
+				else if (msh_is_redirect(tcmd2) == 2)
+					dup2(msh_exec_redirect(&tcmd2, pobj[1]), STDOUT_FILENO);
+					tcmd2 = *tcmd2.next->next;
 			}
-			if(msh_cmd_is_built_in(&tcmd))
+			if (msh_cmd_is_built_in(&tcmd))
 				msh_exec_builtin(&tcmd, vars);
 			else
 			{
@@ -126,16 +120,28 @@ int	msh_pipe_fork(t_vars *vars, t_cmd *cmd, int prev_pobj[2], int recursion)
 int	msh_execute_start(t_vars *vars)
 {
 	pid_t	single;
+	int		pobj[2];
+	t_cmd	*tcmd;
 	//aqui ha de ir todo el desglose para hacer pipes redirecciones y tonterias de multiples comandos
+	pobj[0] = 0;
+	pobj[1] = 0;
+	tcmd = vars->cmd;
 	if (msh_is_pipe(*vars->cmd))
-		msh_pipe_fork(vars, vars->cmd, NULL, 0);
+		msh_pipe_fork(vars, vars->cmd, pobj, 0);
 	else
 	{
 	//probando ejecucion de un comando simple
 		if (msh_is_redirect(*vars->cmd))
 		{
-			write(2, "Redirect\n", 9);
-			msh_exec_redirect(vars->cmd, vars); //crear funcion necesario
+			write(2, "Redirect\n", 9); // no funciona
+			while (!msh_is_pipe(*tcmd) && tcmd->next != NULL)
+			{
+				if (msh_is_redirect(*tcmd) == 1)
+					dup2(msh_exec_redirect(tcmd, pobj[0]), STDIN_FILENO);
+				else if (msh_is_redirect(*tcmd) == 2)
+					dup2(msh_exec_redirect(tcmd, pobj[1]), STDOUT_FILENO);
+				tcmd = tcmd->next->next;
+			}
 		}
 		if (msh_cmd_is_built_in(vars->cmd))
 		{

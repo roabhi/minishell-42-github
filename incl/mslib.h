@@ -6,7 +6,7 @@
 /*   By: eros-gir <eros-gir@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/27 10:06:39 by eros-gir          #+#    #+#             */
-/*   Updated: 2023/06/26 17:16:41 by eros-gir         ###   ########.fr       */
+/*   Updated: 2023/06/26 18:29:48 by eros-gir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -169,6 +169,6 @@ void	msh_getpath(t_vars *vars, char **envp);
 
 // ? Redirections
 int		msh_is_redirect(t_cmd tcmd);
-int		msh_exec_redirect(t_cmd *cmd);
+int		msh_exec_redirect(t_cmd *cmd, int fd);
 
 #endif

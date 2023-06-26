@@ -6,7 +6,7 @@
 /*   By: eros-gir <eros-gir@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/26 17:13:45 by eros-gir          #+#    #+#             */
-/*   Updated: 2023/06/26 17:14:41 by eros-gir         ###   ########.fr       */
+/*   Updated: 2023/06/26 18:25:08 by eros-gir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,11 @@ int	msh_is_redirect(t_cmd tcmd)
 	return (0);
 }
 
-int	msh_exec_redirect(t_cmd *cmd)
+int	msh_exec_redirect(t_cmd *cmd, int fd)
 {
-	return (0);
+	if (msh_is_redirect(*cmd->next) == 1)
+		fd = open(cmd->next->next->argv[0], O_RDONLY);
+	else if (msh_is_redirect(*cmd->next) == 2)
+		fd = open(cmd->next->next->argv[0], O_CREAT | O_RDWR | O_TRUNC, 0644);
+	return (fd);
 }
