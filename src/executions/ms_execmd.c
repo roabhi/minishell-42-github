@@ -6,7 +6,7 @@
 /*   By: eros-gir <eros-gir@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/12 10:21:17 by eros-gir          #+#    #+#             */
-/*   Updated: 2023/06/27 17:45:21 by eros-gir         ###   ########.fr       */
+/*   Updated: 2023/06/27 18:56:43 by eros-gir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,6 @@ int	msh_pipe_fork(t_vars *vars, t_cmd *cmd, int prev_pobj[2], int recursion)
 	{
 		if (recursion)
 		{
-		//	write(2, "Middle pipe\n", 11);
 			close(prev_pobj[1]);
 			dup2(prev_pobj[0], STDIN_FILENO);
 			close(prev_pobj[0]);
@@ -52,14 +51,12 @@ int	msh_pipe_fork(t_vars *vars, t_cmd *cmd, int prev_pobj[2], int recursion)
 		close(pobj[0]);
 		dup2(pobj[1], STDOUT_FILENO);
 		close(pobj[1]);
-
 		while (!msh_is_pipe(tcmd2) && tcmd2.next != NULL)
 		{
 			msh_exec_redirect(&tcmd2);
 			tcmd2 = *tcmd2.next->next;
 		}
-		//	write(2, "First pipe\n", 10);
-		if(msh_cmd_is_built_in(&tcmd))
+		if (msh_cmd_is_built_in(&tcmd))
 			msh_exec_builtin(&tcmd, vars);
 		else
 		{
@@ -84,10 +81,8 @@ int	msh_pipe_fork(t_vars *vars, t_cmd *cmd, int prev_pobj[2], int recursion)
 			return (1); //fork error
 		else if (child2 == 0)
 		{
-		//	write(2, "Last pipe\n", 10);
 			close(pobj[1]);
 			dup2(pobj[0], STDIN_FILENO);
-
 			while (!msh_is_pipe(tcmd2) && tcmd2.next != NULL)
 			{
 				msh_exec_redirect(&tcmd2);
@@ -127,6 +122,7 @@ int	msh_execute_start(t_vars *vars)
 	//probando ejecucion de un comando simple
 		if (msh_is_redirect(*vars->cmd))
 		{
+			//el redirect debe ir aqui pero ha de solucionar el problema de que no se cierra el fd
 			while (!msh_is_pipe(*tcmd) && tcmd->next != NULL)
 			{
 				msh_exec_redirect(tcmd);
@@ -134,10 +130,7 @@ int	msh_execute_start(t_vars *vars)
 			}
 		}
 		if (msh_cmd_is_built_in(vars->cmd))
-		{
-			//write(2, "Built-in\n", 9);
 			msh_exec_builtin(vars->cmd, vars);
-		}
 		else
 		{
 			single = fork();
@@ -145,6 +138,7 @@ int	msh_execute_start(t_vars *vars)
 				return (1); //fork error
 			else if (single == 0)
 			{
+			//si el redirect va aqui funciona bien porque se cierra correctamente el fd
 				msh_getpath(vars, vars->envar);
 				msh_cmd_execute(vars, vars->cmd);
 				msh_free_raw_array(vars->paths); // ? free paths
