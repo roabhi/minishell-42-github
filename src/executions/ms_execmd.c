@@ -6,7 +6,7 @@
 /*   By: eros-gir <eros-gir@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/12 10:21:17 by eros-gir          #+#    #+#             */
-/*   Updated: 2023/06/26 18:32:09 by eros-gir         ###   ########.fr       */
+/*   Updated: 2023/06/27 17:45:21 by eros-gir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,14 +52,11 @@ int	msh_pipe_fork(t_vars *vars, t_cmd *cmd, int prev_pobj[2], int recursion)
 		close(pobj[0]);
 		dup2(pobj[1], STDOUT_FILENO);
 		close(pobj[1]);
-		write(2, "Redirect\n", 9);// no funciona
+
 		while (!msh_is_pipe(tcmd2) && tcmd2.next != NULL)
 		{
-			if (msh_is_redirect(tcmd2) == 1)
-				dup2(msh_exec_redirect(&tcmd2, pobj[0]), STDIN_FILENO);
-			else if (msh_is_redirect(tcmd2) == 2)
-				dup2(msh_exec_redirect(&tcmd2, pobj[1]), STDOUT_FILENO);
-				tcmd2 = *tcmd2.next->next;
+			msh_exec_redirect(&tcmd2);
+			tcmd2 = *tcmd2.next->next;
 		}
 		//	write(2, "First pipe\n", 10);
 		if(msh_cmd_is_built_in(&tcmd))
@@ -90,14 +87,11 @@ int	msh_pipe_fork(t_vars *vars, t_cmd *cmd, int prev_pobj[2], int recursion)
 		//	write(2, "Last pipe\n", 10);
 			close(pobj[1]);
 			dup2(pobj[0], STDIN_FILENO);
-			write(2, "Redirect\n", 9);// no funciona
+
 			while (!msh_is_pipe(tcmd2) && tcmd2.next != NULL)
 			{
-				if (msh_is_redirect(tcmd2) == 1)
-					dup2(msh_exec_redirect(&tcmd2, pobj[0]), STDIN_FILENO);
-				else if (msh_is_redirect(tcmd2) == 2)
-					dup2(msh_exec_redirect(&tcmd2, pobj[1]), STDOUT_FILENO);
-					tcmd2 = *tcmd2.next->next;
+				msh_exec_redirect(&tcmd2);
+				tcmd2 = *tcmd2.next->next;
 			}
 			if (msh_cmd_is_built_in(&tcmd))
 				msh_exec_builtin(&tcmd, vars);
@@ -133,13 +127,9 @@ int	msh_execute_start(t_vars *vars)
 	//probando ejecucion de un comando simple
 		if (msh_is_redirect(*vars->cmd))
 		{
-			write(2, "Redirect\n", 9); // no funciona
 			while (!msh_is_pipe(*tcmd) && tcmd->next != NULL)
 			{
-				if (msh_is_redirect(*tcmd) == 1)
-					dup2(msh_exec_redirect(tcmd, pobj[0]), STDIN_FILENO);
-				else if (msh_is_redirect(*tcmd) == 2)
-					dup2(msh_exec_redirect(tcmd, pobj[1]), STDOUT_FILENO);
+				msh_exec_redirect(tcmd);
 				tcmd = tcmd->next->next;
 			}
 		}
