@@ -6,7 +6,7 @@
 /*   By: rabril-h <rabril-h@student.42barcelona.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/27 10:06:39 by eros-gir          #+#    #+#             */
-/*   Updated: 2023/06/26 22:29:26 by rabril-h         ###   ########.fr       */
+/*   Updated: 2023/06/28 22:47:02 by rabril-h         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -135,7 +135,7 @@ int		msh_atoi(char *str, int *error);
 // ? echo built in
 void	msh_exec_echo(t_cmd *cmd, t_vars *vars);
 int		msh_echo_has_n_flag(char *arg);
-void	msh_echo_print(char **args, int n_flags, int index);
+void	msh_echo_print(t_cmd *cmd, int n_flags, int index);
 
 // ? env builtin
 void	msh_exec_env(t_cmd *cmd, t_vars *vars);

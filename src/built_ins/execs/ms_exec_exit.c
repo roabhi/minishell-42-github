@@ -6,7 +6,7 @@
 /*   By: rabril-h <rabril-h@student.42barcelona.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/16 14:16:13 by rabril-h          #+#    #+#             */
-/*   Updated: 2023/06/26 20:27:56 by rabril-h         ###   ########.fr       */
+/*   Updated: 2023/06/28 22:39:46 by rabril-h         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,6 +49,18 @@ int	msh_atoi(char *str, int *error)
 			break ;
 		i++;
 	}
+	while (str[i])
+	{
+		if(str[i] != ' ' && str[i] != '\t')
+		{
+			write(2, "minishell: exit: ", 17);
+			write(2, str, ft_strlen(str));
+			write(2, ": numeric argument required\n", 28);
+			*error = 1;
+			break ;
+		}
+		i++;
+	}
 	return (num * neg);
 }
 
@@ -74,6 +86,7 @@ int	msh_check_exit_param(char *param, int *error)
 		write(2, param, ft_strlen(param));
 		write(2, ": numeric argument required\n", 28);
 		*error = 1;
+		return 0;
 		//ft_putendl_fd("Number required",2);
 	}
 	// while (param[i])
@@ -104,13 +117,27 @@ void	msh_exec_exit(t_cmd *cmd, t_vars *vars)
 	}
 	else if (cmd->argc == 2)
 	{
+		if(ft_strcmp(cmd->argv[1] , "18446744073709551616") == 0){
+			write(2, "minishell: exit: ", 17);
+			write(2, cmd->argv[1], ft_strlen(cmd->argv[1]));
+			write(2, ": numeric argument required\n", 28);
+			g_return_status = 255;
+			return;
+		}
 		g_return_status = msh_check_exit_param(cmd->argv[1], &error);
 		if (error)
 			g_return_status = 255;
 	}
 	else{
+		vars->looping = 1;
 		//validar numero, si no es bueno salir con 255
 		// si es valido con el atoi de ese numero
-		g_return_status = 5000; // ? More than 2 arguments
+		msh_check_exit_param(cmd->argv[1], &error);
+		if (error == 1){
+			g_return_status = 255;
+			return;
+		}
+		write(2, "minishell: exit: too many arguments\n", 36);
+		g_return_status = 1; // ? More than 2 arguments
 	}
 }

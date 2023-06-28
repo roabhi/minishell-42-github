@@ -6,7 +6,7 @@
 /*   By: rabril-h <rabril-h@student.42barcelona.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/25 21:50:35 by rabril-h          #+#    #+#             */
-/*   Updated: 2023/06/26 22:34:28 by rabril-h         ###   ########.fr       */
+/*   Updated: 2023/06/28 22:18:37 by rabril-h         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,6 +49,11 @@ void	msh_expand_env_var(t_vars *vars, char *arg, char **new_arg)
 	i = 0;
 	env_index_name = msh_read_env_name(arg);
 	env_index = msh_get_env_index(vars, env_index_name);
+	if(env_index == -1)
+	{
+		free(env_index_name);
+		return ;
+	}
 	value = msh_get_env_value(vars, env_index);
 	free(env_index_name);
 	while (value[i])
@@ -65,11 +70,11 @@ void	msh_expand_argv(t_vars *vars, char **argv, int c)
 	int			i;
 	t_quotes	quotes;
 
-	printf("\narg to expand |%s|\n", argv[c]);
+	(void)vars;
+	// printf("\narg to expandd |%s|\n", argv[c]);
 	msh_init_quotes_struct(&quotes);
 	i = 0;
-	(void)vars;
-	new_arg = NULL;
+	new_arg = NULL;	
 	while (argv[c][i])
 	{
 		msh_update_quotes_status(&quotes, argv[c][i]);
@@ -82,19 +87,19 @@ void	msh_expand_argv(t_vars *vars, char **argv, int c)
 		{
 			i++;
 			continue ;
-		}
+		}		
 		if (argv[c][i] == '$' && !quotes.miniquote)
 		{
-			// msh_expand_env_var(vars, &argv[c][i], &new_arg);
-			// i += msh_advance_from_env_var(&argv[c][i]);
-			// continue ;
+
+			msh_expand_env_var(vars, &argv[c][i], &new_arg);
+			i += msh_advance_from_env_var(&argv[c][i]);
+			continue ;
 		}
-		// new_arg = msh_strjoinchr(new_arg, argv[c][i]);
+		new_arg = msh_strjoinchr(new_arg, argv[c][i]);
 		i++;
 	}
 	free(argv[c]);
 	argv[c] = new_arg;
-	printf("arg after expander |%s|\n", argv[c]);
 }
 
 void	msh_expander(t_vars *vars)
@@ -117,12 +122,11 @@ void	msh_expander(t_vars *vars)
 			{
 				//printf("El char es %c\n", first->argv[c][x]);
 				if (msh_argv_need_expansion(first->argv[c][x])){
-					printf("El argumento %s necesita ser expandido? -> %d", first->argv[c], msh_argv_need_expansion(first->argv[c][x]));
+					// printf("El argumento %s necesita ser expandido? -> %d", first->argv[c], msh_argv_need_expansion(first->argv[c][x]));
 					msh_expand_argv(vars, first->argv, c);
 					break;
 				}
 			}
-			printf("\n\n");
 		}
 		c = -1;
 		first = first->next;

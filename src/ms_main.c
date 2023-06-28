@@ -6,7 +6,7 @@
 /*   By: rabril-h <rabril-h@student.42barcelona.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/27 10:05:31 by eros-gir          #+#    #+#             */
-/*   Updated: 2023/06/26 20:47:09 by rabril-h         ###   ########.fr       */
+/*   Updated: 2023/06/28 23:07:51 by rabril-h         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,10 +105,10 @@ int	main(int ac, char **av, char **envp)
 
 
 	// ! Testing mode
-	//Test 1: Got to /minishel_tester  and do bash test.sh
-	//Test 2: Desde raiz: python3 -m minishell_test
-	//https://github.com/thallard/minishell_tester
-	//https://github.com/cacharle/minishell_test
+	// Test 1: Got to /minishel_tester  and do bash test.sh
+	// Test 2: Desde raiz: python3 -m minishell_test
+	// https://github.com/thallard/minishell_tester
+	// https://github.com/cacharle/minishell_test
 	// if (ac >= 3 && !ft_strncmp(av[1], "-c", 3))
 	// {
 	// 	vars.inpli = av[2];
@@ -118,8 +118,10 @@ int	main(int ac, char **av, char **envp)
 	// 		exit(g_return_status);
 
 	// 	vars.cmd = msh_tokenize(&vars);		
-	// 	if (vars.cmd != NULL)
+	// 	if (vars.cmd != NULL){
+	// 		msh_expander(&vars);
 	// 		msh_execute_start(&vars);
+	// 	}
 
 
 	// 	msh_free_cmd_list(vars.cmd); // ? free args
@@ -174,6 +176,7 @@ int	main(int ac, char **av, char **envp)
 }
 	msh_free_envars(&vars);
 	free(vars.prompt);
+	system("leaks minishell");
 	return (g_return_status);
 }
 

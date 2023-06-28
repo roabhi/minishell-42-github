@@ -6,7 +6,7 @@
 /*   By: rabril-h <rabril-h@student.42barcelona.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/08 21:30:28 by rabril-h          #+#    #+#             */
-/*   Updated: 2023/06/15 20:39:34 by rabril-h         ###   ########.fr       */
+/*   Updated: 2023/06/28 22:55:46 by rabril-h         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -124,7 +124,7 @@ int	msh_how_many_argv_have_the_cmd(char *input)
 	num = 0;
 	end = 0;
 	msh_init_quotes_struct(&quotes);
-	// printf("Input es |%s|\n", input);
+	//printf("Input es |%s|\n", input);
 	while (input[++c])
 	{
 		msh_update_quotes_status(&quotes, input[c]);
@@ -162,6 +162,7 @@ char	**msh_split_cmd_argvs(char *input, int argc)
 		if (msh_is_endarg(input, c, &quotes))
 		{
 					result[num] = ft_substr(input, start, c - start + 1);
+					//printf("result[num] = |%s|\n", result[num]);
 					num++;
 		}
 	}
