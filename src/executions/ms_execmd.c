@@ -6,11 +6,20 @@
 /*   By: eros-gir <eros-gir@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/12 10:21:17 by eros-gir          #+#    #+#             */
-/*   Updated: 2023/06/27 18:56:43 by eros-gir         ###   ########.fr       */
+/*   Updated: 2023/06/28 18:08:56 by eros-gir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../incl/mslib.h"
+
+int	msh_next_pipe(t_cmd tcmd)
+{
+	if (tcmd.next != NULL && tcmd.next->is_separator == 1
+		&& tcmd.next->next != NULL
+		&& ft_strcmp(tcmd.next->argv[0], "|") == 0)
+		return (1);
+	return (0);
+}
 
 int	msh_is_pipe(t_cmd tcmd)
 {
@@ -35,6 +44,10 @@ int	msh_pipe_fork(t_vars *vars, t_cmd *cmd, int prev_pobj[2], int recursion)
 
 	tcmd = *cmd;
 	tcmd2 = *cmd;
+	//testing recursion return
+	printf("recursion: %d\n", recursion);
+	printf("cmd: %s\n", cmd->argv[0]);
+	//end testing
 	if (pipe(pobj) < 0)
 		return (1); //pipe error
 	child1 = fork();
@@ -51,10 +64,13 @@ int	msh_pipe_fork(t_vars *vars, t_cmd *cmd, int prev_pobj[2], int recursion)
 		close(pobj[0]);
 		dup2(pobj[1], STDOUT_FILENO);
 		close(pobj[1]);
-		while (!msh_is_pipe(tcmd2) && tcmd2.next != NULL)
+		if (msh_is_redirect(*vars->cmd))
 		{
-			msh_exec_redirect(&tcmd2);
-			tcmd2 = *tcmd2.next->next;
+			while (!msh_next_pipe(tcmd2) && tcmd2.next != NULL)
+			{
+				msh_exec_redirect(&tcmd2);
+				tcmd2 = *tcmd2.next->next;
+			}
 		}
 		if (msh_cmd_is_built_in(&tcmd))
 			msh_exec_builtin(&tcmd, vars);
@@ -72,8 +88,11 @@ int	msh_pipe_fork(t_vars *vars, t_cmd *cmd, int prev_pobj[2], int recursion)
 		close(prev_pobj[1]);
 	}
 	tcmd = *tcmd.next->next;
+	while (msh_next_pipe(tcmd))
+		tcmd = *tcmd.next->next;
+	tcmd2 = tcmd;
 	if (msh_is_pipe(tcmd))
-		msh_pipe_fork(vars, &tcmd, pobj, 1);
+		msh_pipe_fork(vars, &tcmd, pobj, recursion + 1);
 	else
 	{
 		child2 = fork();
@@ -83,10 +102,13 @@ int	msh_pipe_fork(t_vars *vars, t_cmd *cmd, int prev_pobj[2], int recursion)
 		{
 			close(pobj[1]);
 			dup2(pobj[0], STDIN_FILENO);
-			while (!msh_is_pipe(tcmd2) && tcmd2.next != NULL)
+			if (msh_is_redirect(*vars->cmd))
 			{
-				msh_exec_redirect(&tcmd2);
-				tcmd2 = *tcmd2.next->next;
+				while (!msh_next_pipe(tcmd2) && tcmd2.next != NULL)
+				{
+					msh_exec_redirect(&tcmd2);
+					tcmd2 = *tcmd2.next->next;
+				}
 			}
 			if (msh_cmd_is_built_in(&tcmd))
 				msh_exec_builtin(&tcmd, vars);
@@ -115,15 +137,17 @@ int	msh_execute_start(t_vars *vars)
 	pobj[0] = 0;
 	pobj[1] = 0;
 	tcmd = vars->cmd;
-	if (msh_is_pipe(*vars->cmd))
+//	while (msh_is_redirect(*tcmd))
+//		tcmd = tcmd->next->next;
+	msh_save_io(vars->iofd);
+	if (msh_is_pipe(*tcmd))
 		msh_pipe_fork(vars, vars->cmd, pobj, 0);
 	else
 	{
 	//probando ejecucion de un comando simple
 		if (msh_is_redirect(*vars->cmd))
 		{
-			//el redirect debe ir aqui pero ha de solucionar el problema de que no se cierra el fd
-			while (!msh_is_pipe(*tcmd) && tcmd->next != NULL)
+			while (tcmd->next != NULL)
 			{
 				msh_exec_redirect(tcmd);
 				tcmd = tcmd->next->next;
@@ -138,7 +162,6 @@ int	msh_execute_start(t_vars *vars)
 				return (1); //fork error
 			else if (single == 0)
 			{
-			//si el redirect va aqui funciona bien porque se cierra correctamente el fd
 				msh_getpath(vars, vars->envar);
 				msh_cmd_execute(vars, vars->cmd);
 				msh_free_raw_array(vars->paths); // ? free paths
@@ -148,6 +171,7 @@ int	msh_execute_start(t_vars *vars)
 				waitpid(single, NULL, 0);
 		}
 	}
+	msh_restore_io(vars->iofd);
 	return (0); // aqui poner return de error o result cuando toque
 }
 

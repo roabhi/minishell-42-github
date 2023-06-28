@@ -6,7 +6,7 @@
 /*   By: eros-gir <eros-gir@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/27 10:06:39 by eros-gir          #+#    #+#             */
-/*   Updated: 2023/06/27 18:16:55 by eros-gir         ###   ########.fr       */
+/*   Updated: 2023/06/28 16:28:54 by eros-gir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,6 +72,7 @@ typedef struct s_vars
 	char			**paths;
 	char			**cmd_buffer;
 	t_cmd			*cmd;
+	int				iofd[2];  // ? 0 = read, 1 = write
 }	t_vars;
 
 // * Utils
@@ -170,5 +171,7 @@ void	msh_getpath(t_vars *vars, char **envp);
 // ? Redirections
 int		msh_is_redirect(t_cmd tcmd);
 void	msh_exec_redirect(t_cmd *cmd);
+void	msh_save_io(int save[2]);
+void	msh_restore_io(int save[2]);
 
 #endif
