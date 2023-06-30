@@ -6,7 +6,7 @@
 /*   By: eros-gir <eros-gir@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/12 10:21:17 by eros-gir          #+#    #+#             */
-/*   Updated: 2023/06/29 19:51:26 by eros-gir         ###   ########.fr       */
+/*   Updated: 2023/06/30 17:21:44 by eros-gir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,19 +49,21 @@ int	msh_pipe_fork(t_vars *vars, t_cmd *cmd, int prev_pobj[2], int recursion)
 
 	tcmd = *cmd;
 	tcmd2 = *cmd;
-	child1 = -1;
 	child2 = -1;
-	//testing recursion return
-	printf("recursion: %d\n", recursion);
-	printf("cmd: %s\n", cmd->argv[0]);
-	//end testing
 	if (pipe(pobj) < 0)
 		return (1); //pipe error
 	child1 = fork();
+	//testing recursion return
+	ft_putstr_fd("recursion: ", 2);
+	ft_putnbr_fd(recursion, 2);
+	ft_putstr_fd(" | cmd1: ", 2);
+	ft_putendl_fd(tcmd.argv[0], 2);
+	//end testing
 	if (child1 < 0)
 		return (1); //fork error
 	else if (child1 == 0)
 	{
+		msh_save_io(vars->iofd);
 		if (recursion)
 		{
 			close(prev_pobj[1]);
@@ -71,13 +73,10 @@ int	msh_pipe_fork(t_vars *vars, t_cmd *cmd, int prev_pobj[2], int recursion)
 		close(pobj[0]);
 		dup2(pobj[1], STDOUT_FILENO);
 		close(pobj[1]);
-		if (msh_is_redirect(*vars->cmd))
+		while (msh_is_redirect(tcmd2))
 		{
-			while (!msh_next_pipe(tcmd2) && tcmd2.next != NULL)
-			{
-				msh_exec_redirect(&tcmd2);
-				tcmd2 = *tcmd2.next->next;
-			}
+			msh_exec_redirect(&tcmd2);
+			tcmd2 = *tcmd2.next->next;
 		}
 		if (msh_cmd_is_built_in(&tcmd))
 			msh_exec_builtin(&tcmd, vars);
@@ -87,6 +86,7 @@ int	msh_pipe_fork(t_vars *vars, t_cmd *cmd, int prev_pobj[2], int recursion)
 			g_return_status = msh_cmd_execute(vars, &tcmd);
 			msh_free_raw_array(vars->paths); // ? free paths
 		}
+		msh_restore_io(vars->iofd);
 		exit (g_return_status);
 	}
 	if (recursion != 0)
@@ -102,6 +102,13 @@ int	msh_pipe_fork(t_vars *vars, t_cmd *cmd, int prev_pobj[2], int recursion)
 		msh_pipe_fork(vars, &tcmd, pobj, recursion + 1);
 	else
 	{
+		msh_save_io(vars->iofd);
+		//testing recursion return
+		ft_putstr_fd("recursion: ", 2);
+		ft_putnbr_fd(recursion, 2);
+		ft_putstr_fd(" | cmd2: ", 2);
+		ft_putendl_fd(tcmd.argv[0], 2);
+		//end testing
 		child2 = fork();
 		if (child2 < 0)
 			return (1); //fork error
@@ -109,13 +116,11 @@ int	msh_pipe_fork(t_vars *vars, t_cmd *cmd, int prev_pobj[2], int recursion)
 		{
 			close(pobj[1]);
 			dup2(pobj[0], STDIN_FILENO);
-			if (msh_is_redirect(*vars->cmd))
+			close(pobj[0]);
+			while (msh_is_redirect(tcmd2))
 			{
-				while (!msh_next_pipe(tcmd2) && tcmd2.next != NULL)
-				{
-					msh_exec_redirect(&tcmd2);
-					tcmd2 = *tcmd2.next->next;
-				}
+				msh_exec_redirect(&tcmd2);
+				tcmd2 = *tcmd2.next->next;
 			}
 			if (msh_cmd_is_built_in(&tcmd))
 				msh_exec_builtin(&tcmd, vars);
@@ -125,15 +130,15 @@ int	msh_pipe_fork(t_vars *vars, t_cmd *cmd, int prev_pobj[2], int recursion)
 				g_return_status = msh_cmd_execute(vars, &tcmd);
 				msh_free_raw_array(vars->paths); // ? free paths
 			}
+			msh_restore_io(vars->iofd);
 			exit (g_return_status);
 		}
-	}	
+	}
 	close(pobj[0]);
 	close(pobj[1]);
-	waitpid(child1, &g_return_status, 0);
 	waitpid(child2, &g_return_status, 0);
-//	while (wait(NULL) > 0)
-//		;
+	while (wait(NULL) > 0)
+		;
 	return (0);
 }
 
@@ -147,13 +152,13 @@ int	msh_execute_start(t_vars *vars)
 	pobj[0] = 0;
 	pobj[1] = 0;
 	tcmd = vars->cmd;
-	msh_save_io(vars->iofd);
 	g_return_status = 0;
 //	status = 0;
 	if (msh_is_pipe(*tcmd))
 		msh_pipe_fork(vars, vars->cmd, pobj, 0);
 	else
 	{
+		msh_save_io(vars->iofd);
 		if (msh_is_redirect(*vars->cmd))
 		{
 			while (tcmd->next != NULL)
@@ -178,8 +183,8 @@ int	msh_execute_start(t_vars *vars)
 			}
 			waitpid(single, &g_return_status, 0);
 		}
+		msh_restore_io(vars->iofd);
 	}
-	msh_restore_io(vars->iofd);
 	g_return_status = WEXITSTATUS(g_return_status);
 	printf("return status: %d\n", g_return_status);
 	return (0); // aqui poner return de error o result cuando toque
