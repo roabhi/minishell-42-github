@@ -6,7 +6,7 @@
 /*   By: eros-gir <eros-gir@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/26 17:13:45 by eros-gir          #+#    #+#             */
-/*   Updated: 2023/06/30 17:20:33 by eros-gir         ###   ########.fr       */
+/*   Updated: 2023/06/30 18:13:33 by eros-gir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,6 +45,10 @@ int	msh_is_redirect(t_cmd tcmd)
 		&& tcmd.next->next != NULL
 		&& ft_strcmp(tcmd.next->argv[0], ">>") == 0)
 		return (3);
+	else if (tcmd.next != NULL && tcmd.next->is_separator == 1
+		&& tcmd.next->next != NULL
+		&& ft_strcmp(tcmd.next->argv[0], "<<") == 0)
+		return (4);
 	return (0);
 }
 
@@ -57,30 +61,30 @@ void	msh_putfd_fd(int fd, char *str)
 	ft_putendl_fd("", 2);
 }
 
-void	msh_exec_redirect(t_cmd *cmd)
+//fd must be always -1 on function input
+void	msh_exec_redirect(t_cmd *cmd, int fd)
 {
-	int	fd;
-	int	rdtype;
-
-	fd = -1;
-	rdtype = msh_is_redirect(*cmd);
-	if (rdtype == 1)
+	if (msh_is_redirect(*cmd) == 1)
 	{
 		fd = open(cmd->next->next->argv[0], O_RDONLY);
-		msh_putfd_fd(fd, "input read");
 		dup2(fd, STDIN_FILENO);
 	}
-	else if (rdtype == 2)
+	else if (msh_is_redirect(*cmd) == 2)
 	{
 		fd = open(cmd->next->next->argv[0], O_CREAT | O_RDWR | O_TRUNC, 0644);
-		msh_putfd_fd(fd, "output write");
 		dup2(fd, STDOUT_FILENO);
 	}
-	else if (rdtype == 3)
+	else if (msh_is_redirect(*cmd) == 3)
 	{
 		fd = open(cmd->next->next->argv[0], O_CREAT | O_RDWR | O_APPEND, 0644);
-		msh_putfd_fd(fd, "output append");
 		dup2(fd, STDOUT_FILENO);
+	}
+	else if (msh_is_redirect(*cmd) == 4)
+	{
+		msh_heredoc(cmd->next->next->argv[0]);
+		fd = open(".heredoc", O_RDONLY);
+		dup2(fd, STDIN_FILENO);
+		unlink(".heredoc");
 	}
 	close(fd);
 }

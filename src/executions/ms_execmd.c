@@ -6,7 +6,7 @@
 /*   By: eros-gir <eros-gir@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/12 10:21:17 by eros-gir          #+#    #+#             */
-/*   Updated: 2023/06/30 17:21:44 by eros-gir         ###   ########.fr       */
+/*   Updated: 2023/06/30 19:15:22 by eros-gir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,29 +17,7 @@ void	msh_signal_return(int status)
 	g_return_status = status;
 }
 
-int	msh_next_pipe(t_cmd tcmd)
-{
-	if (tcmd.next != NULL && tcmd.next->is_separator == 1
-		&& tcmd.next->next != NULL
-		&& ft_strcmp(tcmd.next->argv[0], "|") == 0)
-		return (1);
-	return (0);
-}
-
-int	msh_is_pipe(t_cmd tcmd)
-{
-	while (tcmd.next != NULL)
-	{
-		if (tcmd.next != NULL && tcmd.next->is_separator == 1
-			&& tcmd.next->next != NULL
-			&& ft_strcmp(tcmd.next->argv[0], "|") == 0)
-			return (1);
-		tcmd = *tcmd.next;
-	}
-	return (0);
-}
-
-int	msh_pipe_fork(t_vars *vars, t_cmd *cmd, int prev_pobj[2], int recursion)
+int	msh_pipe_fork1(t_vars *vars, t_cmd *cmd, int prev_pobj[2], int recursion)
 {
 	pid_t	child1;
 	pid_t	child2;
@@ -53,92 +31,44 @@ int	msh_pipe_fork(t_vars *vars, t_cmd *cmd, int prev_pobj[2], int recursion)
 	if (pipe(pobj) < 0)
 		return (1); //pipe error
 	child1 = fork();
-	//testing recursion return
-	ft_putstr_fd("recursion: ", 2);
-	ft_putnbr_fd(recursion, 2);
-	ft_putstr_fd(" | cmd1: ", 2);
-	ft_putendl_fd(tcmd.argv[0], 2);
-	//end testing
 	if (child1 < 0)
 		return (1); //fork error
 	else if (child1 == 0)
 	{
-		msh_save_io(vars->iofd);
-		if (recursion)
-		{
-			close(prev_pobj[1]);
-			dup2(prev_pobj[0], STDIN_FILENO);
-			close(prev_pobj[0]);
-		}
-		close(pobj[0]);
-		dup2(pobj[1], STDOUT_FILENO);
-		close(pobj[1]);
-		while (msh_is_redirect(tcmd2))
-		{
-			msh_exec_redirect(&tcmd2);
-			tcmd2 = *tcmd2.next->next;
-		}
-		if (msh_cmd_is_built_in(&tcmd))
-			msh_exec_builtin(&tcmd, vars);
-		else
-		{
-			msh_getpath(vars, vars->envar);
-			g_return_status = msh_cmd_execute(vars, &tcmd);
-			msh_free_raw_array(vars->paths); // ? free paths
-		}
-		msh_restore_io(vars->iofd);
-		exit (g_return_status);
+		msh_pipe_child1(pobj, prev_pobj, recursion);
+		msh_pipe_execute(vars, &tcmd2, &tcmd);
 	}
 	if (recursion != 0)
-	{
-		close(prev_pobj[0]);
-		close(prev_pobj[1]);
-	}
+		msh_close_pipes(prev_pobj);
+	msh_pipe_fork2(vars, tcmd, pobj, child2, recursion);
+	while (wait(NULL) > 0)
+		;
+	return (0);
+}
+
+int msh_pipe_fork2(t_vars *vars, t_cmd tcmd, int pobj[2], pid_t child2, int rc)
+{
+	t_cmd	tcmd2;
+
 	while (msh_is_redirect(tcmd) && tcmd.next != NULL)
 		tcmd = *tcmd.next->next;
 	tcmd = *tcmd.next->next;
 	tcmd2 = tcmd;
 	if (msh_is_pipe(tcmd))
-		msh_pipe_fork(vars, &tcmd, pobj, recursion + 1);
+		msh_pipe_fork1(vars, &tcmd, pobj, rc + 1);
 	else
 	{
-		msh_save_io(vars->iofd);
-		//testing recursion return
-		ft_putstr_fd("recursion: ", 2);
-		ft_putnbr_fd(recursion, 2);
-		ft_putstr_fd(" | cmd2: ", 2);
-		ft_putendl_fd(tcmd.argv[0], 2);
-		//end testing
 		child2 = fork();
 		if (child2 < 0)
 			return (1); //fork error
 		else if (child2 == 0)
 		{
-			close(pobj[1]);
-			dup2(pobj[0], STDIN_FILENO);
-			close(pobj[0]);
-			while (msh_is_redirect(tcmd2))
-			{
-				msh_exec_redirect(&tcmd2);
-				tcmd2 = *tcmd2.next->next;
-			}
-			if (msh_cmd_is_built_in(&tcmd))
-				msh_exec_builtin(&tcmd, vars);
-			else
-			{
-				msh_getpath(vars, vars->envar);
-				g_return_status = msh_cmd_execute(vars, &tcmd);
-				msh_free_raw_array(vars->paths); // ? free paths
-			}
-			msh_restore_io(vars->iofd);
-			exit (g_return_status);
+			msh_pipe_child2(pobj);
+			msh_pipe_execute(vars, &tcmd2, &tcmd);
 		}
 	}
-	close(pobj[0]);
-	close(pobj[1]);
+	msh_close_pipes(pobj);
 	waitpid(child2, &g_return_status, 0);
-	while (wait(NULL) > 0)
-		;
 	return (0);
 }
 
@@ -147,47 +77,54 @@ int	msh_execute_start(t_vars *vars)
 	pid_t	single;
 	int		pobj[2];
 	t_cmd	*tcmd;
-//	int		status;
 
 	pobj[0] = 0;
 	pobj[1] = 0;
 	tcmd = vars->cmd;
+	single = fork();
+	if (single < 0)
+		return (1); //fork error
 	g_return_status = 0;
-//	status = 0;
+	msh_save_io(vars->iofd);
 	if (msh_is_pipe(*tcmd))
-		msh_pipe_fork(vars, vars->cmd, pobj, 0);
+	{
+		kill (single, SIGKILL);
+		msh_pipe_fork1(vars, vars->cmd, pobj, 0);
+	}
+	else
+		msh_single_cmd(vars, single, tcmd);
+	msh_restore_io(vars->iofd);
+	g_return_status = WEXITSTATUS(g_return_status);
+//	printf("g_return_status: %d\n", g_return_status);
+	return (g_return_status);
+}
+
+void	msh_single_cmd(t_vars *vars, pid_t single, t_cmd *tcmd)
+{
+	if (msh_is_redirect(*vars->cmd))
+	{
+		while (tcmd->next != NULL)
+		{
+			msh_exec_redirect(tcmd, -1);
+			tcmd = tcmd->next->next;
+		}
+	}
+	if (msh_cmd_is_built_in(vars->cmd))
+	{
+		kill (single, SIGKILL);
+		msh_exec_builtin(vars->cmd, vars);
+	}
 	else
 	{
-		msh_save_io(vars->iofd);
-		if (msh_is_redirect(*vars->cmd))
+		if (single == 0)
 		{
-			while (tcmd->next != NULL)
-			{
-				msh_exec_redirect(tcmd);
-				tcmd = tcmd->next->next;
-			}
+			msh_getpath(vars, vars->envar);
+			g_return_status = msh_cmd_execute(vars, vars->cmd);
+			msh_free_raw_array(vars->paths); // ? free paths
+			exit(g_return_status);
 		}
-		if (msh_cmd_is_built_in(vars->cmd))
-			msh_exec_builtin(vars->cmd, vars);
-		else
-		{
-			single = fork();
-			if (single < 0)
-				return (1); //fork error
-			else if (single == 0)
-			{
-				msh_getpath(vars, vars->envar);
-				g_return_status = msh_cmd_execute(vars, vars->cmd);
-				msh_free_raw_array(vars->paths); // ? free paths
-				exit(g_return_status);
-			}
-			waitpid(single, &g_return_status, 0);
-		}
-		msh_restore_io(vars->iofd);
+		waitpid(single, &g_return_status, 0);
 	}
-	g_return_status = WEXITSTATUS(g_return_status);
-	printf("return status: %d\n", g_return_status);
-	return (0); // aqui poner return de error o result cuando toque
 }
 
 int	msh_cmd_execute(t_vars *vars, t_cmd *cmd)
@@ -200,10 +137,7 @@ int	msh_cmd_execute(t_vars *vars, t_cmd *cmd)
 	if (temp_cmd == NULL)
 		return (127);
 	if (cmd->argv[0])
-	{
-		//printf("cmd: %s\n", temp_cmd);
 		rtn = execve(temp_cmd, cmd->argv, vars->envar);
-	}
 	free(temp_cmd);
 	return (rtn);
 }
