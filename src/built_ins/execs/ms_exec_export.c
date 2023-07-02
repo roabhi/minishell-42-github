@@ -6,7 +6,7 @@
 /*   By: rabril-h <rabril-h@student.42barcelona.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/19 20:11:18 by rabril-h          #+#    #+#             */
-/*   Updated: 2023/06/25 20:03:08 by rabril-h         ###   ########.fr       */
+/*   Updated: 2023/07/02 20:48:52 by rabril-h         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,7 +81,7 @@ void	msh_exec_export(t_cmd *cmd, t_vars *vars)
 
 	c = 0;
 	if (cmd->argc == 1)
-		msh_print_env_vars(vars, "export ");
+		msh_print_env_vars(vars, "declare -x ");
 	else
 	{
 		while (cmd->argv[++c])
