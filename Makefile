@@ -34,8 +34,11 @@ SRC = ./src/ms_main.c  \
 	./src/built_ins/execs/ms_exec_cd.c \
 	./src/built_ins/execs/ms_exec_unset.c \
 	./src/built_ins/execs/ms_exec_export.c \
+	./src/expander/ms_expander.c \
 	./src/utils/ms_utils.c ./src/helpers/ms_helpers.c \
-	./src/validations/ms_validations.c ./src/destroyer/ms_destroyer.c
+	./src/validations/ms_validations.c \
+	./src/validations/ms_validations_2.c \
+	./src/destroyer/ms_destroyer.c
 
 HDR = ./incl/mslib.h ./libft/libft.h
 

@@ -3,7 +3,7 @@
 /*                                                        :::      ::::::::   */
 /*   ms_execmd.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: eros-gir <eros-gir@student.42barcel>       +#+  +:+       +#+        */
+/*   By: rabril-h <rabril-h@student.42barcelona.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/12 10:21:17 by eros-gir          #+#    #+#             */
 /*   Updated: 2023/07/02 18:25:36 by eros-gir         ###   ########.fr       */

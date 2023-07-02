@@ -80,7 +80,6 @@ typedef struct s_vars
 char	*msh_strjoinchr(char *str, char ch);
 void	msh_update_quotes_status(t_quotes *quotes, char c);
 void	msh_init_quotes_struct(t_quotes *quote_struct);
-int		msh_no_quotes(t_quotes *quotes);
 char	*msh_free_return_null(char *ptr);
 int		msh_cmd_is_built_in(t_cmd *cmd);
 
@@ -106,6 +105,9 @@ int		msh_malformed_quotes(char *input);
 int		msh_chr_can_be_separator(char c);
 int		msh_is_startarg(char *input, int c, t_quotes *quotes);
 int		msh_is_endarg(char *input, int c, t_quotes *quotes);
+int		msh_is_space(int c);
+int		msh_no_quotes(t_quotes *quotes);
+int		msh_argv_need_expansion(char c);
 
 // * Tokenizer-ish
 
@@ -127,11 +129,14 @@ void	msh_exec_builtin(t_cmd *cmd, t_vars *vars);
 
 // ? exit built in
 void	msh_exec_exit(t_cmd *cmd, t_vars *vars);
+int		msh_check_exit_param(char *param, int *error);
+int		msh_check_out_range(int neg, unsigned long long num, int *error);
+int		msh_atoi(char *str, int *error);
 
 // ? echo built in
 void	msh_exec_echo(t_cmd *cmd, t_vars *vars);
 int		msh_echo_has_n_flag(char *arg);
-void	msh_echo_print(char **args, int n_flags, int index);
+void	msh_echo_print(t_cmd *cmd, int n_flags, int index);
 
 // ? env builtin
 void	msh_exec_env(t_cmd *cmd, t_vars *vars);
@@ -183,5 +188,13 @@ void	msh_save_io(int save[2]);
 void	msh_restore_io(int save[2]);
 void	msh_close_pipes(int pobj[2]);
 void	msh_heredoc(char *limiter);
+
+// * Expander
+
+void	msh_expander(t_vars *vars);
+void	msh_expand_argv(t_vars *vars, char **argv, int c);
+void	msh_expand_env_var(t_vars *vars, char *arg, char **new_arg);
+char	*msh_read_env_name(char *arg);
+int		msh_advance_from_env_var(char *arg);
 
 #endif
