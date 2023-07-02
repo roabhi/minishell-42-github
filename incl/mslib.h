@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   mslib.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rabril-h <rabril-h@student.42barcelona.    +#+  +:+       +#+        */
+/*   By: eros-gir <eros-gir@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/27 10:06:39 by eros-gir          #+#    #+#             */
-/*   Updated: 2023/06/28 22:47:02 by rabril-h         ###   ########.fr       */
+/*   Updated: 2023/07/02 18:22:00 by eros-gir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,7 @@ typedef struct s_cmd {
 	int				argc;
 	char			**argv;
 	int				is_separator;
-	struct s_cmd	*next;	
+	struct s_cmd	*next;
 }	t_cmd;
 
 typedef struct s_counters {
@@ -72,6 +72,7 @@ typedef struct s_vars
 	char			**paths;
 	char			**cmd_buffer;
 	t_cmd			*cmd;
+	int				iofd[2];  // ? 0 = read, 1 = write
 }	t_vars;
 
 // * Utils
@@ -171,6 +172,22 @@ int		msh_cmd_execute(t_vars *vars, t_cmd *cmd);
 char	*msh_getpath_cmd(t_vars *vars, char *cmd);
 char	*msh_getpath_line(char **envp);
 void	msh_getpath(t_vars *vars, char **envp);
+int		msh_pipe_fork1(t_vars *vars, t_cmd *cmd, int prev_pobj[2], int rc);
+int		msh_pipe_fork2(t_vars *vars, t_cmd tcmd, int pobj[2], pid_t child2);
+void	msh_pipe_execute(t_vars *vars, t_cmd *tcmd2, t_cmd *tcmd);
+void	msh_single_cmd(t_vars *vars, pid_t single, t_cmd *tcmd);
+
+// ? Redirections
+int		msh_is_redirect(t_cmd tcmd);
+int		msh_is_pipe(t_cmd tcmd);
+int		msh_next_pipe(t_cmd cmd);
+void	msh_pipe_child1(int pobj[2], int prev_pobj[2], int recursion);
+void	msh_pipe_child2(int pobj[2]);
+void	msh_exec_redirect(t_cmd *cmd, int fd);
+void	msh_save_io(int save[2]);
+void	msh_restore_io(int save[2]);
+void	msh_close_pipes(int pobj[2]);
+void	msh_heredoc(char *limiter);
 
 // * Expander
 

@@ -38,16 +38,20 @@
 // 	}
 // }
 
-
 //Global variable
+int	g_return_status;
+
 void	msh_sigint_handler(int sig)
 {
 	if (sig != 0)
 	{
-		printf("\n");
 		rl_on_new_line();
-		//rl_replace_line("", 0);
 		rl_redisplay();
+		write(1, "  \n", 3);
+		rl_replace_line("", 0);
+		rl_on_new_line();
+		rl_redisplay();
+		g_return_status = 1;
 	}
 }
 
@@ -170,13 +174,16 @@ int	main(int ac, char **av, char **envp)
 			msh_free_raw_array(vars.tokens); // ? free tokens
 			free(vars.input); // ? free trimed input
 		}
+		else
+			vars.looping = 0; // this is ctrl-D exits shell
 
 		//looping = msh_getting_commands(&vars, envp);
 		//msh_free_commands(&vars);
 }
 	msh_free_envars(&vars);
 	free(vars.prompt);
-	system("leaks minishell");
+	printf("Salgo pro aqui");
+	system("leaks minishell"); //para comprobar leaks usar leaks minishell dentro  y quitar esta linea antes de entregar
 	return (g_return_status);
 }
 

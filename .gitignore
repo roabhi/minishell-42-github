@@ -1,5 +1,6 @@
 .gitignore
 minishell_tester/
+minishell.dSYM
 minishell_test.cfg
 minishell_test.log
 *.o
