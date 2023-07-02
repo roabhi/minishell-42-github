@@ -6,35 +6,39 @@
 /*   By: rabril-h <rabril-h@student.42barcelona.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/17 18:40:12 by rabril-h          #+#    #+#             */
-/*   Updated: 2023/06/22 18:07:37 by rabril-h         ###   ########.fr       */
+/*   Updated: 2023/06/28 22:53:14 by rabril-h         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../../incl/mslib.h"
 
-void	msh_echo_print(char **args, int n_flags, int index)
+void	msh_echo_print(t_cmd *cmd, int n_flags, int index)
 {
 	int	c;
 
-	if (!args[index])
+	if (!cmd->argv[index])
 	{
 		if (!n_flags)
 			ft_putchar_fd('\n', 1);
 		return ;
 	}// ? if there is no string and there ar enot n flags just print \n
-	while (args[index])
+	while(index < cmd->argc)
 	{
+		// printf("cmd->argc = %d\n", cmd->argc);
+		// printf("cmd->argv[index] = %s\n", cmd->argv[index]);
 		//printf("el argumento de este echo es %s y n_flags esta seteado a %d\n", args[index], n_flags);
 		//ft_putstr_fd(args[index], 1);
-		c = -1;
-		while (args[index][++c])
+
+		c = 0;
+		while (cmd->argv[index][c])
 		{
-			if (args[index][c] != '"' && args[index][c] != '\'')
-				ft_putchar_fd(args[index][c], 1);
+			if (cmd->argv[index][c])
+				ft_putchar_fd(cmd->argv[index][c], 1);
+			c++;
 		}
-		if (args[index + 1])
+		if (cmd->argv[index + 1])
 			ft_putchar_fd(' ', 1);
-		else if (!args[index + 1] && !n_flags)
+		else if (!cmd->argv[index + 1] && !n_flags)
 			ft_putchar_fd('\n', 1);
 		index++;
 	}
@@ -71,7 +75,7 @@ void	msh_exec_echo(t_cmd *cmd, t_vars *vars)
 		while (cmd->argv[++index] && msh_echo_has_n_flag(cmd->argv[index]))
 			n_flags = 1;
 	}
-	msh_echo_print(cmd->argv, n_flags, index);
+	msh_echo_print(cmd, n_flags, index);
 
 	g_return_status = 0; // * success
 } // ? This function should return EXIT_SUCCESS or 0 ?

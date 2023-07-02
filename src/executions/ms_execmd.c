@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ms_execmd.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: eros-gir <eros-gir@student.42barcel>       +#+  +:+       +#+        */
+/*   By: rabril-h <rabril-h@student.42barcelona.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/12 10:21:17 by eros-gir          #+#    #+#             */
-/*   Updated: 2023/06/23 17:41:44 by eros-gir         ###   ########.fr       */
+/*   Updated: 2023/06/25 20:14:36 by rabril-h         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,7 +106,7 @@ int	msh_execute_start(t_vars *vars)
 	//probando ejecucion de un comando simple
 		if(msh_cmd_is_built_in(vars->cmd))
 		{
-			write(2, "Built-in\n", 9);
+			//write(2, "Built-in\n", 9);
 			msh_exec_builtin(vars->cmd, vars);
 		}
 		else
