@@ -6,7 +6,7 @@
 /*   By: eros-gir <eros-gir@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/12 10:21:17 by eros-gir          #+#    #+#             */
-/*   Updated: 2023/06/30 19:15:22 by eros-gir         ###   ########.fr       */
+/*   Updated: 2023/07/02 18:10:22 by eros-gir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ void	msh_signal_return(int status)
 	g_return_status = status;
 }
 
-int	msh_pipe_fork1(t_vars *vars, t_cmd *cmd, int prev_pobj[2], int recursion)
+int	msh_pipe_fork1(t_vars *vars, t_cmd *cmd, int prev_pobj[2], int rc)
 {
 	pid_t	child1;
 	pid_t	child2;
@@ -35,12 +35,12 @@ int	msh_pipe_fork1(t_vars *vars, t_cmd *cmd, int prev_pobj[2], int recursion)
 		return (1); //fork error
 	else if (child1 == 0)
 	{
-		msh_pipe_child1(pobj, prev_pobj, recursion);
+		msh_pipe_child1(pobj, prev_pobj, rc);
 		msh_pipe_execute(vars, &tcmd2, &tcmd);
 	}
-	if (recursion != 0)
+	if (rc != 0)
 		msh_close_pipes(prev_pobj);
-	msh_pipe_fork2(vars, tcmd, pobj, child2, recursion);
+	msh_pipe_fork2(vars, tcmd, pobj, child2, rc);
 	while (wait(NULL) > 0)
 		;
 	return (0);
