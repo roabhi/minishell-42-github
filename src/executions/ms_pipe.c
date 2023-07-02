@@ -6,7 +6,7 @@
 /*   By: eros-gir <eros-gir@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/30 18:18:48 by eros-gir          #+#    #+#             */
-/*   Updated: 2023/07/02 17:46:31 by eros-gir         ###   ########.fr       */
+/*   Updated: 2023/07/02 18:23:19 by eros-gir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ void	msh_pipe_execute(t_vars *vars, t_cmd *tcmd2, t_cmd *tcmd)
 	{
 		msh_getpath(vars, vars->envar);
 		g_return_status = msh_cmd_execute(vars, tcmd);
-		msh_free_raw_array(vars->paths); // ? free paths
+		msh_free_raw_array(vars->paths);
 	}
 	exit (g_return_status);
 }

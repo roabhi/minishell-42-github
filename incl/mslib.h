@@ -6,7 +6,7 @@
 /*   By: eros-gir <eros-gir@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/27 10:06:39 by eros-gir          #+#    #+#             */
-/*   Updated: 2023/07/02 18:10:33 by eros-gir         ###   ########.fr       */
+/*   Updated: 2023/07/02 18:22:00 by eros-gir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -168,7 +168,7 @@ char	*msh_getpath_cmd(t_vars *vars, char *cmd);
 char	*msh_getpath_line(char **envp);
 void	msh_getpath(t_vars *vars, char **envp);
 int		msh_pipe_fork1(t_vars *vars, t_cmd *cmd, int prev_pobj[2], int rc);
-int		msh_pipe_fork2(t_vars *vars, t_cmd tcmd, int pobj[2], pid_t child2, int rc);
+int		msh_pipe_fork2(t_vars *vars, t_cmd tcmd, int pobj[2], pid_t child2);
 void	msh_pipe_execute(t_vars *vars, t_cmd *tcmd2, t_cmd *tcmd);
 void	msh_single_cmd(t_vars *vars, pid_t single, t_cmd *tcmd);
 
