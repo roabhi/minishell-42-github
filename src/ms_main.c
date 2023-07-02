@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ms_main.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rabril-h <rabril-h@student.42barcelona.    +#+  +:+       +#+        */
+/*   By: eros-gir <eros-gir@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/27 10:05:31 by eros-gir          #+#    #+#             */
-/*   Updated: 2023/06/28 23:07:51 by rabril-h         ###   ########.fr       */
+/*   Updated: 2023/07/02 20:37:45 by eros-gir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -182,7 +182,6 @@ int	main(int ac, char **av, char **envp)
 }
 	msh_free_envars(&vars);
 	free(vars.prompt);
-	printf("Salgo pro aqui");
 	system("leaks minishell"); //para comprobar leaks usar leaks minishell dentro  y quitar esta linea antes de entregar
 	return (g_return_status);
 }

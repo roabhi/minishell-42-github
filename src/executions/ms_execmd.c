@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ms_execmd.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rabril-h <rabril-h@student.42barcelona.    +#+  +:+       +#+        */
+/*   By: eros-gir <eros-gir@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/12 10:21:17 by eros-gir          #+#    #+#             */
-/*   Updated: 2023/07/02 18:25:36 by eros-gir         ###   ########.fr       */
+/*   Updated: 2023/07/02 20:42:25 by eros-gir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ int	msh_pipe_fork1(t_vars *vars, t_cmd *cmd, int prev_pobj[2], int rc)
 	}
 	if (rc != 0)
 		msh_close_pipes(prev_pobj);
-	msh_pipe_fork2(vars, tcmd, pobj, child2);
+	g_return_status = msh_pipe_fork2(vars, tcmd, pobj, child2);
 	while (wait(NULL) > 0)
 		;
 	return (0);
@@ -64,7 +64,7 @@ int	msh_pipe_fork2(t_vars *vars, t_cmd tcmd, int pobj[2], pid_t child2)
 	}
 	msh_close_pipes(pobj);
 	waitpid(child2, &g_return_status, 0);
-	return (0);
+	return (g_return_status);
 }
 
 int	msh_execute_start(t_vars *vars)
@@ -85,11 +85,11 @@ int	msh_execute_start(t_vars *vars)
 	{
 		kill (single, SIGKILL);
 		msh_pipe_fork1(vars, vars->cmd, pobj, 0);
+		g_return_status = WEXITSTATUS(g_return_status);
 	}
 	else
 		msh_single_cmd(vars, single, tcmd);
 	msh_restore_io(vars->iofd);
-	g_return_status = WEXITSTATUS(g_return_status);
 	return (g_return_status);
 }
 // para ver el status de salida de un comando
@@ -121,6 +121,7 @@ void	msh_single_cmd(t_vars *vars, pid_t single, t_cmd *tcmd)
 			exit(g_return_status);
 		}
 		waitpid(single, &g_return_status, 0);
+		g_return_status = WEXITSTATUS(g_return_status);
 	}
 }
 
