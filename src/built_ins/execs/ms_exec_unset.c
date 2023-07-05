@@ -6,7 +6,7 @@
 /*   By: rabril-h <rabril-h@student.42barcelona.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/19 19:56:12 by rabril-h          #+#    #+#             */
-/*   Updated: 2023/06/22 18:57:08 by rabril-h         ###   ########.fr       */
+/*   Updated: 2023/07/05 21:53:22 by rabril-h         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,7 +64,7 @@ void	msh_exec_unset(t_cmd *cmd, t_vars *vars)
 
 	c = 0;
 	if (cmd->argc == 1)
-		ft_putendl_fd("unset: Not enough arguments", 2);
+		//ft_putendl_fd("unset: Not enough arguments", 2);
 	while (cmd->argv[++c])
 	{		
 		env_index = msh_get_env_index(vars, cmd->argv[c]);
@@ -76,3 +76,5 @@ void	msh_exec_unset(t_cmd *cmd, t_vars *vars)
 
 
 } // ? This function should return EXIT_SUCCESS or 0 ?
+
+

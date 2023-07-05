@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ms_parser.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: eros-gir <eros-gir@student.42barcel>       +#+  +:+       +#+        */
+/*   By: rabril-h <rabril-h@student.42barcelona.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/06 22:07:56 by rabril-h          #+#    #+#             */
-/*   Updated: 2023/07/02 20:38:20 by eros-gir         ###   ########.fr       */
+/*   Updated: 2023/07/05 20:39:59 by rabril-h         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,7 +71,7 @@ char	*msh_sanitize_input(char *input)
 	}
 	trimmed_input = ft_strtrim(input, " ");
 	// ! comment for testing
-	free(input);
+	//free(input);
 	input = msh_clean_irrelveant_spaces_in_input(trimmed_input);
 	return (input);
 }
