@@ -6,7 +6,7 @@
 /*   By: eros-gir <eros-gir@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/26 17:13:45 by eros-gir          #+#    #+#             */
-/*   Updated: 2023/07/02 18:22:48 by eros-gir         ###   ########.fr       */
+/*   Updated: 2023/07/05 17:31:06 by eros-gir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,29 +62,30 @@ void	msh_putfd_fd(int fd, char *str)
 }
 
 //fd must be always -1 on function input
-void	msh_exec_redirect(t_cmd *cmd, int fd)
+void	msh_exec_redirect(t_cmd *cmd, int fd, char *argv)
 {
+	int		hfd[2];
+
 	if (msh_is_redirect(*cmd) == 1)
 	{
-		fd = open(cmd->next->next->argv[0], O_RDONLY);
+		fd = open(argv, O_RDONLY);
 		dup2(fd, STDIN_FILENO);
 	}
-	else if (msh_is_redirect(*cmd) == 2)
+	else if (msh_is_redirect(*cmd) == 2 || msh_is_redirect(*cmd) == 3)
 	{
-		fd = open(cmd->next->next->argv[0], O_CREAT | O_RDWR | O_TRUNC, 0644);
-		dup2(fd, STDOUT_FILENO);
-	}
-	else if (msh_is_redirect(*cmd) == 3)
-	{
-		fd = open(cmd->next->next->argv[0], O_CREAT | O_RDWR | O_APPEND, 0644);
+		if (msh_is_redirect(*cmd) == 2)
+			fd = open(argv, O_CREAT | O_RDWR | O_TRUNC, 0644);
+		else if (msh_is_redirect(*cmd) == 3)
+			fd = open(argv, O_CREAT | O_RDWR | O_APPEND, 0644);
 		dup2(fd, STDOUT_FILENO);
 	}
 	else if (msh_is_redirect(*cmd) == 4)
 	{
-		msh_heredoc(cmd->next->next->argv[0]);
-		fd = open(".heredoc", O_RDONLY);
-		dup2(fd, STDIN_FILENO);
-		unlink(".heredoc");
+		if (pipe(hfd) < 0)
+			return ;
+		msh_heredoc(argv, hfd);
+		dup2(hfd[0], STDOUT_FILENO);
+		close(hfd[0]);
 	}
 	close(fd);
 }

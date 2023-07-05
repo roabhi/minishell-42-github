@@ -6,7 +6,7 @@
 /*   By: eros-gir <eros-gir@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/12 10:21:17 by eros-gir          #+#    #+#             */
-/*   Updated: 2023/07/02 20:42:25 by eros-gir         ###   ########.fr       */
+/*   Updated: 2023/07/05 17:28:32 by eros-gir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,7 +102,7 @@ void	msh_single_cmd(t_vars *vars, pid_t single, t_cmd *tcmd)
 	{
 		while (tcmd->next != NULL)
 		{
-			msh_exec_redirect(tcmd, -1);
+			msh_exec_redirect(tcmd, -1, tcmd->next->next->argv[0]);
 			tcmd = tcmd->next->next;
 		}
 	}
