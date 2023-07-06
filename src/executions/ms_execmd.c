@@ -6,7 +6,7 @@
 /*   By: eros-gir <eros-gir@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/12 10:21:17 by eros-gir          #+#    #+#             */
-/*   Updated: 2023/07/05 17:28:32 by eros-gir         ###   ########.fr       */
+/*   Updated: 2023/07/06 20:22:14 by eros-gir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,6 +76,7 @@ int	msh_execute_start(t_vars *vars)
 	pobj[0] = 0;
 	pobj[1] = 0;
 	tcmd = vars->cmd;
+	vars->hdnumb = msh_store_heredocs(vars);
 	single = fork();
 	if (single < 0)
 		return (1);
@@ -98,11 +99,11 @@ int	msh_execute_start(t_vars *vars)
 
 void	msh_single_cmd(t_vars *vars, pid_t single, t_cmd *tcmd)
 {
-	if (msh_is_redirect(*vars->cmd))
+	if (single != 0 && msh_is_redirect(*vars->cmd))
 	{
 		while (tcmd->next != NULL)
 		{
-			msh_exec_redirect(tcmd, -1, tcmd->next->next->argv[0]);
+			msh_exec_redirect(tcmd, -1, tcmd->next->next->argv[0], 20);
 			tcmd = tcmd->next->next;
 		}
 	}

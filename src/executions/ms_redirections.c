@@ -6,7 +6,7 @@
 /*   By: eros-gir <eros-gir@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/26 17:13:45 by eros-gir          #+#    #+#             */
-/*   Updated: 2023/07/05 17:31:06 by eros-gir         ###   ########.fr       */
+/*   Updated: 2023/07/06 20:22:14 by eros-gir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,9 +62,9 @@ void	msh_putfd_fd(int fd, char *str)
 }
 
 //fd must be always -1 on function input
-void	msh_exec_redirect(t_cmd *cmd, int fd, char *argv)
+void	msh_exec_redirect(t_cmd *cmd, int fd, char *argv, int hdnbr)
 {
-	int		hfd[2];
+	char	*hdname;
 
 	if (msh_is_redirect(*cmd) == 1)
 	{
@@ -81,11 +81,19 @@ void	msh_exec_redirect(t_cmd *cmd, int fd, char *argv)
 	}
 	else if (msh_is_redirect(*cmd) == 4)
 	{
-		if (pipe(hfd) < 0)
-			return ;
-		msh_heredoc(argv, hfd);
-		dup2(hfd[0], STDOUT_FILENO);
-		close(hfd[0]);
+		hdname = ft_joinloc(ft_strdup(".heredoc"), ft_itoa(hdnbr));
+		while(hdnbr < 275)
+		{
+			if (access(hdname, F_OK) == 0)
+				break ;
+			hdnbr++;
+			free(hdname);
+			hdname = ft_joinloc(ft_strdup(".heredoc"), ft_itoa(hdnbr));
+		}
+		fd = open(hdname, O_RDONLY);
+		dup2(fd, STDIN_FILENO);
+		unlink(hdname);
+		free(hdname);
 	}
 	close(fd);
 }

@@ -6,7 +6,7 @@
 /*   By: eros-gir <eros-gir@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/27 10:06:39 by eros-gir          #+#    #+#             */
-/*   Updated: 2023/07/05 17:28:07 by eros-gir         ###   ########.fr       */
+/*   Updated: 2023/07/06 19:49:02 by eros-gir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,6 +73,7 @@ typedef struct s_vars
 	char			**cmd_buffer;
 	t_cmd			*cmd;
 	int				iofd[2];  // ? 0 = read, 1 = write
+	int				hdnumb;
 }	t_vars;
 
 // * Utils
@@ -183,11 +184,12 @@ int		msh_is_pipe(t_cmd tcmd);
 int		msh_next_pipe(t_cmd cmd);
 void	msh_pipe_child1(int pobj[2], int prev_pobj[2], int recursion);
 void	msh_pipe_child2(int pobj[2]);
-void	msh_exec_redirect(t_cmd *cmd, int fd, char *argv);
+void	msh_exec_redirect(t_cmd *cmd, int fd, char *argv, int hdnbr);
 void	msh_save_io(int save[2]);
 void	msh_restore_io(int save[2]);
 void	msh_close_pipes(int pobj[2]);
-void	msh_heredoc(char *limiter, int hfd[2]);
+int		msh_store_heredocs(t_vars *vars);
+void	msh_heredoc(char *delim, char *fnum);
 
 // * Expander
 
