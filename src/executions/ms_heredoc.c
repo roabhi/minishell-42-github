@@ -6,7 +6,7 @@
 /*   By: eros-gir <eros-gir@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/30 17:41:42 by eros-gir          #+#    #+#             */
-/*   Updated: 2023/07/07 18:13:58 by eros-gir         ###   ########.fr       */
+/*   Updated: 2023/07/07 19:50:45 by eros-gir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,12 +18,27 @@ void	msh_close_pipes(int pobj[2])
 	close(pobj[1]);
 }
 
+void	msh_clean_heredoc(t_vars *vars)
+{
+	char	*fname;
+	int		i;
+
+	i = 0;
+	while (i >= vars->hdnumb)
+	{
+		fname = ft_joinloc(ft_strdup(".heredoc"), ft_itoa(i));
+		unlink(fname);
+		free(fname);
+		i++;
+	}
+}
+
 int	msh_store_heredocs(t_vars *vars)
 {
 	t_cmd	*cmd;
 	int		i;
 
-	i = 20;
+	i = 0;
 	cmd = vars->cmd;
 	while (cmd != NULL && cmd->next != NULL)
 	{
@@ -58,4 +73,20 @@ void	msh_heredoc(char *delim, char *fnum)
 	}
 	free(fname);
 	close(fd);
+}
+
+char	*msh_read_heredoc(int hdnbr)
+{
+	char	*hdname;
+
+	hdname = ft_joinloc(ft_strdup(".heredoc"), ft_itoa(hdnbr));
+	while (hdnbr < 999)
+	{
+		if (access(hdname, F_OK) == 0)
+			return (hdname);
+		hdnbr++;
+		free(hdname);
+		hdname = ft_joinloc(ft_strdup(".heredoc"), ft_itoa(hdnbr));
+	}
+	return (NULL);
 }
