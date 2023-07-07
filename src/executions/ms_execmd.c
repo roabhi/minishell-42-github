@@ -6,7 +6,7 @@
 /*   By: eros-gir <eros-gir@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/12 10:21:17 by eros-gir          #+#    #+#             */
-/*   Updated: 2023/07/06 20:22:14 by eros-gir         ###   ########.fr       */
+/*   Updated: 2023/07/07 18:26:01 by eros-gir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,23 +99,31 @@ int	msh_execute_start(t_vars *vars)
 
 void	msh_single_cmd(t_vars *vars, pid_t single, t_cmd *tcmd)
 {
-	if (single != 0 && msh_is_redirect(*vars->cmd))
-	{
-		while (tcmd->next != NULL)
-		{
-			msh_exec_redirect(tcmd, -1, tcmd->next->next->argv[0], 20);
-			tcmd = tcmd->next->next;
-		}
-	}
 	if (msh_cmd_is_built_in(vars->cmd))
 	{
 		kill (single, SIGKILL);
+		if (msh_is_redirect(*vars->cmd))
+		{
+			while (tcmd->next != NULL)
+			{
+				msh_exec_redirect(tcmd, -1, tcmd->next->next->argv[0], 20);
+				tcmd = tcmd->next->next;
+			}
+		}
 		msh_exec_builtin(vars->cmd, vars);
 	}
 	else
 	{
 		if (single == 0)
 		{
+			if (msh_is_redirect(*vars->cmd))
+			{
+				while (tcmd->next != NULL)
+				{
+					msh_exec_redirect(tcmd, -1, tcmd->next->next->argv[0], 20);
+					tcmd = tcmd->next->next;
+				}
+			}
 			msh_getpath(vars, vars->envar);
 			g_return_status = msh_cmd_execute(vars, vars->cmd);
 			msh_free_raw_array(vars->paths);

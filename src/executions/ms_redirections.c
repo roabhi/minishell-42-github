@@ -6,7 +6,7 @@
 /*   By: eros-gir <eros-gir@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/26 17:13:45 by eros-gir          #+#    #+#             */
-/*   Updated: 2023/07/06 20:22:14 by eros-gir         ###   ########.fr       */
+/*   Updated: 2023/07/07 18:11:46 by eros-gir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,7 +82,7 @@ void	msh_exec_redirect(t_cmd *cmd, int fd, char *argv, int hdnbr)
 	else if (msh_is_redirect(*cmd) == 4)
 	{
 		hdname = ft_joinloc(ft_strdup(".heredoc"), ft_itoa(hdnbr));
-		while(hdnbr < 275)
+		while (hdnbr < 275)
 		{
 			if (access(hdname, F_OK) == 0)
 				break ;
