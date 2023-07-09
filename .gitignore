@@ -6,3 +6,4 @@ minishell_test.log
 *.o
 .DS_Store
 .vscode/
+libft.a

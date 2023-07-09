@@ -6,7 +6,7 @@
 /*   By: rabril-h <rabril-h@student.42barcelona.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/27 10:06:39 by eros-gir          #+#    #+#             */
-/*   Updated: 2023/07/05 21:37:47 by rabril-h         ###   ########.fr       */
+/*   Updated: 2023/07/07 20:07:16 by eros-gir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,6 +73,7 @@ typedef struct s_vars
 	char			**cmd_buffer;
 	t_cmd			*cmd;
 	int				iofd[2];  // ? 0 = read, 1 = write
+	int				hdnumb;
 }	t_vars;
 
 // * Utils
@@ -178,16 +179,20 @@ void	msh_pipe_execute(t_vars *vars, t_cmd *tcmd2, t_cmd *tcmd);
 void	msh_single_cmd(t_vars *vars, pid_t single, t_cmd *tcmd);
 
 // ? Redirections
-int		msh_is_redirect(t_cmd tcmd);
 int		msh_is_pipe(t_cmd tcmd);
 int		msh_next_pipe(t_cmd cmd);
 void	msh_pipe_child1(int pobj[2], int prev_pobj[2], int recursion);
 void	msh_pipe_child2(int pobj[2]);
-void	msh_exec_redirect(t_cmd *cmd, int fd);
+int		msh_is_redirect(t_cmd tcmd);
+void	msh_set_redirect(t_vars *vars, t_cmd *tcmd);
+void	msh_exec_redirect(t_cmd *cmd, int fd, char *argv, int hdnbr);
 void	msh_save_io(int save[2]);
 void	msh_restore_io(int save[2]);
 void	msh_close_pipes(int pobj[2]);
-void	msh_heredoc(char *limiter);
+int		msh_store_heredocs(t_vars *vars);
+char	*msh_read_heredoc(int hdnbr);
+void	msh_heredoc(char *delim, char *fnum);
+void	msh_clean_heredoc(t_vars *vars);
 
 // * Expander
 

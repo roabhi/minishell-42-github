@@ -6,7 +6,7 @@
 /*   By: eros-gir <eros-gir@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/12 10:21:17 by eros-gir          #+#    #+#             */
-/*   Updated: 2023/07/02 20:42:25 by eros-gir         ###   ########.fr       */
+/*   Updated: 2023/07/07 19:56:44 by eros-gir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,6 +76,7 @@ int	msh_execute_start(t_vars *vars)
 	pobj[0] = 0;
 	pobj[1] = 0;
 	tcmd = vars->cmd;
+	vars->hdnumb = msh_store_heredocs(vars);
 	single = fork();
 	if (single < 0)
 		return (1);
@@ -90,6 +91,8 @@ int	msh_execute_start(t_vars *vars)
 	else
 		msh_single_cmd(vars, single, tcmd);
 	msh_restore_io(vars->iofd);
+	if (vars->hdnumb > 0)
+		msh_clean_heredoc(vars);
 	return (g_return_status);
 }
 // para ver el status de salida de un comando
@@ -98,23 +101,17 @@ int	msh_execute_start(t_vars *vars)
 
 void	msh_single_cmd(t_vars *vars, pid_t single, t_cmd *tcmd)
 {
-	if (msh_is_redirect(*vars->cmd))
-	{
-		while (tcmd->next != NULL)
-		{
-			msh_exec_redirect(tcmd, -1);
-			tcmd = tcmd->next->next;
-		}
-	}
 	if (msh_cmd_is_built_in(vars->cmd))
 	{
 		kill (single, SIGKILL);
+		msh_set_redirect(vars, tcmd);
 		msh_exec_builtin(vars->cmd, vars);
 	}
 	else
 	{
 		if (single == 0)
 		{
+			msh_set_redirect(vars, tcmd);
 			msh_getpath(vars, vars->envar);
 			g_return_status = msh_cmd_execute(vars, vars->cmd);
 			msh_free_raw_array(vars->paths);

@@ -6,7 +6,7 @@
 /*   By: eros-gir <eros-gir@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/26 17:13:45 by eros-gir          #+#    #+#             */
-/*   Updated: 2023/07/02 18:22:48 by eros-gir         ###   ########.fr       */
+/*   Updated: 2023/07/07 19:55:45 by eros-gir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,39 +52,43 @@ int	msh_is_redirect(t_cmd tcmd)
 	return (0);
 }
 
-//testing variable
-void	msh_putfd_fd(int fd, char *str)
+void	msh_set_redirect(t_vars *vars, t_cmd *tcmd)
 {
-	ft_putstr_fd(str, 2);
-	ft_putstr_fd(" fd: ", 2);
-	ft_putnbr_fd(fd, 2);
-	ft_putendl_fd("", 2);
+	if (msh_is_redirect(*vars->cmd))
+	{
+		while (tcmd->next != NULL)
+		{
+			msh_exec_redirect(tcmd, -1, tcmd->next->next->argv[0], 0);
+			tcmd = tcmd->next->next;
+		}
+	}
 }
 
 //fd must be always -1 on function input
-void	msh_exec_redirect(t_cmd *cmd, int fd)
+void	msh_exec_redirect(t_cmd *cmd, int fd, char *argv, int hdnbr)
 {
+	char	*hdname;
+
 	if (msh_is_redirect(*cmd) == 1)
 	{
-		fd = open(cmd->next->next->argv[0], O_RDONLY);
+		fd = open(argv, O_RDONLY);
 		dup2(fd, STDIN_FILENO);
 	}
-	else if (msh_is_redirect(*cmd) == 2)
+	else if (msh_is_redirect(*cmd) == 2 || msh_is_redirect(*cmd) == 3)
 	{
-		fd = open(cmd->next->next->argv[0], O_CREAT | O_RDWR | O_TRUNC, 0644);
-		dup2(fd, STDOUT_FILENO);
-	}
-	else if (msh_is_redirect(*cmd) == 3)
-	{
-		fd = open(cmd->next->next->argv[0], O_CREAT | O_RDWR | O_APPEND, 0644);
+		if (msh_is_redirect(*cmd) == 2)
+			fd = open(argv, O_CREAT | O_RDWR | O_TRUNC, 0644);
+		else if (msh_is_redirect(*cmd) == 3)
+			fd = open(argv, O_CREAT | O_RDWR | O_APPEND, 0644);
 		dup2(fd, STDOUT_FILENO);
 	}
 	else if (msh_is_redirect(*cmd) == 4)
 	{
-		msh_heredoc(cmd->next->next->argv[0]);
-		fd = open(".heredoc", O_RDONLY);
+		hdname = msh_read_heredoc(hdnbr);
+		fd = open(hdname, O_RDONLY);
 		dup2(fd, STDIN_FILENO);
-		unlink(".heredoc");
+		unlink(hdname);
+		free(hdname);
 	}
 	close(fd);
 }
