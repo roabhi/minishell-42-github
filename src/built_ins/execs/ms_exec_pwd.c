@@ -6,7 +6,7 @@
 /*   By: rabril-h <rabril-h@student.42barcelona.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/18 18:45:26 by rabril-h          #+#    #+#             */
-/*   Updated: 2023/07/05 21:30:00 by rabril-h         ###   ########.fr       */
+/*   Updated: 2023/07/09 18:58:34 by rabril-h         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,22 +52,28 @@ void	msh_print_env_value(t_vars *vars, int env_index)
 {
 	int	c;
 
+	
+	// msh_print_env_vars(vars, "");
+	
 	c = 0;
 	while (vars->envar[env_index][c] != '=')
 		c++;
-	while (vars->envar[env_index][c++])
-		ft_putchar_fd(vars->envar[env_index][c], 1);
-	//ft_putchar_fd('\n', 1);
+	c++;
+	while (vars->envar[env_index][c])
+	{
+		ft_putchar_fd(vars->envar[env_index][c], 1);		
+		c++;
+	}
+	ft_putchar_fd('\n', 1);
 	g_return_status = 0; // TODO this returns -11 ?
 }
 
 void	msh_exec_pwd(t_cmd *cmd, t_vars *vars)
 {
 	int	env_index;
-	(void)cmd;
+	(void)cmd;	
 	env_index = msh_get_env_index(vars, "PWD");
 	msh_print_env_value(vars, msh_get_env_index(vars, "PWD"));
-	
 }
 
 // * STDOUT_FILENO = 1

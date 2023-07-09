@@ -6,7 +6,7 @@
 /*   By: rabril-h <rabril-h@student.42barcelona.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/19 19:56:12 by rabril-h          #+#    #+#             */
-/*   Updated: 2023/07/06 21:27:15 by rabril-h         ###   ########.fr       */
+/*   Updated: 2023/07/09 19:03:06 by rabril-h         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,11 +72,9 @@ void	msh_exec_unset(t_cmd *cmd, t_vars *vars)
 		env_index = msh_get_env_index(vars, cmd->argv[c]);
 		if (env_index != -1)
 			msh_remove_envar(vars, env_index);
-		else
-			printf("No envar with that name\n"); // TODO this needs to get the var unable to unset via reference
+		// else
+		// 	printf("No envar with that name\n"); // TODO this needs to get the var unable to unset via reference
 	}
-
-
 } // ? This function should return EXIT_SUCCESS or 0 ?
 
 

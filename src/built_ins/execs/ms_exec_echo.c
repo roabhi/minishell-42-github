@@ -6,7 +6,7 @@
 /*   By: rabril-h <rabril-h@student.42barcelona.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/17 18:40:12 by rabril-h          #+#    #+#             */
-/*   Updated: 2023/06/28 22:53:14 by rabril-h         ###   ########.fr       */
+/*   Updated: 2023/07/09 18:35:03 by rabril-h         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,13 +24,18 @@ void	msh_echo_print(t_cmd *cmd, int n_flags, int index)
 	}// ? if there is no string and there ar enot n flags just print \n
 	while(index < cmd->argc)
 	{
+		// printf("index es %d\n", index);
+		// printf("comand argc == %d\n", cmd->argc);
+		// printf("third param is %s\n", cmd->argv[3]);
 		// printf("cmd->argc = %d\n", cmd->argc);
 		// printf("cmd->argv[index] = %s\n", cmd->argv[index]);
 		//printf("el argumento de este echo es %s y n_flags esta seteado a %d\n", args[index], n_flags);
 		//ft_putstr_fd(args[index], 1);
 
 		c = 0;
-		while (cmd->argv[index][c])
+		if(!cmd->argv[index])
+			ft_putchar_fd(' ', 1);
+		while (cmd->argv[index] && cmd->argv[index][c])
 		{
 			if (cmd->argv[index][c])
 				ft_putchar_fd(cmd->argv[index][c], 1);
@@ -38,7 +43,7 @@ void	msh_echo_print(t_cmd *cmd, int n_flags, int index)
 		}
 		if (cmd->argv[index + 1])
 			ft_putchar_fd(' ', 1);
-		else if (!cmd->argv[index + 1] && !n_flags)
+		if (index == cmd->argc - 1 && !n_flags)
 			ft_putchar_fd('\n', 1);
 		index++;
 	}
