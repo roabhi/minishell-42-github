@@ -6,7 +6,7 @@
 /*   By: rabril-h <rabril-h@student.42barcelona.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/15 20:41:30 by rabril-h          #+#    #+#             */
-/*   Updated: 2023/07/06 22:21:38 by rabril-h         ###   ########.fr       */
+/*   Updated: 2023/07/09 18:54:27 by rabril-h         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ void	msh_print_env_vars(t_vars *vars, char *str)
 
 	env_length = -1;
 	if (!str)
-		str = "\0";
+		str = NULL;
 	while (vars->envar[++env_length])
 	{
 		if (str[0] == '\0')
