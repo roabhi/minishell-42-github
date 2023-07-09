@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ms_main.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rabril-h <rabril-h@student.42barcelona.    +#+  +:+       +#+        */
+/*   By: eros-gir <eros-gir@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/27 10:05:31 by eros-gir          #+#    #+#             */
-/*   Updated: 2023/07/09 19:06:44 by rabril-h         ###   ########.fr       */
+/*   Updated: 2023/07/09 20:32:31 by eros-gir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,11 +59,11 @@ void	msh_ignore_signals(t_vars *vars, int ac, char **av)
 {
 	(void)ac;
 	(void)av;
-	/*if (ac > 1 || av[1] != NULL)
-	{
-		printf("ERROR: the program does not take any arguments!");
-		exit(1);
-	}*/
+	// if (ac > 1 || av[1] != NULL)
+	// {
+	// 	ft_putendl_fd("ERROR: the program does not take any arguments!", 2);
+	// 	exit(1);
+	// }
 	vars->sigbool = 1;
 	signal(SIGINT, msh_sigint_handler);
 	signal(SIGTSTP, SIG_IGN);
@@ -159,7 +159,8 @@ int	main(int ac, char **av, char **envp)
 			if (vars.cmd != NULL)
 			{
 				msh_expander(&vars);
-				msh_execute_start(&vars);
+				if (!msh_errors_syntax(vars.cmd, NULL, 0))
+					msh_execute_start(&vars);
 			}
 
 			//msh_debug_cmd_list(vars.cmd);

@@ -6,7 +6,7 @@
 /*   By: eros-gir <eros-gir@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/17 18:03:38 by eros-gir          #+#    #+#             */
-/*   Updated: 2023/07/06 18:36:23 by eros-gir         ###   ########.fr       */
+/*   Updated: 2023/07/09 20:30:04 by eros-gir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,9 @@ char	*msh_getpath_cmd(t_vars *vars, char *cmd)
 	}
 	if (path_cmd == NULL)
 	{
-		printf("minishell: %s: command not found\n", cmd);
+		ft_putstr_fd("minishell: ", 2);
+		ft_putstr_fd(cmd, 2);
+		ft_putendl_fd(": command not found", 2);
 		return (NULL);
 	}
 	return (path_cmd);
