@@ -6,7 +6,7 @@
 /*   By: rabril-h <rabril-h@student.42barcelona.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/16 14:16:13 by rabril-h          #+#    #+#             */
-/*   Updated: 2023/06/28 22:39:46 by rabril-h         ###   ########.fr       */
+/*   Updated: 2023/07/05 21:02:30 by rabril-h         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,9 +53,10 @@ int	msh_atoi(char *str, int *error)
 	{
 		if(str[i] != ' ' && str[i] != '\t')
 		{
-			write(2, "minishell: exit: ", 17);
-			write(2, str, ft_strlen(str));
-			write(2, ": numeric argument required\n", 28);
+			// write(2, "minishell: exit: ", 17);
+			// write(2, str, ft_strlen(str));
+			// write(2, ": numeric argument required\n", 28);
+			msh_errors_exit(str, ": numeric argument required\n");
 			*error = 1;
 			break ;
 		}
@@ -74,7 +75,7 @@ int	msh_check_exit_param(char *param, int *error)
 		i++;
 	if (param[i] == '\0')
 	{
-		printf("hay error 1");
+		// printf("hay error 1");
 		*error = 1;
 		//ft_putendl_fd("No content param",2);
 	}
@@ -82,9 +83,10 @@ int	msh_check_exit_param(char *param, int *error)
 		i++;
 	if (!ft_isdigit(param[i]))
 	{
-		write(2, "minishell: exit: ", 17);
-		write(2, param, ft_strlen(param));
-		write(2, ": numeric argument required\n", 28);
+		// write(2, "minishell: exit: ", 17);
+		// write(2, param, ft_strlen(param));
+		// write(2, ": numeric argument required\n", 28);
+		msh_errors_exit(param, ": numeric argument required\n");
 		*error = 1;
 		return 0;
 		//ft_putendl_fd("Number required",2);
@@ -118,9 +120,10 @@ void	msh_exec_exit(t_cmd *cmd, t_vars *vars)
 	else if (cmd->argc == 2)
 	{
 		if(ft_strcmp(cmd->argv[1] , "18446744073709551616") == 0){
-			write(2, "minishell: exit: ", 17);
-			write(2, cmd->argv[1], ft_strlen(cmd->argv[1]));
-			write(2, ": numeric argument required\n", 28);
+			// write(2, "minishell: exit: ", 17);
+			// write(2, cmd->argv[1], ft_strlen(cmd->argv[1]));
+			// write(2, ": numeric argument required\n", 28);
+			msh_errors_exit(cmd->argv[1], ": numeric argument required\n");
 			g_return_status = 255;
 			return;
 		}
@@ -137,7 +140,8 @@ void	msh_exec_exit(t_cmd *cmd, t_vars *vars)
 			g_return_status = 255;
 			return;
 		}
-		write(2, "minishell: exit: too many arguments\n", 36);
+		//write(2, "minishell: exit: too many arguments\n", 36);
+		msh_errors_exit("", "too many arguments\n");
 		g_return_status = 1; // ? More than 2 arguments
 	}
 }

@@ -6,7 +6,7 @@
 /*   By: rabril-h <rabril-h@student.42barcelona.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/19 20:11:18 by rabril-h          #+#    #+#             */
-/*   Updated: 2023/07/02 20:48:52 by rabril-h         ###   ########.fr       */
+/*   Updated: 2023/07/06 22:23:19 by rabril-h         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,18 +87,21 @@ void	msh_exec_export(t_cmd *cmd, t_vars *vars)
 		while (cmd->argv[++c])
 		{
 			if (!msh_is_valid_env_var_key(cmd->argv[c]))
-				// TODO make this dynamic through a unifed error system prompter
-				ft_putendl_fd("export: Not a valid identifier",2);
+			{
+				msh_errors_export(cmd->argv[c], "': not a valid identifier\n");
+				g_return_status = 1; 
+			}
 			else if (ft_strchr(cmd->argv[c], '=') != NULL)
 			{
-				//printf("La variable a insertar es %s\n", cmd->argv[c]);
 				new_env_var = msh_get_env_var_key_value_pair(cmd->argv[c]);
 				msh_set_env_var(vars, new_env_var[0], new_env_var[1]);
 				msh_free_ptr(new_env_var[0]);
 				msh_free_ptr(new_env_var[1]);
 				msh_free_ptr(new_env_var);
+				g_return_status = 0; 
 			}
+			else
+				msh_set_env_var(vars, cmd->argv[c], "");
 		}
 	}
-	g_return_status = EXIT_SUCCESS; // ! SUCCESS SO FAR
 }

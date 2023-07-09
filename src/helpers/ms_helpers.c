@@ -6,7 +6,7 @@
 /*   By: rabril-h <rabril-h@student.42barcelona.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/15 20:41:30 by rabril-h          #+#    #+#             */
-/*   Updated: 2023/06/28 21:37:19 by rabril-h         ###   ########.fr       */
+/*   Updated: 2023/07/06 22:21:38 by rabril-h         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,8 +36,14 @@ void	msh_print_env_vars(t_vars *vars, char *str)
 		str = "\0";
 	while (vars->envar[++env_length])
 	{
-		if (!str)			
-			printf("%s%s\n", str, vars->envar[env_length]);
+		if (str[0] == '\0')
+		{
+			c = 0;
+			while (vars->envar[env_length][c] != '=')
+				c++;
+			if (vars->envar[env_length][c + 1] != '\0')
+				printf("%s%s\n", str, vars->envar[env_length]);
+		}			
 		else
 		{
 			c = -1;
@@ -45,7 +51,10 @@ void	msh_print_env_vars(t_vars *vars, char *str)
 			env_value = msh_get_env_value(vars, env_length);
 			while (vars->envar[env_length][++c] != '=')
 				substr = msh_strjoinchr(substr, vars->envar[env_length][c]);
-			printf("%s%s=\"%s\"\n", str, substr, env_value);
+			if(!env_value[0])
+				printf("%s%s\n", str,substr);
+			else
+				printf("%s%s=\"%s\"\n", str, substr, env_value);
 			msh_free_ptr(substr);
 			msh_free_ptr(env_value);
 		}

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   mslib.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: eros-gir <eros-gir@student.42barcel>       +#+  +:+       +#+        */
+/*   By: rabril-h <rabril-h@student.42barcelona.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/27 10:06:39 by eros-gir          #+#    #+#             */
-/*   Updated: 2023/07/02 18:22:00 by eros-gir         ###   ########.fr       */
+/*   Updated: 2023/07/05 21:37:47 by rabril-h         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -196,5 +196,10 @@ void	msh_expand_argv(t_vars *vars, char **argv, int c);
 void	msh_expand_env_var(t_vars *vars, char *arg, char **new_arg);
 char	*msh_read_env_name(char *arg);
 int		msh_advance_from_env_var(char *arg);
+
+// ? Errors
+
+void	msh_errors_exit(char *param, char *msg);
+void	msh_errors_export(char *param, char *msg);
 
 #endif
