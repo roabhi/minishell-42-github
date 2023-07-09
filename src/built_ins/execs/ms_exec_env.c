@@ -6,7 +6,7 @@
 /*   By: rabril-h <rabril-h@student.42barcelona.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/18 17:21:04 by rabril-h          #+#    #+#             */
-/*   Updated: 2023/06/20 17:40:30 by rabril-h         ###   ########.fr       */
+/*   Updated: 2023/07/06 22:19:27 by rabril-h         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,8 +49,9 @@ void	msh_exec_env(t_cmd *cmd, t_vars *vars)
 		ft_putendl_fd("env: Too many arguments for minishell", 2);
 	else
 	{
-		while (vars->envar[++env_length])
-			ft_putendl_fd(vars->envar[env_length], 1);
+		// while (vars->envar[++env_length])
+		// 	ft_putendl_fd(vars->envar[env_length], 1);		
+		msh_print_env_vars(vars, "");
 	}
 } // ? This function should return EXIT_SUCCESS or 0 ?
 
