@@ -6,11 +6,11 @@
 /*   By: eros-gir <eros-gir@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/28 10:29:53 by eros-gir          #+#    #+#             */
-/*   Updated: 2022/06/28 11:42:30 by eros-gir         ###   ########.fr       */
+/*   Updated: 2023/07/10 15:35:20 by eros-gir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include"libft.h"
+#include "libft.h"
 
 char	*ft_strrev(char *s)
 {

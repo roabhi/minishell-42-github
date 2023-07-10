@@ -6,11 +6,11 @@
 /*   By: eros-gir <eros-gir@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/18 11:23:38 by eros-gir          #+#    #+#             */
-/*   Updated: 2023/05/12 11:33:23 by eros-gir         ###   ########.fr       */
+/*   Updated: 2023/07/10 15:33:44 by eros-gir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include"libft.h"
+#include "libft.h"
 
 size_t	ft_getintsize(int n)
 {

@@ -1,18 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_atol.c                                           :+:      :+:    :+:  */
+/*   ft_atol.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: eros-gir <eros-gir@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/14 14:17:03 by eros-gir          #+#    #+#             */
-/*   Updated: 2023/01/30 10:15:44 by eros-gir         ###   ########.fr       */
+/*   Updated: 2023/07/10 15:33:07 by eros-gir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include"libft.h"
-#include<limits.h>
-#include<stdio.h>
+#include "libft.h"
+#include <limits.h>
+#include <stdio.h>
 
 long int	ft_atol(const char *nptr)
 {

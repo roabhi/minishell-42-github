@@ -6,13 +6,13 @@
 /*   By: eros-gir <eros-gir@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/14 14:17:03 by eros-gir          #+#    #+#             */
-/*   Updated: 2022/08/02 16:12:52 by eros-gir         ###   ########.fr       */
+/*   Updated: 2023/07/10 15:32:58 by eros-gir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include"libft.h"
-#include<limits.h>
-#include<stdio.h>
+#include "libft.h"
+#include <limits.h>
+#include <stdio.h>
 
 int	ft_atoi(const char *nptr)
 {

@@ -6,11 +6,11 @@
 /*   By: eros-gir <eros-gir@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/18 12:19:42 by eros-gir          #+#    #+#             */
-/*   Updated: 2022/04/12 10:25:32 by eros-gir         ###   ########.fr       */
+/*   Updated: 2023/07/10 15:35:25 by eros-gir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include"libft.h"
+#include "libft.h"
 
 char	*ft_strtrim(const char *s1, const char *set)
 {

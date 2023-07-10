@@ -6,11 +6,11 @@
 /*   By: eros-gir <eros-gir@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/17 18:03:38 by eros-gir          #+#    #+#             */
-/*   Updated: 2023/07/09 20:30:04 by eros-gir         ###   ########.fr       */
+/*   Updated: 2023/07/10 15:32:03 by eros-gir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include"../../incl/mslib.h"
+#include "../../incl/mslib.h"
 
 char	*msh_getpath_line(char **envp)
 {
