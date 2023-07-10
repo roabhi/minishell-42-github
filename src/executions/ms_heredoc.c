@@ -6,7 +6,7 @@
 /*   By: eros-gir <eros-gir@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/30 17:41:42 by eros-gir          #+#    #+#             */
-/*   Updated: 2023/07/07 19:50:45 by eros-gir         ###   ########.fr       */
+/*   Updated: 2023/07/10 16:42:40 by eros-gir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,8 +23,9 @@ void	msh_clean_heredoc(t_vars *vars)
 	char	*fname;
 	int		i;
 
+	(void) vars;
 	i = 0;
-	while (i >= vars->hdnumb)
+	while (i >= 999)
 	{
 		fname = ft_joinloc(ft_strdup(".heredoc"), ft_itoa(i));
 		unlink(fname);
