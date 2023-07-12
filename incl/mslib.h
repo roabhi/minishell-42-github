@@ -6,7 +6,7 @@
 /*   By: eros-gir <eros-gir@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/27 10:06:39 by eros-gir          #+#    #+#             */
-/*   Updated: 2023/07/12 17:16:09 by eros-gir         ###   ########.fr       */
+/*   Updated: 2023/07/12 18:12:23 by eros-gir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -186,6 +186,8 @@ void	msh_pipe_child2(int pobj[2]);
 int		msh_is_redirect(t_cmd tcmd);
 int		msh_set_redirect(t_vars *vars, t_cmd *tcmd);
 int		msh_exec_redirect(t_cmd *cmd, int fd, char *argv, int hdnbr);
+int		msh_is_first_redirect(t_cmd tcmd);
+int		msh_exec_first_redirect(t_cmd *cmd, int fd, char *argv, int hdnbr);
 void	msh_save_io(int save[2]);
 void	msh_restore_io(int save[2]);
 void	msh_close_pipes(int pobj[2]);
