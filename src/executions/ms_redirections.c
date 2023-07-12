@@ -6,7 +6,7 @@
 /*   By: eros-gir <eros-gir@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/26 17:13:45 by eros-gir          #+#    #+#             */
-/*   Updated: 2023/07/07 19:55:45 by eros-gir         ###   ########.fr       */
+/*   Updated: 2023/07/12 17:25:54 by eros-gir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,25 +52,44 @@ int	msh_is_redirect(t_cmd tcmd)
 	return (0);
 }
 
-void	msh_set_redirect(t_vars *vars, t_cmd *tcmd)
+int	msh_set_redirect(t_vars *vars, t_cmd *tcmd)
 {
 	if (msh_is_redirect(*vars->cmd))
 	{
 		while (tcmd->next != NULL)
 		{
-			msh_exec_redirect(tcmd, -1, tcmd->next->next->argv[0], 0);
+			if (msh_exec_redirect(tcmd, -1, tcmd->next->next->argv[0], 0))
+				return (1);
 			tcmd = tcmd->next->next;
 		}
+	}
+	return (0);
+}
+
+void msh_exec_redirect2(t_cmd *cmd, int fd, char *argv, int hdnbr)
+{
+	char	*hdname;
+
+	if (msh_is_redirect(*cmd) == 4)
+	{
+		hdname = msh_read_heredoc(hdnbr);
+		fd = open(hdname, O_RDONLY);
+		dup2(fd, STDIN_FILENO);
+		unlink(hdname);
+		free(hdname);
 	}
 }
 
 //fd must be always -1 on function input
-void	msh_exec_redirect(t_cmd *cmd, int fd, char *argv, int hdnbr)
+int	msh_exec_redirect(t_cmd *cmd, int fd, char *argv, int hdnbr)
 {
-	char	*hdname;
-
 	if (msh_is_redirect(*cmd) == 1)
 	{
+		if (access(argv, F_OK) != 0)
+		{
+			msh_print_error(argv, ": No such file or directory\n");
+			return (1);
+		}
 		fd = open(argv, O_RDONLY);
 		dup2(fd, STDIN_FILENO);
 	}
@@ -82,13 +101,7 @@ void	msh_exec_redirect(t_cmd *cmd, int fd, char *argv, int hdnbr)
 			fd = open(argv, O_CREAT | O_RDWR | O_APPEND, 0644);
 		dup2(fd, STDOUT_FILENO);
 	}
-	else if (msh_is_redirect(*cmd) == 4)
-	{
-		hdname = msh_read_heredoc(hdnbr);
-		fd = open(hdname, O_RDONLY);
-		dup2(fd, STDIN_FILENO);
-		unlink(hdname);
-		free(hdname);
-	}
+	msh_exec_redirect2(cmd, fd, argv, hdnbr);
 	close(fd);
+	return (0);
 }

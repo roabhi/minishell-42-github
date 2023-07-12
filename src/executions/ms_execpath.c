@@ -6,7 +6,7 @@
 /*   By: eros-gir <eros-gir@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/17 18:03:38 by eros-gir          #+#    #+#             */
-/*   Updated: 2023/07/10 16:43:59 by eros-gir         ###   ########.fr       */
+/*   Updated: 2023/07/12 16:34:07 by eros-gir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,7 @@ char	*msh_getpath_cmd(t_vars *vars, char *cmd)
 		path_cmd = NULL;
 		i++;
 	}
-	if (access(cmd, X_OK) == 0)
+	if (access(cmd, X_OK) == 0 || cmd[0] == '>' || cmd[0] == '<')
 		path_cmd = ft_strdup(cmd);
 	else if (path_cmd == NULL)
 	{

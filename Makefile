@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: rabril-h <rabril-h@student.42barcelona.    +#+  +:+       +#+         #
+#    By: eros-gir <eros-gir@student.42barcel>       +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/08/02 14:48:15 by eros-gir          #+#    #+#              #
-#    Updated: 2023/07/05 20:58:21 by rabril-h         ###   ########.fr        #
+#    Updated: 2023/07/12 17:27:11 by eros-gir         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -40,6 +40,7 @@ SRC = ./src/ms_main.c  \
 	./src/validations/ms_validations_2.c \
 	./src/destroyer/ms_destroyer.c \
 	./src/errors/ms_errors.c \
+	./src/errors/ms_storeio.c
 
 HDR = ./incl/mslib.h ./libft/libft.h
 
