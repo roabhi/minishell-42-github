@@ -6,25 +6,11 @@
 /*   By: eros-gir <eros-gir@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/26 17:13:45 by eros-gir          #+#    #+#             */
-/*   Updated: 2023/07/12 17:25:54 by eros-gir         ###   ########.fr       */
+/*   Updated: 2023/07/12 17:31:28 by eros-gir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../incl/mslib.h"
-
-void	msh_save_io(int save[2])
-{
-	save[0] = dup(STDIN_FILENO);
-	save[1] = dup(STDOUT_FILENO);
-}
-
-void	msh_restore_io(int save[2])
-{
-	dup2(save[0], STDIN_FILENO);
-	dup2(save[1], STDOUT_FILENO);
-	close(save[0]);
-	close(save[1]);
-}
 
 //redirect 0 == break
 //redirect 1 == read
@@ -66,7 +52,7 @@ int	msh_set_redirect(t_vars *vars, t_cmd *tcmd)
 	return (0);
 }
 
-void msh_exec_redirect2(t_cmd *cmd, int fd, char *argv, int hdnbr)
+void	msh_exec_redirect2(t_cmd *cmd, int fd, int hdnbr)
 {
 	char	*hdname;
 
@@ -101,7 +87,7 @@ int	msh_exec_redirect(t_cmd *cmd, int fd, char *argv, int hdnbr)
 			fd = open(argv, O_CREAT | O_RDWR | O_APPEND, 0644);
 		dup2(fd, STDOUT_FILENO);
 	}
-	msh_exec_redirect2(cmd, fd, argv, hdnbr);
+	msh_exec_redirect2(cmd, fd, hdnbr);
 	close(fd);
 	return (0);
 }

@@ -6,7 +6,7 @@
 #    By: eros-gir <eros-gir@student.42barcel>       +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/08/02 14:48:15 by eros-gir          #+#    #+#              #
-#    Updated: 2023/07/12 17:27:11 by eros-gir         ###   ########.fr        #
+#    Updated: 2023/07/12 17:32:03 by eros-gir         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -24,6 +24,7 @@ SRC = ./src/ms_main.c  \
 	./src/executions/ms_redirections.c \
 	./src/executions/ms_heredoc.c \
 	./src/executions/ms_pipe.c \
+	./src/executions/ms_storeio.c \
 	./src/parser/env_parser/ms_env_parser.c \
 	./src/tokenizer/ms_tokenizer.c \
 	./src/built_ins/ms_built_ins.c \
@@ -40,7 +41,6 @@ SRC = ./src/ms_main.c  \
 	./src/validations/ms_validations_2.c \
 	./src/destroyer/ms_destroyer.c \
 	./src/errors/ms_errors.c \
-	./src/errors/ms_storeio.c
 
 HDR = ./incl/mslib.h ./libft/libft.h
 
