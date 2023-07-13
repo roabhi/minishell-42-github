@@ -6,7 +6,7 @@
 #    By: eros-gir <eros-gir@student.42barcel>       +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/08/02 14:48:15 by eros-gir          #+#    #+#              #
-#    Updated: 2023/07/12 18:08:19 by eros-gir         ###   ########.fr        #
+#    Updated: 2023/07/13 18:51:51 by eros-gir         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -25,7 +25,7 @@ SRC = ./src/ms_main.c  \
 	./src/executions/ms_redirections2.c \
 	./src/executions/ms_heredoc.c \
 	./src/executions/ms_pipe.c \
-	./src/executions/ms_storeio.c \
+	./src/executions/ms_exehelpers.c \
 	./src/parser/env_parser/ms_env_parser.c \
 	./src/tokenizer/ms_tokenizer.c \
 	./src/built_ins/ms_built_ins.c \
