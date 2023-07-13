@@ -6,7 +6,7 @@
 /*   By: rabril-h <rabril-h@student.42barcelona.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/27 10:05:31 by eros-gir          #+#    #+#             */
-/*   Updated: 2023/07/09 19:06:44 by rabril-h         ###   ########.fr       */
+/*   Updated: 2023/07/13 19:43:12 by rabril-h         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -150,6 +150,10 @@ int	main(int ac, char **av, char **envp)
 			}
 			add_history(vars.inpli);
 			vars.input = msh_sanitize_input(vars.inpli);
+			// TODO make check for extra case for redirections
+			// TODO > test echo hola => echo hola >test
+			// TODO echo > test hola => echo hola >test
+			// TODO > test echo > test2 hola => echo >test >test2
 			if (vars.input == NULL)
 				continue ;
 
