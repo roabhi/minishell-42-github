@@ -6,7 +6,7 @@
 /*   By: eros-gir <eros-gir@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/27 10:06:39 by eros-gir          #+#    #+#             */
-/*   Updated: 2023/07/12 18:12:23 by eros-gir         ###   ########.fr       */
+/*   Updated: 2023/07/14 18:36:42 by eros-gir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,6 +98,7 @@ int		msh_store_env_own_lines(t_vars *vars, char **envp, int index);
 // * Parser
 
 char	*msh_sanitize_input(char *str);
+void	msh_reorder_redirs(t_vars *vars);
 char	*msh_clean_irrelveant_spaces_in_input(char *input);
 int		msh_malformed_quotes(char *input);
 
@@ -186,8 +187,6 @@ void	msh_pipe_child2(int pobj[2]);
 int		msh_is_redirect(t_cmd tcmd);
 int		msh_set_redirect(t_vars *vars, t_cmd *tcmd);
 int		msh_exec_redirect(t_cmd *cmd, int fd, char *argv, int hdnbr);
-int		msh_is_first_redirect(t_cmd tcmd);
-int		msh_exec_first_redirect(t_cmd *cmd, int fd, char *argv, int hdnbr);
 void	msh_save_io(int save[2]);
 void	msh_restore_io(int save[2]);
 void	msh_close_pipes(int pobj[2]);
