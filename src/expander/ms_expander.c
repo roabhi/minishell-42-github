@@ -6,7 +6,7 @@
 /*   By: rabril-h <rabril-h@student.42barcelona.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/25 21:50:35 by rabril-h          #+#    #+#             */
-/*   Updated: 2023/07/13 19:03:15 by rabril-h         ###   ########.fr       */
+/*   Updated: 2023/07/14 21:15:12 by rabril-h         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,7 +96,9 @@ void	msh_expand_argv(t_vars *vars, char **argv, int c)
 		}
 		if (argv[c][i] == '$' && !quotes.miniquote)
 		{
-
+			// ? case for only $
+			if (!argv[c][i + 1])
+				return ;
 			msh_expand_env_var(vars, &argv[c][i], &new_arg);
 			i += msh_advance_from_env_var(&argv[c][i]);
 			continue ;
