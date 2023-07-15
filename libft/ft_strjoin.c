@@ -6,11 +6,11 @@
 /*   By: eros-gir <eros-gir@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/18 12:08:45 by eros-gir          #+#    #+#             */
-/*   Updated: 2022/05/18 11:11:02 by eros-gir         ###   ########.fr       */
+/*   Updated: 2023/07/10 15:34:54 by eros-gir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include"libft.h"
+#include "libft.h"
 
 char	*ft_strjoin(char *s1, char *s2)
 {

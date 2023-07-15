@@ -3,30 +3,30 @@
 /*                                                        :::      ::::::::   */
 /*   mslib.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rabril-h <rabril-h@student.42barcelona.    +#+  +:+       +#+        */
+/*   By: eros-gir <eros-gir@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/27 10:06:39 by eros-gir          #+#    #+#             */
-/*   Updated: 2023/07/07 20:07:16 by eros-gir         ###   ########.fr       */
+/*   Updated: 2023/07/15 19:18:16 by eros-gir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef MSLIB_H
 # define MSLIB_H
 
-# include<stdio.h>
-# include<readline/readline.h>
-# include<readline/history.h>
-# include<fcntl.h>
-# include<sys/wait.h>
-# include<sys/stat.h>
-# include<sys/ioctl.h>
-# include<signal.h>
-# include<dirent.h>
-# include<termios.h>
-# include<curses.h>
-# include<term.h>
+# include <stdio.h>
+# include <readline/readline.h>
+# include <readline/history.h>
+# include <fcntl.h>
+# include <sys/wait.h>
+# include <sys/stat.h>
+# include <sys/ioctl.h>
+# include <signal.h>
+# include <dirent.h>
+# include <termios.h>
+# include <curses.h>
+# include <term.h>
 
-# include"../libft/libft.h"
+# include "../libft/libft.h"
 
 // ? Global var
 int	g_return_status;
@@ -98,8 +98,11 @@ int		msh_store_env_own_lines(t_vars *vars, char **envp, int index);
 // * Parser
 
 char	*msh_sanitize_input(char *str);
+void	msh_reorder_redirs(t_vars *vars);
 char	*msh_clean_irrelveant_spaces_in_input(char *input);
 int		msh_malformed_quotes(char *input);
+int		msh_quote_flag(char input, int qflag);
+char	*msh_add_space_between_input(char *input, int qflag);
 
 // * Validators
 
@@ -184,8 +187,8 @@ int		msh_next_pipe(t_cmd cmd);
 void	msh_pipe_child1(int pobj[2], int prev_pobj[2], int recursion);
 void	msh_pipe_child2(int pobj[2]);
 int		msh_is_redirect(t_cmd tcmd);
-void	msh_set_redirect(t_vars *vars, t_cmd *tcmd);
-void	msh_exec_redirect(t_cmd *cmd, int fd, char *argv, int hdnbr);
+int		msh_set_redirect(t_vars *vars, t_cmd *tcmd);
+int		msh_exec_redirect(t_cmd *cmd, int fd, char *argv, int hdnbr);
 void	msh_save_io(int save[2]);
 void	msh_restore_io(int save[2]);
 void	msh_close_pipes(int pobj[2]);
@@ -193,6 +196,7 @@ int		msh_store_heredocs(t_vars *vars);
 char	*msh_read_heredoc(int hdnbr);
 void	msh_heredoc(char *delim, char *fnum);
 void	msh_clean_heredoc(t_vars *vars);
+char	**ft_qsplit(char const *s, char c, size_t n, int qflags);
 
 // * Expander
 
@@ -204,7 +208,9 @@ int		msh_advance_from_env_var(char *arg);
 
 // ? Errors
 
+void	msh_print_error(char *param, char *msg);
 void	msh_errors_exit(char *param, char *msg);
 void	msh_errors_export(char *param, char *msg);
+int		msh_errors_syntax(t_cmd *cmd, char *param);
 
 #endif

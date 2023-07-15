@@ -6,11 +6,11 @@
 /*   By: eros-gir <eros-gir@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/18 12:08:45 by eros-gir          #+#    #+#             */
-/*   Updated: 2022/05/18 11:06:10 by eros-gir         ###   ########.fr       */
+/*   Updated: 2023/07/10 15:33:46 by eros-gir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include"libft.h"
+#include "libft.h"
 
 //the two arguments given must be memory allocated not pointers to stack
 char	*ft_joinloc(char *s1, char *s2)

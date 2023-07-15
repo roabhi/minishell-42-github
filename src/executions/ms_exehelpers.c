@@ -1,25 +1,27 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_memset.c                                        :+:      :+:    :+:   */
+/*   ms_exehelpers.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: eros-gir <eros-gir@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/01/15 11:23:33 by eros-gir          #+#    #+#             */
-/*   Updated: 2023/07/10 15:34:28 by eros-gir         ###   ########.fr       */
+/*   Created: 2023/07/12 17:26:36 by eros-gir          #+#    #+#             */
+/*   Updated: 2023/07/13 18:51:54 by eros-gir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "../../incl/mslib.h"
 
-void	*ft_memset(void *b, int c, size_t len)
+void	msh_save_io(int save[2])
 {
-	size_t	i;
-	char	*str;
+	save[0] = dup(STDIN_FILENO);
+	save[1] = dup(STDOUT_FILENO);
+}
 
-	str = (char *)b;
-	i = -1;
-	while (++i < len)
-		str[i] = (unsigned char)c;
-	return (b);
+void	msh_restore_io(int save[2])
+{
+	dup2(save[0], STDIN_FILENO);
+	dup2(save[1], STDOUT_FILENO);
+	close(save[0]);
+	close(save[1]);
 }

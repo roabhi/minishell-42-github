@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   ms_main.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rabril-h <rabril-h@student.42barcelona.    +#+  +:+       +#+        */
+/*   By: eros-gir <eros-gir@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/27 10:05:31 by eros-gir          #+#    #+#             */
-/*   Updated: 2023/07/13 19:43:12 by rabril-h         ###   ########.fr       */
+/*   Updated: 2023/07/15 19:16:51 by eros-gir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include"../incl/mslib.h"
+#include "../incl/mslib.h"
 
 // void debug_cmd_list_builtins(t_cmd *first)
 // {
@@ -48,7 +48,7 @@ void	msh_sigint_handler(int sig)
 		rl_on_new_line();
 		rl_redisplay();
 		write(1, "  \n", 3);
-		//rl_replace_line("", 0);
+		rl_replace_line("", 0);
 		rl_on_new_line();
 		rl_redisplay();
 		g_return_status = 1;
@@ -59,11 +59,11 @@ void	msh_ignore_signals(t_vars *vars, int ac, char **av)
 {
 	(void)ac;
 	(void)av;
-	/*if (ac > 1 || av[1] != NULL)
+	if (ac > 1 || av[1] != NULL)
 	{
-		printf("ERROR: the program does not take any arguments!");
+		ft_putendl_fd("ERROR: the program does not take any arguments!", 2);
 		exit(1);
-	}*/
+	}
 	vars->sigbool = 1;
 	signal(SIGINT, msh_sigint_handler);
 	signal(SIGTSTP, SIG_IGN);
@@ -121,10 +121,11 @@ int	main(int ac, char **av, char **envp)
 	// 	if (vars.input == NULL)
 	// 		exit(g_return_status);
 
-	// 	vars.cmd = msh_tokenize(&vars);		
+	// 	vars.cmd = msh_tokenize(&vars);
 	// 	if (vars.cmd != NULL){
 	// 		msh_expander(&vars);
-	// 		msh_execute_start(&vars);
+	// 		if (!msh_errors_syntax(vars.cmd, NULL))
+	// 			msh_execute_start(&vars);
 	// 	}
 
 
@@ -132,7 +133,7 @@ int	main(int ac, char **av, char **envp)
 	// 	msh_free_raw_array(vars.tokens); // ? free tokens
 	// 	free(vars.input); // ? free trimed input);
 	// 	msh_free_envars(&vars);
-	//   free(vars.prompt);
+	// 	free(vars.prompt);
 	// 	exit(g_return_status);
 	// }
 	// ! End tesyting mode
@@ -156,7 +157,19 @@ int	main(int ac, char **av, char **envp)
 			// TODO > test echo > test2 hola => echo >test >test2
 			if (vars.input == NULL)
 				continue ;
-
+			//reordering redirections
+			vars.cmd = msh_tokenize(&vars);	
+			if (msh_errors_syntax(vars.cmd, NULL))
+			{
+				msh_free_cmd_list(vars.cmd); // ? free args
+				msh_free_raw_array(vars.tokens); // ? free tokens
+				free(vars.input); // ? free trimed input);
+				continue ;
+			}
+			msh_free_cmd_list(vars.cmd); // ? free args
+			msh_free_raw_array(vars.tokens); // ? free tokens
+			vars.input = msh_add_space_between_input(vars.input, 0);
+			msh_reorder_redirs(&vars);
 			vars.cmd = msh_tokenize(&vars);		
 			//msh_debug_cmd_list(vars.cmd); // debug tokens
 			//Execution integrando builtins a pipes
