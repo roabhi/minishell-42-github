@@ -6,7 +6,7 @@
 /*   By: eros-gir <eros-gir@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/27 10:05:31 by eros-gir          #+#    #+#             */
-/*   Updated: 2023/07/14 18:33:35 by eros-gir         ###   ########.fr       */
+/*   Updated: 2023/07/15 19:16:51 by eros-gir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -154,16 +154,25 @@ int	main(int ac, char **av, char **envp)
 			if (vars.input == NULL)
 				continue ;
 			//reordering redirections
+			vars.cmd = msh_tokenize(&vars);	
+			if (msh_errors_syntax(vars.cmd, NULL))
+			{
+				msh_free_cmd_list(vars.cmd); // ? free args
+				msh_free_raw_array(vars.tokens); // ? free tokens
+				free(vars.input); // ? free trimed input);
+				continue ;
+			}
+			msh_free_cmd_list(vars.cmd); // ? free args
+			msh_free_raw_array(vars.tokens); // ? free tokens
+			vars.input = msh_add_space_between_input(vars.input, 0);
 			msh_reorder_redirs(&vars);
-			exit (0);
 			vars.cmd = msh_tokenize(&vars);		
 			//msh_debug_cmd_list(vars.cmd); // debug tokens
 			//Execution integrando builtins a pipes
 			if (vars.cmd != NULL)
 			{
 				msh_expander(&vars);
-				if (!msh_errors_syntax(vars.cmd, NULL))
-					msh_execute_start(&vars);
+				msh_execute_start(&vars);
 			}
 
 			//msh_debug_cmd_list(vars.cmd);
@@ -186,7 +195,7 @@ int	main(int ac, char **av, char **envp)
 }
 	msh_free_envars(&vars);
 	free(vars.prompt);
-//	system("leaks minishell"); //para comprobar leaks usar leaks minishell dentro  y quitar esta linea antes de entregar
+	system("leaks minishell"); //para comprobar leaks usar leaks minishell dentro  y quitar esta linea antes de entregar
 	return (g_return_status);
 }
 
