@@ -6,7 +6,7 @@
 /*   By: rabril-h <rabril-h@student.42barcelona.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/25 21:50:35 by rabril-h          #+#    #+#             */
-/*   Updated: 2023/07/09 18:29:42 by rabril-h         ###   ########.fr       */
+/*   Updated: 2023/07/14 21:15:12 by rabril-h         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,9 @@ int	msh_advance_from_env_var(char *arg)
 	int	i;
 
 	i = 1;
-	while (arg[i] && arg[i] != '"' && arg[i] != '\'')
+	if(arg[1] == '?')
+		return (2);
+	while (arg[i] && arg[i] != '"' && arg[i] != '\'' && arg[i] != '$')
 	{
 		i++;
 	}
@@ -31,7 +33,7 @@ char	*msh_read_env_name(char *arg)
 
 	i = 1;
 	index_name = NULL;
-	while (arg[i] && arg[i] != '"' && arg[i] != '\'')
+	while (arg[i] && arg[i] != '"' && arg[i] != '\'' && arg[i] != '$')
 	{
 		index_name = msh_strjoinchr(index_name, arg[i]);
 		i++;
@@ -47,15 +49,19 @@ void	msh_expand_env_var(t_vars *vars, char *arg, char **new_arg)
 	int		i;
 
 	i = 0;
-	env_index_name = msh_read_env_name(arg);
-	env_index = msh_get_env_index(vars, env_index_name);
-	if(env_index == -1)
-	{
+	if(arg[1] != '?'){
+		env_index_name = msh_read_env_name(arg);
+		env_index = msh_get_env_index(vars, env_index_name);
+		if(env_index == -1)
+		{
+			free(env_index_name);
+			return ;
+		}
+		value = msh_get_env_value(vars, env_index);
 		free(env_index_name);
-		return ;
 	}
-	value = msh_get_env_value(vars, env_index);
-	free(env_index_name);
+	else
+		value = ft_itoa(g_return_status);
 	while (value[i])
 	{
 		*new_arg = msh_strjoinchr(*new_arg, value[i]);
@@ -87,10 +93,12 @@ void	msh_expand_argv(t_vars *vars, char **argv, int c)
 		{
 			i++;
 			continue ;
-		}		
+		}
 		if (argv[c][i] == '$' && !quotes.miniquote)
 		{
-
+			// ? case for only $
+			if (!argv[c][i + 1])
+				return ;
 			msh_expand_env_var(vars, &argv[c][i], &new_arg);
 			i += msh_advance_from_env_var(&argv[c][i]);
 			continue ;
@@ -132,21 +140,3 @@ void	msh_expander(t_vars *vars)
 		first = first->next;
 	}
 }
-
-// TODO Por cada comandp y por cada argumento del comando
-// TODO hay que quitar los quotes y miniquotes
-// TODO por cada caracter the cada argumento
-// * si me encuentro $ ' "
-// * hayq que expandir 
-// TODO y expandir las variables de entorno
-
-
- //Si no hay ' " o $
-	//"'hola'"
-	//'hola'
-
-	//"'$USER'"
-	//'rabril'  
-
-	// '      "$USER"'
-	//      "$USER"

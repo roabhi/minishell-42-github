@@ -151,6 +151,10 @@ int	main(int ac, char **av, char **envp)
 			}
 			add_history(vars.inpli);
 			vars.input = msh_sanitize_input(vars.inpli);
+			// TODO make check for extra case for redirections
+			// TODO > test echo hola => echo hola >test
+			// TODO echo > test hola => echo hola >test
+			// TODO > test echo > test2 hola => echo >test >test2
 			if (vars.input == NULL)
 				continue ;
 			//reordering redirections
