@@ -6,7 +6,7 @@
 /*   By: eros-gir <eros-gir@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/30 18:18:48 by eros-gir          #+#    #+#             */
-/*   Updated: 2023/07/12 17:17:02 by eros-gir         ###   ########.fr       */
+/*   Updated: 2023/07/17 20:40:30 by eros-gir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,15 +34,16 @@ void	msh_pipe_child2(int pobj[2])
 
 void	msh_pipe_execute(t_vars *vars, t_cmd *tcmd2, t_cmd *tcmd)
 {
+	g_return_status = msh_set_redirect_first(vars, tcmd);
 	while (msh_is_redirect(*tcmd2))
 	{
 		if (msh_exec_redirect(tcmd2, -1, tcmd2->next->next->argv[0], 0))
 			exit (msh_exec_redirect(tcmd2, -1, tcmd2->next->next->argv[0], 0));
 		tcmd2 = tcmd2->next->next;
 	}
-	if (msh_cmd_is_built_in(tcmd))
+	if (msh_cmd_is_built_in(tcmd) && tcmd->is_separator == 0)
 		msh_exec_builtin(tcmd, vars);
-	else
+	else if (tcmd->is_separator == 0)
 	{
 		msh_getpath(vars, vars->envar);
 		g_return_status = msh_cmd_execute(vars, tcmd);

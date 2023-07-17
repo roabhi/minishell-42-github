@@ -6,7 +6,7 @@
 /*   By: eros-gir <eros-gir@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/27 10:05:31 by eros-gir          #+#    #+#             */
-/*   Updated: 2023/07/17 19:46:18 by eros-gir         ###   ########.fr       */
+/*   Updated: 2023/07/17 20:50:11 by eros-gir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,6 +43,7 @@ int	g_return_status;
 
 void	msh_sigint_handler(int sig)
 {
+	msh_clean_heredoc(&vars);
 	if (sig != 0)
 	{
 		rl_on_new_line();
