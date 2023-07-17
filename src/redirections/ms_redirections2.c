@@ -6,7 +6,7 @@
 /*   By: eros-gir <eros-gir@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/12 18:08:07 by eros-gir          #+#    #+#             */
-/*   Updated: 2023/07/15 20:08:16 by eros-gir         ###   ########.fr       */
+/*   Updated: 2023/07/17 19:42:38 by eros-gir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -117,7 +117,7 @@ char	*msh_reorder_redirs2(char *cmd, t_vars *vars, int nmb_redirs)
 	// 	printf("cmds[%d] = |%s|\n", i, tcmds[i]);
 	// 	i++;
 	// }
-	// i = 0;
+	i = 0;
 	free (cmd);
 	cmd = ft_strdup("");
 	while (tcmds[i] != NULL)

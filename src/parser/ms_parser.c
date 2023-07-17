@@ -6,7 +6,7 @@
 /*   By: eros-gir <eros-gir@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/06 22:07:56 by rabril-h          #+#    #+#             */
-/*   Updated: 2023/07/15 20:04:40 by eros-gir         ###   ########.fr       */
+/*   Updated: 2023/07/17 19:43:15 by eros-gir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,7 +70,7 @@ char	*msh_add_space_between_input(char *input, int qflag)
 	i = -1;
 	j = -1;
 	count = 0;
-	//printf("input: %s\n", input);
+//	printf("input: %s\n", input);
 	while (input[++i] != '\0')
 	{
 		qflag = msh_quote_flag(input[i], qflag);
@@ -123,17 +123,13 @@ char	*msh_add_space_between_input(char *input, int qflag)
 			result[++j] = input[++i];
 			result[++j] = ' ';
 		}
-		else if ((input[i] != ' ' || input[i] != '>')
-			&& (input[i + 1] == '>' || input[i + 1] == '<'))
+		else
 		{
 			result[++j] = input[i];
-			result[++j] = ' ';
 		}
-		else
-			result[++j] = input[i];
 	}
-	//printf("result: %s\n", result);
-	//printf("count spaces = %d\n", count);
+//	printf("result: %s\n", result);
+//	printf("count spaces = %d\n", count);
 	free(input);
 	return (result);
 }
@@ -150,7 +146,7 @@ char	*msh_sanitize_input(char *input)
 	}
 	trimmed_input = ft_strtrim(input, " ");
 	// ! comment for testing
-	free(input);
+	//free(input);
 	input = msh_clean_irrelveant_spaces_in_input(trimmed_input);
 	return (input);
 }
