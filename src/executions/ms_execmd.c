@@ -6,7 +6,7 @@
 /*   By: eros-gir <eros-gir@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/12 10:21:17 by eros-gir          #+#    #+#             */
-/*   Updated: 2023/07/17 20:34:05 by eros-gir         ###   ########.fr       */
+/*   Updated: 2023/07/18 19:38:27 by eros-gir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,8 +91,6 @@ int	msh_execute_start(t_vars *vars)
 	else
 		msh_single_cmd(vars, single, tcmd);
 	msh_restore_io(vars->iofd);
-	if (vars->hdnumb > 0)
-		msh_clean_heredoc(vars);
 	return (g_return_status);
 }
 // para ver el status de salida de un comando

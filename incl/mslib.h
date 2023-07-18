@@ -6,7 +6,7 @@
 /*   By: eros-gir <eros-gir@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/27 10:06:39 by eros-gir          #+#    #+#             */
-/*   Updated: 2023/07/17 20:17:13 by eros-gir         ###   ########.fr       */
+/*   Updated: 2023/07/18 20:08:30 by eros-gir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,10 @@
 
 // ? Global var
 int	g_return_status;
+
+typedef struct s_hdint {
+	int		interrupt;
+} t_hdint;
 
 typedef struct s_quotes {
 	int	quote;
