@@ -6,7 +6,7 @@
 /*   By: eros-gir <eros-gir@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/27 10:05:31 by eros-gir          #+#    #+#             */
-/*   Updated: 2023/07/18 19:49:35 by eros-gir         ###   ########.fr       */
+/*   Updated: 2023/07/19 20:25:11 by eros-gir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,8 +43,8 @@ int	g_return_status;
 
 void	msh_sigint_handler(int sig)
 {
-	char	*fname;
-	int		i;
+//	char				*fname;
+//	int					i;
 
 	if (sig != 0)
 	{
@@ -54,15 +54,15 @@ void	msh_sigint_handler(int sig)
 		rl_replace_line("", 0);
 		rl_on_new_line();
 		rl_redisplay();
-		i = 0;
-		while (i >= 999)
-		{
-			printf("i = %d\n", i);
-			fname = ft_joinloc(ft_strdup(".heredoc"), ft_itoa(i));
-			unlink(fname);
-			free(fname);
-			i++;
-		}
+		// i = 0;
+		// while (i >= 999)
+		// {
+		// 	printf("i = %d\n", i);
+		// 	fname = ft_joinloc(ft_strdup(".heredoc"), ft_itoa(i));
+		// 	unlink(fname);
+		// 	free(fname);
+		// 	i++;
+		// }
 		g_return_status = 1;
 	}
 }

@@ -6,7 +6,7 @@
 /*   By: eros-gir <eros-gir@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/27 10:06:39 by eros-gir          #+#    #+#             */
-/*   Updated: 2023/07/18 20:08:30 by eros-gir         ###   ########.fr       */
+/*   Updated: 2023/07/19 20:26:01 by eros-gir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,10 +30,6 @@
 
 // ? Global var
 int	g_return_status;
-
-typedef struct s_hdint {
-	int		interrupt;
-} t_hdint;
 
 typedef struct s_quotes {
 	int	quote;
@@ -82,6 +78,7 @@ typedef struct s_vars
 
 // * Utils
 
+void	msh_sigint_handler(int sig);
 char	*msh_strjoinchr(char *str, char ch);
 void	msh_update_quotes_status(t_quotes *quotes, char c);
 void	msh_init_quotes_struct(t_quotes *quote_struct);

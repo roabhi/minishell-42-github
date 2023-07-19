@@ -6,7 +6,7 @@
 /*   By: eros-gir <eros-gir@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/30 17:41:42 by eros-gir          #+#    #+#             */
-/*   Updated: 2023/07/18 20:42:40 by eros-gir         ###   ########.fr       */
+/*   Updated: 2023/07/19 20:24:10 by eros-gir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,38 +58,20 @@ int	msh_store_heredocs(t_vars *vars)
 	return (i);
 }
 
-
-//Intenta solucionar el ctrl+c y el ctrl+d en heredoc, 
-//necesito alguna forma de mandar la senal correcta
-
-// void	msh_heredoc_sigint(int *signum)
-// {
-// 	(void)signum;
-// 	ft_putendl_fd("\n", 1);
-// }
-
-// void	msh_heredoc_sigint_with_flag(int *signum, sig_atomic_t *interrupt)
-// {
-// 	(void)signum;
-// 	interrupt = 1;
-// 	ft_putendl_fd("\n", 1);
-// }
-
 void	msh_heredoc(char *delim, char *fnum)
 {
-	char			*line;
-	int				fd;
-	char			*fname;
-	t_hdint			hdint;
+	char				*line;
+	int					fd;
+	char				*fname;
 
-	hdint.interrupt = 0;
 	fname = ft_joinloc(ft_strdup(".heredoc"), fnum);
 	fd = open(fname, O_CREAT | O_RDWR | O_TRUNC, 0644);
-	//signal(SIGINT, msh_heredoc_sigint);
 	while (1)
 	{
 		line = readline("> ");
-		if (ft_strcmp(line, delim) == 0 || hdint.interrupt == 1)
+		if (line == NULL) //necesito una forma de contolar ctrl+c
+			break ;
+		if (ft_strcmp(line, delim) == 0)
 		{
 			free(line);
 			break ;
@@ -97,6 +79,8 @@ void	msh_heredoc(char *delim, char *fnum)
 		ft_putendl_fd(line, fd);
 		free(line);
 	}
+//	signal(SIGINT, SIG_IGN);
+//	signal(SIGINT, msh_sigint_handler);
 	free(fname);
 	close(fd);
 }
