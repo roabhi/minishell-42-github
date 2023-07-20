@@ -6,7 +6,7 @@
 /*   By: eros-gir <eros-gir@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/30 17:41:42 by eros-gir          #+#    #+#             */
-/*   Updated: 2023/07/19 20:24:10 by eros-gir         ###   ########.fr       */
+/*   Updated: 2023/07/20 20:52:48 by eros-gir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,6 +58,33 @@ int	msh_store_heredocs(t_vars *vars)
 	return (i);
 }
 
+int	msh_check_sigint(int signum)
+{
+	static int	interrupt = 0;
+
+	if (signum == 1)
+	{
+		rl_on_new_line();
+		rl_redisplay();
+		write(1, "  \n", 4);
+		rl_replace_line("", 0);
+		rl_on_new_line();
+		rl_redisplay();
+		// he de encontrar la forma de que se autoejecute el readline
+		//ahora mismo es necesario un enter para que entre en el loop
+		interrupt = 1;
+	}
+	else if (signum == -1)
+		interrupt = 0;
+	return (interrupt);
+}
+
+void	msh_sigint_heredoc(int signum)
+{
+	(void)signum;
+	msh_check_sigint(1);
+}
+
 void	msh_heredoc(char *delim, char *fnum)
 {
 	char				*line;
@@ -66,12 +93,13 @@ void	msh_heredoc(char *delim, char *fnum)
 
 	fname = ft_joinloc(ft_strdup(".heredoc"), fnum);
 	fd = open(fname, O_CREAT | O_RDWR | O_TRUNC, 0644);
+	signal(SIGINT, msh_sigint_heredoc);
 	while (1)
 	{
 		line = readline("> ");
-		if (line == NULL) //necesito una forma de contolar ctrl+c
+		if (line == NULL)
 			break ;
-		if (ft_strcmp(line, delim) == 0)
+		if ((ft_strcmp(line, delim) == 0) || msh_check_sigint(0))
 		{
 			free(line);
 			break ;
@@ -79,8 +107,9 @@ void	msh_heredoc(char *delim, char *fnum)
 		ft_putendl_fd(line, fd);
 		free(line);
 	}
-//	signal(SIGINT, SIG_IGN);
-//	signal(SIGINT, msh_sigint_handler);
+	msh_check_sigint(-1);
+	signal(SIGINT, SIG_IGN);
+	signal(SIGINT, msh_sigint_handler);
 	free(fname);
 	close(fd);
 }
