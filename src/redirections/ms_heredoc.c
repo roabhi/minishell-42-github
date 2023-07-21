@@ -6,7 +6,7 @@
 /*   By: eros-gir <eros-gir@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/30 17:41:42 by eros-gir          #+#    #+#             */
-/*   Updated: 2023/07/20 20:52:48 by eros-gir         ###   ########.fr       */
+/*   Updated: 2023/07/21 20:48:46 by eros-gir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,12 +66,7 @@ int	msh_check_sigint(int signum)
 	{
 		rl_on_new_line();
 		rl_redisplay();
-		write(1, "  \n", 4);
-		rl_replace_line("", 0);
-		rl_on_new_line();
-		rl_redisplay();
-		// he de encontrar la forma de que se autoejecute el readline
-		//ahora mismo es necesario un enter para que entre en el loop
+		write(1, "  \n", 3);
 		interrupt = 1;
 	}
 	else if (signum == -1)
@@ -109,7 +104,7 @@ void	msh_heredoc(char *delim, char *fnum)
 	}
 	msh_check_sigint(-1);
 	signal(SIGINT, SIG_IGN);
-	signal(SIGINT, msh_sigint_handler);
+//	signal(SIGINT, msh_sigint_handler);
 	free(fname);
 	close(fd);
 }

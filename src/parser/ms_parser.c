@@ -6,7 +6,7 @@
 /*   By: eros-gir <eros-gir@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/06 22:07:56 by rabril-h          #+#    #+#             */
-/*   Updated: 2023/07/18 19:29:56 by eros-gir         ###   ########.fr       */
+/*   Updated: 2023/07/21 20:43:11 by eros-gir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,8 @@ int	msh_malformed_quotes(char *input)
 	if (quotes.quote == 1 || quotes.miniquote == 1)
 	{
 		//write(2, "Malformed input. Please close your quotes\n", 42);
-		ft_putendl_fd("Minishell: Malformed input, please close your quotes", 2);
+		ft_putendl_fd(
+			"Minishell: Malformed input, please close your quotes", 2);
 		return (1);
 	}
 	return (0);
