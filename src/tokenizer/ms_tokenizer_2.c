@@ -6,28 +6,11 @@
 /*   By: rabril-h <rabril-h@student.42barcelona.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/22 20:12:45 by rabril-h          #+#    #+#             */
-/*   Updated: 2023/07/22 20:17:53 by rabril-h         ###   ########.fr       */
+/*   Updated: 2023/07/22 20:34:39 by rabril-h         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../incl/mslib.h"
-
-
-
-/**
- * @brief function para segementar el string
- * 
- * @param input 
- * @return int 
- */
-
-/*
-	printf("string ends in %d\n", c);
-	printf("el legnht de input es:%zu\n",  ft_strlen(input));
-	printf("el input es |%s|\n", input);
-	printf("I detected %d needed tokens for this input\n", tokens);
-	printf("1 start token in: %d that is %c\n", c, input[c]);
-*/
 
 int	msh_count_tokens(char *input)
 {

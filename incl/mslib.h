@@ -6,7 +6,7 @@
 /*   By: rabril-h <rabril-h@student.42barcelona.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/27 10:06:39 by eros-gir          #+#    #+#             */
-/*   Updated: 2023/07/22 20:24:24 by rabril-h         ###   ########.fr       */
+/*   Updated: 2023/07/22 22:09:51 by rabril-h         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -141,6 +141,7 @@ void	msh_exec_exit(t_cmd *cmd, t_vars *vars);
 int		msh_check_exit_param(char *param, int *error);
 int		msh_check_out_range(int neg, unsigned long long num, int *error);
 int		msh_atoi(char *str, int *error);
+void	msh_atoi_extra(char *str, int *error, int *i);
 
 // ? echo built in
 void	msh_exec_echo(t_cmd *cmd, t_vars *vars);
