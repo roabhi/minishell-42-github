@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: eros-gir <eros-gir@student.42barcel>       +#+  +:+       +#+         #
+#    By: rabril-h <rabril-h@student.42barcelona.    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/08/02 14:48:15 by eros-gir          #+#    #+#              #
-#    Updated: 2023/07/15 17:09:43 by eros-gir         ###   ########.fr        #
+#    Updated: 2023/07/22 20:14:17 by rabril-h         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -29,6 +29,7 @@ SRC = ./src/ms_main.c  \
 	./src/redirections/ms_redirhelpers.c \
 	./src/parser/env_parser/ms_env_parser.c \
 	./src/tokenizer/ms_tokenizer.c \
+	./src/tokenizer/ms_tokenizer_2.c \
 	./src/built_ins/ms_built_ins.c \
 	./src/built_ins/execs/ms_exec_exit.c \
 	./src/built_ins/execs/ms_exec_echo.c  \

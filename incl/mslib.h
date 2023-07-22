@@ -6,7 +6,7 @@
 /*   By: rabril-h <rabril-h@student.42barcelona.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/27 10:06:39 by eros-gir          #+#    #+#             */
-/*   Updated: 2023/07/22 19:57:01 by rabril-h         ###   ########.fr       */
+/*   Updated: 2023/07/22 20:24:24 by rabril-h         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -122,6 +122,9 @@ int		msh_count_tokens(char *input);
 char	**msh_prepare_splitted_input_in_cmds(t_vars *vars);
 t_cmd	*msh_tokenize(t_vars *vars);
 int		msh_how_many_argv_have_the_cmd(char *input);
+char	**msh_do_split_input_in_cmds(t_vars *v, char **splitted, char *cmd);
+void	msh_do_split_input_in_cmds_extra(t_vars *v, char **splitted, char *cmd);
+
 
 // * Destroyers
 

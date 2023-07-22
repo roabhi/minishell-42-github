@@ -6,7 +6,7 @@
 /*   By: rabril-h <rabril-h@student.42barcelona.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/13 18:52:50 by rabril-h          #+#    #+#             */
-/*   Updated: 2023/06/14 20:40:36 by rabril-h         ###   ########.fr       */
+/*   Updated: 2023/07/22 20:08:42 by rabril-h         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ int	msh_store_env_own_vars(t_vars *vars, char **envp)
 	vars->envar[env_length] = NULL;
 	env_length = 0;
 	while (envp[env_length])
-	{		
+	{
 		if (!msh_store_env_own_lines(vars, envp, env_length))
 			return (0);
 		env_length++;
