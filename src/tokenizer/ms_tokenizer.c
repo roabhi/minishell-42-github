@@ -6,7 +6,7 @@
 /*   By: rabril-h <rabril-h@student.42barcelona.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/08 21:30:28 by rabril-h          #+#    #+#             */
-/*   Updated: 2023/07/22 20:23:34 by rabril-h         ###   ########.fr       */
+/*   Updated: 2023/07/22 20:30:32 by rabril-h         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,7 +67,6 @@ t_cmd	*create_token(char *input, int index)
 	return (new);
 }
 
-
 char	**msh_prepare_splitted_input_in_cmds(t_vars *vars)
 {
 	char			**s;
@@ -112,9 +111,3 @@ t_cmd	*msh_tokenize(t_vars *vars)
 	}
 	return (my_cmd_list);
 }
-
-
-
-
-
-
