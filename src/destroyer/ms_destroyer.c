@@ -6,7 +6,7 @@
 /*   By: rabril-h <rabril-h@student.42barcelona.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/11 17:11:39 by rabril-h          #+#    #+#             */
-/*   Updated: 2023/06/20 16:12:06 by rabril-h         ###   ########.fr       */
+/*   Updated: 2023/07/22 18:32:35 by rabril-h         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,15 +19,12 @@ void	msh_free_envars(t_vars *vars)
 	env_length = 0;
 	while (vars->envar[env_length])
 	{
-		//free(vars->envar[env_length]);
-		//printf("\n%d - %s",env_length, vars->envar[env_length]);
 		free(vars->envar[env_length]);
 		env_length++;
 	}
 	free(vars->envar);
 }
 
-// ? Avoid double free when possible
 void	msh_free_ptr(void *ptr)
 {
 	if (ptr != NULL)
@@ -73,9 +70,6 @@ void	msh_free_raw_array(char **arr)
 
 	c = -1;
 	while (arr[++c])
-	{
-		// printf("El token es %s", vars.tokens[c]);
 		free(arr[c]);
-	}
 	free(arr);
 }

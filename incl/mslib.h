@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   mslib.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: eros-gir <eros-gir@student.42barcel>       +#+  +:+       +#+        */
+/*   By: rabril-h <rabril-h@student.42barcelona.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/27 10:06:39 by eros-gir          #+#    #+#             */
-/*   Updated: 2023/07/15 19:18:16 by eros-gir         ###   ########.fr       */
+/*   Updated: 2023/07/22 19:57:01 by rabril-h         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,6 +89,8 @@ int		msh_cmd_is_built_in(t_cmd *cmd);
 void	msh_print_element(char *input, int start, int end);
 void	msh_debug_cmd_list(t_cmd *first);
 void	msh_print_env_vars(t_vars *vars, char *str);
+void	msh_print_env_vars_extra(t_vars *vars, char *str, int env_length);
+void	msh_print_env_vars_extra_two(t_vars *vars, char *str, int env_length);
 
 // * env parser
 
@@ -212,5 +214,6 @@ void	msh_print_error(char *param, char *msg);
 void	msh_errors_exit(char *param, char *msg);
 void	msh_errors_export(char *param, char *msg);
 int		msh_errors_syntax(t_cmd *cmd, char *param);
+int		nsh_errors_syntax_extra(int flag, char *param);
 
 #endif
