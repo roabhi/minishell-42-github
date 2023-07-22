@@ -6,7 +6,7 @@
 /*   By: eros-gir <eros-gir@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/27 10:06:39 by eros-gir          #+#    #+#             */
-/*   Updated: 2023/07/19 20:26:01 by eros-gir         ###   ########.fr       */
+/*   Updated: 2023/07/22 16:06:29 by eros-gir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -195,12 +195,14 @@ int		msh_set_redirect_first(t_vars *vars, t_cmd *tcmd);
 int		msh_exec_redirect_first(t_cmd *cmd, int fd, char *argv, int hdnbr);
 void	msh_save_io(int save[2]);
 void	msh_restore_io(int save[2]);
+char	**ft_qsplit(char const *s, char c, size_t n, int qflags);
+
+// ? Heredoc
 void	msh_close_pipes(int pobj[2]);
 int		msh_store_heredocs(t_vars *vars);
 char	*msh_read_heredoc(int hdnbr);
 void	msh_heredoc(char *delim, char *fnum);
 void	msh_clean_heredoc(t_vars *vars);
-char	**ft_qsplit(char const *s, char c, size_t n, int qflags);
 
 // * Expander
 

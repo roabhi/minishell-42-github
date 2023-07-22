@@ -6,7 +6,7 @@
 /*   By: eros-gir <eros-gir@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/12 10:21:17 by eros-gir          #+#    #+#             */
-/*   Updated: 2023/07/18 19:38:27 by eros-gir         ###   ########.fr       */
+/*   Updated: 2023/07/22 16:22:50 by eros-gir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,7 +104,7 @@ void	msh_single_cmd(t_vars *vars, pid_t single, t_cmd *tcmd)
 	{
 		kill (single, SIGKILL);
 		g_return_status = msh_set_redirect(vars, tcmd);
-		if (g_return_status != 0)
+		if (g_return_status != 0 || msh_is_redirect_first(*tcmd))
 			return ;
 		msh_exec_builtin(vars->cmd, vars);
 	}
@@ -113,7 +113,7 @@ void	msh_single_cmd(t_vars *vars, pid_t single, t_cmd *tcmd)
 		if (single == 0)
 		{
 			g_return_status = msh_set_redirect(vars, tcmd);
-			if (g_return_status != 0)
+			if (g_return_status != 0 || msh_is_redirect_first(*tcmd))
 				exit(g_return_status);
 			msh_getpath(vars, vars->envar);
 			g_return_status = msh_cmd_execute(vars, vars->cmd);

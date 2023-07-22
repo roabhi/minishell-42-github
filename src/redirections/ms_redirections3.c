@@ -6,7 +6,7 @@
 /*   By: eros-gir <eros-gir@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/26 17:13:45 by eros-gir          #+#    #+#             */
-/*   Updated: 2023/07/17 20:30:33 by eros-gir         ###   ########.fr       */
+/*   Updated: 2023/07/22 16:45:41 by eros-gir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,7 +80,7 @@ int	msh_exec_redirect_first(t_cmd *cmd, int fd, char *argv, int hdnbr)
 	{
 		if (msh_is_redirect_first(*cmd) == 2)
 			fd = open(argv, O_CREAT | O_RDWR | O_TRUNC, 0644);
-		else if (msh_is_redirect(*cmd) == 3)
+		else if (msh_is_redirect_first(*cmd) == 3)
 			fd = open(argv, O_CREAT | O_RDWR | O_APPEND, 0644);
 		dup2(fd, STDOUT_FILENO);
 	}

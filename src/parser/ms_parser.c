@@ -6,7 +6,7 @@
 /*   By: eros-gir <eros-gir@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/06 22:07:56 by rabril-h          #+#    #+#             */
-/*   Updated: 2023/07/21 20:43:11 by eros-gir         ###   ########.fr       */
+/*   Updated: 2023/07/22 17:04:15 by eros-gir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,7 +91,7 @@ char	*msh_add_space_between_input(char *input, int qflag)
 			i ++;
 			count ++;
 		}
-		else if ((input[i] != ' ' || input[i] != '>')
+		else if ((input[i] != ' ' || input[i] != '>' || input[i] != '<')
 			&& (input[i + 1] == '>' || input[i + 1] == '<'))
 			count ++;
 	}
@@ -124,6 +124,13 @@ char	*msh_add_space_between_input(char *input, int qflag)
 			result[++j] = input[++i];
 			result[++j] = ' ';
 		}
+		else if ((input[i] != ' ' || input[i] != '>' || input[i] != '<')
+			&& (input[i + 1] == '>' || input[i + 1] == '<') 
+			&& input[i + 2] != ' ')
+		{
+			result[++j] = input[i];
+			result[++j] = ' ';
+		}
 		else
 		{
 			result[++j] = input[i];
@@ -147,7 +154,7 @@ char	*msh_sanitize_input(char *input)
 	}
 	trimmed_input = ft_strtrim(input, " ");
 	// ! comment for testing
-	free(input);
+	//free(input);
 	input = msh_clean_irrelveant_spaces_in_input(trimmed_input);
 	return (input);
 }

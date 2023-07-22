@@ -6,7 +6,7 @@
 /*   By: eros-gir <eros-gir@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/27 10:05:31 by eros-gir          #+#    #+#             */
-/*   Updated: 2023/07/20 20:49:51 by eros-gir         ###   ########.fr       */
+/*   Updated: 2023/07/22 17:06:12 by eros-gir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -193,6 +193,7 @@ int	main(int ac, char **av, char **envp)
 			msh_free_raw_array(vars.tokens); // ? free tokens
 			vars.input = msh_add_space_between_input(vars.input, 0);
 			msh_reorder_redirs(&vars);
+			//continue ; //testing reorder
 			vars.cmd = msh_tokenize(&vars);		
 			//msh_debug_cmd_list(vars.cmd); // debug tokens
 			//Execution integrando builtins a pipes
