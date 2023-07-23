@@ -6,19 +6,11 @@
 /*   By: rabril-h <rabril-h@student.42barcelona.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/16 14:16:13 by rabril-h          #+#    #+#             */
-/*   Updated: 2023/07/22 22:14:12 by rabril-h         ###   ########.fr       */
+/*   Updated: 2023/07/23 16:43:06 by rabril-h         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../../incl/mslib.h"
-
-int	msh_check_out_range(int neg, unsigned long long num, int *error)
-{
-	if ((neg == 1 && num > LONG_MAX)
-		|| (neg == -1 && num > -(unsigned long)LONG_MIN))
-		*error = 1;
-	return (*error);
-}
 
 void	msh_atoi_extra(char *str, int *error, int *counter)
 {
@@ -66,7 +58,6 @@ int	msh_atoi(char *str, int *error)
 	return (num * neg);
 }
 
-
 int	msh_check_exit_param(char *param, int *error)
 {
 	unsigned long long	i;
@@ -88,6 +79,18 @@ int	msh_check_exit_param(char *param, int *error)
 	return (i);
 }
 
+void	msh_exec_exit_extra(t_cmd *cmd, int *error)
+{
+	if (ft_strcmp(cmd->argv[1], "18446744073709551616") == 0)
+	{
+		msh_errors_exit(cmd->argv[1], ": numeric argument required\n");
+		g_return_status = 255;
+		return ;
+	}
+	g_return_status = msh_check_exit_param(cmd->argv[1], error);
+	if (error)
+		g_return_status = 255;
+}
 
 void	msh_exec_exit(t_cmd *cmd, t_vars *vars)
 {
@@ -99,17 +102,7 @@ void	msh_exec_exit(t_cmd *cmd, t_vars *vars)
 	if (cmd->argc == 1)
 		g_return_status = 0;
 	else if (cmd->argc == 2)
-	{
-		if (ft_strcmp(cmd->argv[1], "18446744073709551616") == 0)
-		{
-			msh_errors_exit(cmd->argv[1], ": numeric argument required\n");
-			g_return_status = 255;
-			return ;
-		}
-		g_return_status = msh_check_exit_param(cmd->argv[1], &error);
-		if (error)
-			g_return_status = 255;
-	}
+		msh_exec_exit_extra(cmd, &error);
 	else
 	{
 		vars->looping = 1;

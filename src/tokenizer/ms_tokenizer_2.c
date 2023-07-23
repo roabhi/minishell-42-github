@@ -6,11 +6,42 @@
 /*   By: rabril-h <rabril-h@student.42barcelona.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/22 20:12:45 by rabril-h          #+#    #+#             */
-/*   Updated: 2023/07/22 20:34:39 by rabril-h         ###   ########.fr       */
+/*   Updated: 2023/07/23 15:01:18 by rabril-h         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../incl/mslib.h"
+
+void	msh_count_tokens_extra_two(
+	char *input, int *tokens, t_quotes quotes, int c
+	)
+{
+	if (msh_chr_can_be_separator(input[c])
+		&& !quotes.quote && !quotes.miniquote)
+	{
+		if ((input[c] == '<' && input[c + 1] == '<')
+			|| (input[c] == '>' && input[c + 1] == '>'))
+			c++;
+		tokens++;
+	}
+}
+
+void	msh_count_tokens_extra(
+	char *input, int *tokens, t_quotes quotes, int c
+	)
+{
+	if (!msh_chr_can_be_separator(input[c]))
+	{
+		tokens++;
+		while (input[c] && (!msh_chr_can_be_separator(input[c])
+				|| (msh_chr_can_be_separator(input[c])
+					&& (quotes.quote || quotes.miniquote))))
+		{
+			c++;
+			msh_update_quotes_status(&quotes, input[c]);
+		}
+	}
+}
 
 int	msh_count_tokens(char *input)
 {
@@ -24,25 +55,8 @@ int	msh_count_tokens(char *input)
 	while (input[c])
 	{
 		msh_update_quotes_status(&quotes, input[c]);
-		if (!msh_chr_can_be_separator(input[c]))
-		{
-			tokens++;
-			while (input[c] && (!msh_chr_can_be_separator(input[c])
-					|| (msh_chr_can_be_separator(input[c])
-						&& (quotes.quote || quotes.miniquote))))
-			{
-				c++;
-				msh_update_quotes_status(&quotes, input[c]);
-			}
-		}
-		if (msh_chr_can_be_separator(input[c])
-			&& !quotes.quote && !quotes.miniquote)
-		{
-			if ((input[c] == '<' && input[c + 1] == '<')
-				|| (input[c] == '>' && input[c + 1] == '>'))
-				c++;
-			tokens++;
-		}
+		msh_count_tokens_extra(input, &tokens, quotes, c);
+		msh_count_tokens_extra_two(input, &tokens, quotes, c);
 		if (input[c] != '\0')
 			c++;
 		if (input[c] == ' ' && !quotes.quote && !quotes.miniquote)
