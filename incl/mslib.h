@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   mslib.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: eros-gir <eros-gir@student.42barcel>       +#+  +:+       +#+        */
+/*   By: rabril-h <rabril-h@student.42barcelona.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/27 10:06:39 by eros-gir          #+#    #+#             */
-/*   Updated: 2023/07/22 16:06:29 by eros-gir         ###   ########.fr       */
+/*   Updated: 2023/07/23 18:26:38 by rabril-h         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,7 +72,7 @@ typedef struct s_vars
 	char			**paths;
 	char			**cmd_buffer;
 	t_cmd			*cmd;
-	int				iofd[2];  // ? 0 = read, 1 = write
+	int				iofd[2];
 	int				hdnumb;
 }	t_vars;
 
@@ -90,6 +90,8 @@ int		msh_cmd_is_built_in(t_cmd *cmd);
 void	msh_print_element(char *input, int start, int end);
 void	msh_debug_cmd_list(t_cmd *first);
 void	msh_print_env_vars(t_vars *vars, char *str);
+void	msh_print_env_vars_extra(t_vars *vars, char *str, int env_length);
+void	msh_print_env_vars_extra_two(t_vars *vars, char *str, int env_length);
 
 // * env parser
 
@@ -121,6 +123,14 @@ int		msh_count_tokens(char *input);
 char	**msh_prepare_splitted_input_in_cmds(t_vars *vars);
 t_cmd	*msh_tokenize(t_vars *vars);
 int		msh_how_many_argv_have_the_cmd(char *input);
+char	**msh_do_split_input_in_cmds(t_vars *v, char **splitted, char *cmd);
+void	msh_do_split_input_in_cmds_extra(t_vars *v, char **splitted, char *cmd);
+void	msh_count_tokens_extra(
+			char *input, int *tokens, t_quotes quotes, int c
+			);
+void	msh_count_tokens_extra_two(
+			char *input, int *tokens, t_quotes quotes, int c
+			);
 
 // * Destroyers
 
@@ -134,9 +144,11 @@ void	msh_exec_builtin(t_cmd *cmd, t_vars *vars);
 
 // ? exit built in
 void	msh_exec_exit(t_cmd *cmd, t_vars *vars);
+void	msh_exec_exit_extra(t_cmd *cmd, int *error);
 int		msh_check_exit_param(char *param, int *error);
 int		msh_check_out_range(int neg, unsigned long long num, int *error);
 int		msh_atoi(char *str, int *error);
+void	msh_atoi_extra(char *str, int *error, int *i);
 
 // ? echo built in
 void	msh_exec_echo(t_cmd *cmd, t_vars *vars);
@@ -145,14 +157,14 @@ void	msh_echo_print(t_cmd *cmd, int n_flags, int index);
 
 // ? env builtin
 void	msh_exec_env(t_cmd *cmd, t_vars *vars);
-int		msh_is_valid_env_var_key(char *var_name); // ? more like utils for env
+int		msh_is_valid_env_var_key(char *var_name); 
 int		msh_get_env_vars_length(t_vars *vars);
 
 // ? pwd builtin
 void	msh_exec_pwd(t_cmd *cmd, t_vars *vars);
-int		msh_get_env_index(t_vars *vars, char *env_name); // ? more like utils for env
-void	msh_print_env_value(t_vars *vars, int env_index); // ? more like utils for env
-char	*msh_get_env_value(t_vars *vars, int env_index); // ? more like utils for env
+int		msh_get_env_index(t_vars *vars, char *env_name);
+void	msh_print_env_value(t_vars *vars, int env_index);
+char	*msh_get_env_value(t_vars *vars, int env_index);
 
 // ? cd builtin
 void	msh_exec_cd(t_cmd *cmd, t_vars *vars);
@@ -163,13 +175,16 @@ void	msh_set_pwds(t_vars *vars, char *path);
 
 // ? unset builtin
 void	msh_exec_unset(t_cmd *cmd, t_vars *vars);
-int		msh_remove_envar(t_vars *vars, int index); // ? more like uils for env
-char	**msh_realloc_env_vars(t_vars *vars, int length); // ? more like uils for env
+int		msh_remove_envar(t_vars *vars, int index);
+char	**msh_realloc_env_vars(t_vars *vars, int length);
 
 // ? export builtin
 void	msh_exec_export(t_cmd *cmd, t_vars *vars);
 int		msh_set_env_var(t_vars *vars, char *key, char *value);
 char	**msh_get_env_var_key_value_pair(char *str);
+void	msh_exec_export_extra(
+			t_cmd *cmd, t_vars *vars, char **new_env_var, int c
+			);
 
 // ? Executions
 int		msh_execute_start(t_vars *vars);
@@ -218,5 +233,6 @@ void	msh_print_error(char *param, char *msg);
 void	msh_errors_exit(char *param, char *msg);
 void	msh_errors_export(char *param, char *msg);
 int		msh_errors_syntax(t_cmd *cmd, char *param);
+int		nsh_errors_syntax_extra(int flag, char *param);
 
 #endif

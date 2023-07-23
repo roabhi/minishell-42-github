@@ -6,7 +6,7 @@
 /*   By: rabril-h <rabril-h@student.42barcelona.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/25 21:50:35 by rabril-h          #+#    #+#             */
-/*   Updated: 2023/07/14 21:15:12 by rabril-h         ###   ########.fr       */
+/*   Updated: 2023/07/23 18:24:42 by rabril-h         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,12 +17,10 @@ int	msh_advance_from_env_var(char *arg)
 	int	i;
 
 	i = 1;
-	if(arg[1] == '?')
+	if (arg[1] == '?')
 		return (2);
 	while (arg[i] && arg[i] != '"' && arg[i] != '\'' && arg[i] != '$')
-	{
 		i++;
-	}
 	return (i);
 }
 
@@ -49,10 +47,11 @@ void	msh_expand_env_var(t_vars *vars, char *arg, char **new_arg)
 	int		i;
 
 	i = 0;
-	if(arg[1] != '?'){
+	if (arg[1] != '?')
+	{
 		env_index_name = msh_read_env_name(arg);
 		env_index = msh_get_env_index(vars, env_index_name);
-		if(env_index == -1)
+		if (env_index == -1)
 		{
 			free(env_index_name);
 			return ;
@@ -63,10 +62,7 @@ void	msh_expand_env_var(t_vars *vars, char *arg, char **new_arg)
 	else
 		value = ft_itoa(g_return_status);
 	while (value[i])
-	{
-		*new_arg = msh_strjoinchr(*new_arg, value[i]);
-		i++;
-	}
+		*new_arg = msh_strjoinchr(*new_arg, value[i++]);
 	free(value);
 }
 
@@ -76,35 +72,24 @@ void	msh_expand_argv(t_vars *vars, char **argv, int c)
 	int			i;
 	t_quotes	quotes;
 
-	(void)vars;
-	// printf("\narg to expandd |%s|\n", argv[c]);
 	msh_init_quotes_struct(&quotes);
 	i = 0;
-	new_arg = NULL;	
+	new_arg = NULL;
 	while (argv[c][i])
 	{
 		msh_update_quotes_status(&quotes, argv[c][i]);
-		if (argv[c][i] == '"' && !quotes.miniquote)
-		{
+		if ((argv[c][i] == '"' && !quotes.miniquote)
+			|| (argv[c][i] == '\'' && !quotes.quote))
 			i++;
-			continue ;
-		}
-		if (argv[c][i] == '\'' && !quotes.quote)
+		else if (argv[c][i] == '$' && !quotes.miniquote)
 		{
-			i++;
-			continue ;
-		}
-		if (argv[c][i] == '$' && !quotes.miniquote)
-		{
-			// ? case for only $
 			if (!argv[c][i + 1])
 				return ;
 			msh_expand_env_var(vars, &argv[c][i], &new_arg);
 			i += msh_advance_from_env_var(&argv[c][i]);
-			continue ;
 		}
-		new_arg = msh_strjoinchr(new_arg, argv[c][i]);
-		i++;
+		else
+			new_arg = msh_strjoinchr(new_arg, argv[c][i++]);
 	}
 	free(argv[c]);
 	argv[c] = new_arg;
@@ -120,19 +105,15 @@ void	msh_expander(t_vars *vars)
 	c = -1;
 	while (first)
 	{
-		// printf("El token con indice %d es un separador? -> %d\n", first->index, first->is_separator);
-		//printf("\n+++++++ command %d +++++++\n", first->index);
 		while (first->argv[++c])
 		{
-			//printf("token %d |%s|\n", c, first->argv[c]);
 			x = -1;
 			while (first->argv[c][++x])
 			{
-				//printf("El char es %c\n", first->argv[c][x]);
-				if (msh_argv_need_expansion(first->argv[c][x])){
-					// printf("El argumento %s necesita ser expandido? -> %d", first->argv[c], msh_argv_need_expansion(first->argv[c][x]));
+				if (msh_argv_need_expansion(first->argv[c][x]))
+				{
 					msh_expand_argv(vars, first->argv, c);
-					break;
+					break ;
 				}
 			}
 		}

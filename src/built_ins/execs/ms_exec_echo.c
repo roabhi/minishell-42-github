@@ -6,7 +6,7 @@
 /*   By: rabril-h <rabril-h@student.42barcelona.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/17 18:40:12 by rabril-h          #+#    #+#             */
-/*   Updated: 2023/07/09 18:35:03 by rabril-h         ###   ########.fr       */
+/*   Updated: 2023/07/22 21:58:24 by rabril-h         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,19 +21,11 @@ void	msh_echo_print(t_cmd *cmd, int n_flags, int index)
 		if (!n_flags)
 			ft_putchar_fd('\n', 1);
 		return ;
-	}// ? if there is no string and there ar enot n flags just print \n
-	while(index < cmd->argc)
+	}
+	while (index < cmd->argc)
 	{
-		// printf("index es %d\n", index);
-		// printf("comand argc == %d\n", cmd->argc);
-		// printf("third param is %s\n", cmd->argv[3]);
-		// printf("cmd->argc = %d\n", cmd->argc);
-		// printf("cmd->argv[index] = %s\n", cmd->argv[index]);
-		//printf("el argumento de este echo es %s y n_flags esta seteado a %d\n", args[index], n_flags);
-		//ft_putstr_fd(args[index], 1);
-
 		c = 0;
-		if(!cmd->argv[index])
+		if (!cmd->argv[index])
 			ft_putchar_fd(' ', 1);
 		while (cmd->argv[index] && cmd->argv[index][c])
 		{
@@ -54,15 +46,15 @@ int	msh_echo_has_n_flag(char *arg)
 	int	i;
 	int	n_flag;
 
-	n_flag = 0; // ? init bool to false
-	i = 0; // ? set counter
+	n_flag = 0;
+	i = 0;
 	if (arg[i] != '-')
-		return (n_flag); // ? if flag does no start with - just fuck it
-	i++; // ? get to 1
+		return (n_flag);
+	i++;
 	while (arg[i] && arg[i] == 'n')
-		i++; // ? clear all n's
+		i++;
 	if (arg[i] == '\0')
-		n_flag = 1; // ? if we reach the end of string set flag to true
+		n_flag = 1;
 	return (n_flag);
 }
 
@@ -72,8 +64,7 @@ void	msh_exec_echo(t_cmd *cmd, t_vars *vars)
 	int	n_flags;
 
 	(void)vars;
-	// ? start after "echo" word
-	index = 0; //? Skip de first argument which is echo itself
+	index = 0;
 	n_flags = 0;
 	if (cmd)
 	{
@@ -81,9 +72,5 @@ void	msh_exec_echo(t_cmd *cmd, t_vars *vars)
 			n_flags = 1;
 	}
 	msh_echo_print(cmd, n_flags, index);
-
-	g_return_status = 0; // * success
-} // ? This function should return EXIT_SUCCESS or 0 ?
-
-// * STDOUT_FILENO = 1
-
+	g_return_status = 0;
+}

@@ -6,7 +6,7 @@
 /*   By: rabril-h <rabril-h@student.42barcelona.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/19 16:57:11 by rabril-h          #+#    #+#             */
-/*   Updated: 2023/06/24 22:04:40 by rabril-h         ###   ########.fr       */
+/*   Updated: 2023/07/22 21:55:52 by rabril-h         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,15 +19,14 @@ void	msh_set_pwds(t_vars *vars, char *path)
 	char	*tmp;
 
 	if (msh_get_env_index(vars, "OLDPWD") == -1)
-		msh_set_env_var(vars, "OLDPWD", ""); // ? Set OLDPWD if not present in env
-	env_index = msh_get_env_index(vars, "OLDPWD"); // ? --> Set OLDPWD
+		msh_set_env_var(vars, "OLDPWD", "");
+	env_index = msh_get_env_index(vars, "OLDPWD");
 	tmp = msh_get_env_value(vars, msh_get_env_index(vars, "PWD"));
 	new_pwd = ft_strjoin("OLDPWD=", tmp);
 	free(tmp);
 	msh_free_ptr(vars->envar[env_index]);
 	vars->envar[env_index]
 		= new_pwd;
-	// * Store NEW PWD we are reusing vars here
 	env_index = msh_get_env_index(vars, "PWD");
 	new_pwd = ft_strjoin("PWD=", path);
 	msh_free_ptr(vars->envar[env_index]);
@@ -56,16 +55,15 @@ void	msh_cd_go_home(t_vars *vars)
 
 void	msh_cd_go_to_path(t_vars *vars, char *path)
 {
-	(void)vars;
-	
-	char	cwd[PATH_MAX];
 	char	*ret;
+	char	cwd[PATH_MAX];
 
+	(void)vars;
 	ret = NULL;
 	if (chdir(path) != 0)
 	{
 		ft_putendl_fd("cd: No se pudo cambiar el directorio ", 2);
-		g_return_status = 1; // ! Output error
+		g_return_status = 1;
 	}
 	else
 	{
@@ -73,7 +71,7 @@ void	msh_cd_go_to_path(t_vars *vars, char *path)
 		if (!ret)
 		{
 			ft_putendl_fd("cd: No se pudo cambiar el directorio ", 2);
-			g_return_status = 1; // ! Output error
+			g_return_status = 1;
 		}
 		else
 		{
@@ -98,6 +96,4 @@ void	msh_exec_cd(t_cmd *cmd, t_vars *vars)
 		else
 			ft_putendl_fd("cd: Too many arguments ", 2);
 	}
-} // ? This function should return EXIT_SUCCESS or 0 ?
-
-// * STDOUT_FILENO = 1
+}

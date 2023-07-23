@@ -3,17 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   ms_errors.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: eros-gir <eros-gir@student.42barcel>       +#+  +:+       +#+        */
+/*   By: rabril-h <rabril-h@student.42barcelona.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/05 20:41:03 by rabril-h          #+#    #+#             */
-/*   Updated: 2023/07/17 20:48:30 by eros-gir         ###   ########.fr       */
+/*   Updated: 2023/07/22 18:38:53 by rabril-h         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../incl/mslib.h"
-// ? I need to print for sure "minishell: "
-// ? Then the command is executing the print. Can be exit / cd / whatever
-// ?
 
 void	msh_print_error(char *param, char *msg)
 {
@@ -42,6 +39,19 @@ void	msh_errors_export(char *param, char *msg)
 	write(2, msg, ft_strlen(msg));
 }
 
+int	msh_errors_syntax_extra(int flag, char *param)
+{
+	if (!param)
+		param = "";
+	if (flag == 0)
+		return (0);
+	ft_putstr_fd("minishell: syntax error near unexpected token `", 2);
+	ft_putstr_fd(param, 2);
+	ft_putstr_fd("'\n", 2);
+	g_return_status = 258;
+	return (1);
+}
+
 int	msh_errors_syntax(t_cmd *cmd, char *param)
 {
 	int	flag;
@@ -66,13 +76,5 @@ int	msh_errors_syntax(t_cmd *cmd, char *param)
 		flag = 1;
 		param = "newline";
 	}
-	if (!param)
-		param = "";
-	if (flag == 0)
-		return (0);
-	ft_putstr_fd("minishell: syntax error near unexpected token `", 2);
-	ft_putstr_fd(param, 2);
-	ft_putstr_fd("'\n", 2);
-	g_return_status = 258;
-	return (1);
+	return (msh_errors_syntax_extra(flag, param));
 }

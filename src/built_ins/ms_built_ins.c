@@ -6,7 +6,7 @@
 /*   By: rabril-h <rabril-h@student.42barcelona.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/15 21:14:08 by rabril-h          #+#    #+#             */
-/*   Updated: 2023/06/19 20:32:32 by rabril-h         ###   ########.fr       */
+/*   Updated: 2023/07/23 18:29:25 by rabril-h         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,6 @@
 void	msh_exec_builtin(t_cmd *cmd, t_vars *vars)
 {
 	(void)vars;
-
 	if (ft_strcmp(cmd->argv[0], "echo") == 0)
 		msh_exec_echo(cmd, vars);
 	else if (ft_strcmp(cmd->argv[0], "cd") == 0)
@@ -31,13 +30,6 @@ void	msh_exec_builtin(t_cmd *cmd, t_vars *vars)
 	else if (ft_strcmp(cmd->argv[0], "exit") == 0)
 		msh_exec_exit(cmd, vars);
 }
-
-/**
- * @brief Functions that determines if string is a built in
- * 
- * @param str * 
- */
-
 
 int	msh_cmd_is_built_in(t_cmd *cmd)
 {

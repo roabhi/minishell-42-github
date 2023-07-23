@@ -1,34 +1,21 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ms_validations_2.c                                 :+:      :+:    :+:   */
+/*   ms_exec_exit_2.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: rabril-h <rabril-h@student.42barcelona.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/06/26 22:19:54 by rabril-h          #+#    #+#             */
-/*   Updated: 2023/07/22 18:30:59 by rabril-h         ###   ########.fr       */
+/*   Created: 2023/07/23 16:36:20 by rabril-h          #+#    #+#             */
+/*   Updated: 2023/07/23 16:43:24 by rabril-h         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../incl/mslib.h"
+#include "../../../incl/mslib.h"
 
-int	msh_argv_need_expansion(char c)
+int	msh_check_out_range(int neg, unsigned long long num, int *error)
 {
-	if (c == '\'' || c == '"' || c == '$')
-		return (1);
-	return (0);
-}
-
-int	msh_chr_is_pipe(char c)
-{
-	if (c == '|')
-		return (1);
-	return (0);
-}
-
-int	msh_chr_is_redirection(char c)
-{
-	if (c == '<' || c == '>')
-		return (1);
-	return (0);
+	if ((neg == 1 && num > LONG_MAX)
+		|| (neg == -1 && num > -(unsigned long)LONG_MIN))
+		*error = 1;
+	return (*error);
 }

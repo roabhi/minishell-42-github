@@ -6,36 +6,17 @@
 /*   By: rabril-h <rabril-h@student.42barcelona.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/05 17:21:49 by rabril-h          #+#    #+#             */
-/*   Updated: 2023/06/18 19:26:09 by rabril-h         ###   ########.fr       */
+/*   Updated: 2023/07/22 18:32:02 by rabril-h         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../incl/mslib.h"
-
-/**
- * @brief Functions that sets / resets quotes for validation
- * 
- * ? quote -> comillas normales
- * ? miniquote -> comillas simples
- * 
- * @param quote_struct 
- */
 
 void	msh_init_quotes_struct(t_quotes *quote_struct)
 {
 	quote_struct->quote = 0;
 	quote_struct->miniquote = 0;
 }
-
-/**
- * @brief Functions that update the status of the parsed quotes
- * 
- * ? quote -> comillas normales
- * ? miniquote -> comillas simples
- * 
- * @param quotes
- * @param char c 
- */
 
 void	msh_update_quotes_status(t_quotes *quotes, char c)
 {
@@ -49,15 +30,6 @@ void	msh_update_quotes_status(t_quotes *quotes, char c)
 		quotes->miniquote = 0;
 }
 
-/**
- * @brief Functions that generates
- *  a string char by char allocating the right memory
- * 
- * 
- * @param str *
- * @param ch
- */
-
 char	*msh_strjoinchr(char *str, char ch)
 {
 	char	*copy;
@@ -70,7 +42,7 @@ char	*msh_strjoinchr(char *str, char ch)
 		if (!str)
 			return (NULL);
 		str[0] = '\0';
-	}	
+	}
 	copy = (char *)malloc(sizeof(char) * ft_strlen(str) + 2);
 	if (!copy)
 		return (msh_free_return_null(copy));
@@ -84,7 +56,3 @@ char	*msh_strjoinchr(char *str, char ch)
 	free(str);
 	return (copy);
 }
-
-
-
-

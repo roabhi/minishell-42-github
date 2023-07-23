@@ -6,11 +6,27 @@
 /*   By: rabril-h <rabril-h@student.42barcelona.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/08 21:30:28 by rabril-h          #+#    #+#             */
-/*   Updated: 2023/06/28 22:55:46 by rabril-h         ###   ########.fr       */
+/*   Updated: 2023/07/22 20:30:32 by rabril-h         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../incl/mslib.h"
+
+void	msh_do_split_input_in_cmds_extra(t_vars *v, char **splitted, char *cmd)
+{
+	if (cmd)
+		splitted[v->c->c2++] = cmd;
+	if (cmd)
+		cmd = NULL;
+	if (v->input[v->c->c1 + 1]
+		&& ((v->input[v->c->c1] == '<' && v->input[v->c->c1 + 1] == '<')
+			|| (v->input[v->c->c1] == '>'
+				&& v->input[v->c->c1 + 1] == '>')))
+		cmd = msh_strjoinchr(cmd, v->input[v->c->c1++]);
+	cmd = msh_strjoinchr(cmd, v->input[v->c->c1]);
+	splitted[v->c->c2++] = cmd;
+	cmd = NULL;
+}
 
 char	**msh_do_split_input_in_cmds(t_vars *v, char **splitted, char *cmd)
 {
@@ -19,20 +35,7 @@ char	**msh_do_split_input_in_cmds(t_vars *v, char **splitted, char *cmd)
 		msh_update_quotes_status(v->quotes, v->input[v->c->c1]);
 		if (msh_chr_can_be_separator(v->input[v->c->c1])
 			&& !v->quotes->quote && !v->quotes->miniquote)
-		{
-			if (cmd)
-				splitted[v->c->c2++] = cmd;
-			if (cmd)
-				cmd = NULL;
-			if (v->input[v->c->c1 + 1]
-				&& ((v->input[v->c->c1] == '<' && v->input[v->c->c1 + 1] == '<')
-					|| (v->input[v->c->c1] == '>'
-						&& v->input[v->c->c1 + 1] == '>')))
-				cmd = msh_strjoinchr(cmd, v->input[v->c->c1++]);
-			cmd = msh_strjoinchr(cmd, v->input[v->c->c1]);
-			splitted[v->c->c2++] = cmd;
-			cmd = NULL;
-		}
+			msh_do_split_input_in_cmds_extra(v, splitted, cmd);
 		else
 		{
 			if (v->input[v->c->c1] == ' '
@@ -52,125 +55,6 @@ char	**msh_do_split_input_in_cmds(t_vars *v, char **splitted, char *cmd)
 	return (splitted);
 }
 
-
-
-
-
-
-/**
- * @brief function para segementar el string
- * 
- * @param input 
- * @return int 
- */
-
-/*
-	printf("string ends in %d\n", c);
-	printf("el legnht de input es:%zu\n",  ft_strlen(input));
-	printf("el input es |%s|\n", input);
-	printf("I detected %d needed tokens for this input\n", tokens);
-	printf("1 start token in: %d that is %c\n", c, input[c]);
-*/
-
-int	msh_count_tokens(char *input)
-{
-	int				tokens;
-	t_quotes		quotes;
-	int				c;
-
-	c = 0;
-	tokens = 0;
-	msh_init_quotes_struct(&quotes);
-	while (input[c])
-	{
-		msh_update_quotes_status(&quotes, input[c]);
-		if (!msh_chr_can_be_separator(input[c]))
-		{
-			tokens++;
-			while (input[c] && (!msh_chr_can_be_separator(input[c])
-					|| (msh_chr_can_be_separator(input[c])
-						&& (quotes.quote || quotes.miniquote))))
-			{
-				c++;
-				msh_update_quotes_status(&quotes, input[c]);
-			}
-		}
-		if (msh_chr_can_be_separator(input[c])
-			&& !quotes.quote && !quotes.miniquote)
-		{
-			if ((input[c] == '<' && input[c + 1] == '<')
-				|| (input[c] == '>' && input[c + 1] == '>'))
-				c++;
-			tokens++;
-		}
-		if (input[c] != '\0')
-			c++;
-		if (input[c] == ' ' && !quotes.quote && !quotes.miniquote)
-			c++;
-	}
-	return (tokens);
-}
-
-
-
-int	msh_how_many_argv_have_the_cmd(char *input)
-{
-	t_quotes	quotes;
-	int			num;
-	int			end;
-	int			c;
-
-	c = -1;
-	num = 0;
-	end = 0;
-	msh_init_quotes_struct(&quotes);
-	//printf("Input es |%s|\n", input);
-	while (input[++c])
-	{
-		msh_update_quotes_status(&quotes, input[c]);
-		if (input[c] != ' ' && ((input[c + 1] == ' '
-					&& !quotes.quote && !quotes.miniquote)
-				|| input[c + 1] == '\0' ))
-		{
-					num++;
-		}
-	}
-	return (num);
-}		
-//  hola "que tal " como estas | echo hola  a << b  
-
-
-// Esto me puede servir para generar los argv de cada token
-char	**msh_split_cmd_argvs(char *input, int argc)
-{
-	t_quotes	quotes;
-	int			start;
-	int			c;
-	int			num;
-	char		**result;
-
-	c = -1;
-	start = 0;
-	num = 0;
-	result = malloc(sizeof(char *) * (argc + 1));
-	msh_init_quotes_struct(&quotes);
-	while (input[++c])
-	{
-		if (msh_is_startarg(input, c, &quotes))
-			start = c;
-		msh_update_quotes_status(&quotes, input[c]);
-		if (msh_is_endarg(input, c, &quotes))
-		{
-					result[num] = ft_substr(input, start, c - start + 1);
-					//printf("result[num] = |%s|\n", result[num]);
-					num++;
-		}
-	}
-	result[num] = NULL;
-	return (result);
-}
-
-//msh_split_cmd_argvs
 t_cmd	*create_token(char *input, int index)
 {
 	t_cmd	*new;
@@ -182,7 +66,6 @@ t_cmd	*create_token(char *input, int index)
 	new->index = index;
 	return (new);
 }
-
 
 char	**msh_prepare_splitted_input_in_cmds(t_vars *vars)
 {
@@ -203,8 +86,6 @@ char	**msh_prepare_splitted_input_in_cmds(t_vars *vars)
 	return (msh_do_split_input_in_cmds(vars, s, cmd));
 }
 
-// ! Entry point
-
 t_cmd	*msh_tokenize(t_vars *vars)
 {
 	t_cmd	*my_cmd_list;
@@ -216,13 +97,6 @@ t_cmd	*msh_tokenize(t_vars *vars)
 	c = 0;
 	my_cmd_list = NULL;
 	splitted_cmds = msh_prepare_splitted_input_in_cmds(vars);
-	// int i;
-	// i = 0;
-	// while(splitted_cmds[i])
-	// {
-	// 	// printf("splitted |%s|\n", splitted_cmds[i]);
-	// 	i++;
-	// }
 	vars->tokens = splitted_cmds;
 	while (splitted_cmds[c])
 	{
@@ -235,9 +109,5 @@ t_cmd	*msh_tokenize(t_vars *vars)
 		last->next = NULL;
 		c++;
 	}
-	// printf("Saliendo en msh_tokenize\n");
 	return (my_cmd_list);
 }
-
-
-
