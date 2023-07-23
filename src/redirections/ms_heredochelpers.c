@@ -1,27 +1,35 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ms_exehelpers.c                                    :+:      :+:    :+:   */
+/*   ms_heredochelpers.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: eros-gir <eros-gir@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/07/12 17:26:36 by eros-gir          #+#    #+#             */
-/*   Updated: 2023/07/21 20:29:04 by eros-gir         ###   ########.fr       */
+/*   Created: 2023/06/30 17:41:42 by eros-gir          #+#    #+#             */
+/*   Updated: 2023/07/22 16:04:27 by eros-gir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../incl/mslib.h"
 
-void	msh_save_io(int save[2])
+void	msh_close_pipes(int pobj[2])
 {
-	save[0] = dup(STDIN_FILENO);
-	save[1] = dup(STDOUT_FILENO);
+	close(pobj[0]);
+	close(pobj[1]);
 }
 
-void	msh_restore_io(int save[2])
+void	msh_clean_heredoc(t_vars *vars)
 {
-	dup2(save[0], STDIN_FILENO);
-	dup2(save[1], STDOUT_FILENO);
-	close(save[0]);
-	close(save[1]);
+	char	*fname;
+	int		i;
+
+	i = 0;
+	while (i >= 999)
+	{
+		fname = ft_joinloc(ft_strdup(".heredoc"), ft_itoa(i));
+		unlink(fname);
+		free(fname);
+		i++;
+	}
+	vars->hdnumb = 0;
 }

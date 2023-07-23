@@ -90,7 +90,7 @@ char	*msh_add_space_between_input(char *input, int qflag)
 			i ++;
 			count ++;
 		}
-		else if ((input[i] != ' ' || input[i] != '>')
+		else if ((input[i] != ' ' || input[i] != '>' || input[i] != '<')
 			&& (input[i + 1] == '>' || input[i + 1] == '<'))
 			count ++;
 	}
@@ -123,17 +123,20 @@ char	*msh_add_space_between_input(char *input, int qflag)
 			result[++j] = input[++i];
 			result[++j] = ' ';
 		}
-		else if ((input[i] != ' ' || input[i] != '>')
-			&& (input[i + 1] == '>' || input[i + 1] == '<'))
+		else if ((input[i] != ' ' || input[i] != '>' || input[i] != '<')
+			&& (input[i + 1] == '>' || input[i + 1] == '<') 
+			&& input[i + 2] != ' ')
 		{
 			result[++j] = input[i];
 			result[++j] = ' ';
 		}
 		else
+		{
 			result[++j] = input[i];
+		}
 	}
-	//printf("result: %s\n", result);
-	//printf("count spaces = %d\n", count);
+//	printf("result: %s\n", result);
+//	printf("count spaces = %d\n", count);
 	free(input);
 	return (result);
 }

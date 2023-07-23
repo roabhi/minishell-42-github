@@ -3,7 +3,7 @@
 /*                                                        :::      ::::::::   */
 /*   ms_env_parser.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rabril-h <rabril-h@student.42barcelona.    +#+  +:+       +#+        */
+/*   By: eros-gir <eros-gir@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/13 18:52:50 by rabril-h          #+#    #+#             */
 /*   Updated: 2023/07/22 20:08:42 by rabril-h         ###   ########.fr       */

@@ -61,9 +61,13 @@ int	msh_errors_syntax(t_cmd *cmd, char *param)
 	{
 		if (cmd->is_separator == 1 && cmd->next->is_separator == 1)
 		{
-			flag = 1;
-			param = cmd->next->argv[0];
-			break ;
+			if (cmd->argv[0][0] != '|' && (cmd->next->argv[0][0] != '<'
+				|| cmd->next->argv[0][0] != '>'))
+			{
+				flag = 1;
+				param = cmd->next->argv[0];
+				break ;
+			}
 		}
 		cmd = cmd->next;
 	}

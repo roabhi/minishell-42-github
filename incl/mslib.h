@@ -78,6 +78,7 @@ typedef struct s_vars
 
 // * Utils
 
+void	msh_sigint_handler(int sig);
 char	*msh_strjoinchr(char *str, char ch);
 void	msh_update_quotes_status(t_quotes *quotes, char c);
 void	msh_init_quotes_struct(t_quotes *quote_struct);
@@ -204,14 +205,19 @@ void	msh_pipe_child2(int pobj[2]);
 int		msh_is_redirect(t_cmd tcmd);
 int		msh_set_redirect(t_vars *vars, t_cmd *tcmd);
 int		msh_exec_redirect(t_cmd *cmd, int fd, char *argv, int hdnbr);
+int		msh_is_redirect_first(t_cmd tcmd);
+int		msh_set_redirect_first(t_vars *vars, t_cmd *tcmd);
+int		msh_exec_redirect_first(t_cmd *cmd, int fd, char *argv, int hdnbr);
 void	msh_save_io(int save[2]);
 void	msh_restore_io(int save[2]);
+char	**ft_qsplit(char const *s, char c, size_t n, int qflags);
+
+// ? Heredoc
 void	msh_close_pipes(int pobj[2]);
 int		msh_store_heredocs(t_vars *vars);
 char	*msh_read_heredoc(int hdnbr);
 void	msh_heredoc(char *delim, char *fnum);
 void	msh_clean_heredoc(t_vars *vars);
-char	**ft_qsplit(char const *s, char c, size_t n, int qflags);
 
 // * Expander
 
