@@ -6,7 +6,7 @@
 /*   By: eros-gir <eros-gir@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/12 18:08:07 by eros-gir          #+#    #+#             */
-/*   Updated: 2023/07/22 17:05:35 by eros-gir         ###   ########.fr       */
+/*   Updated: 2023/07/23 20:08:22 by eros-gir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,27 +65,18 @@ int	msh_count_redir(char *input, int qflag)
 			count ++;
 		}
 	}
-	//printf("count = %d\n", count);
 	return (count);
 }
 
-char	*msh_reorder_redirs2(char *cmd, t_vars *vars, int nmb_redirs)
+char	*msh_reorder_redirs2(char *cmd, int nmb_redirs)
 {
 	int		i;
 	int		j;
 	char	*tmp;
 	char	*tmp2;
 	char	**tcmds;
-	(void)vars;
 
 	tcmds = ft_qsplit(cmd, ' ', 0, 0);
-	// i = 0;
-	// ft_putstr_fd("unordered\n", 1);
-	// while (tcmds[i] != NULL) //testing
-	// {
-	// 	printf("cmds[%d] = |%s|\n", i, tcmds[i]);
-	// 	i++;
-	// }
 	i = -1;
 
 	while (tcmds[++i] != NULL && nmb_redirs > 0)
@@ -94,9 +85,7 @@ char	*msh_reorder_redirs2(char *cmd, t_vars *vars, int nmb_redirs)
 		{
 			j = i + 2;
 			tmp = tcmds[i];
-			tmp2 = tcmds[i + 1];
-			 // caso raro cuando es	"echo > test1 > test2 hola que tal" 
-			 // lo mueve a			"echo hola que > test1 > test2 tal" 
+			tmp2 = tcmds[i + 1]; 
 			while (tcmds[j] != NULL)
 			{
 				tcmds[j - 2] = tcmds[j];
@@ -109,13 +98,6 @@ char	*msh_reorder_redirs2(char *cmd, t_vars *vars, int nmb_redirs)
 			nmb_redirs --;
 		}
 	}
-	// i = 0; //testing
-	// ft_putstr_fd("reordered\n", 1);
-	// while (tcmds[i] != NULL) //testing
-	// {
-	// 	printf("cmds[%d] = |%s|\n", i, tcmds[i]);
-	// 	i++;
-	// }
 	i = 0;
 	free (cmd);
 	cmd = ft_strdup("");
@@ -127,7 +109,6 @@ char	*msh_reorder_redirs2(char *cmd, t_vars *vars, int nmb_redirs)
 		i++;
 	}
 	free (tcmds);
-//	printf("cmd result = |%s|\n", cmd);
 	return (cmd);
 }
 
@@ -143,7 +124,7 @@ void	msh_reorder_redirs(t_vars *vars)
 	while (pipes[i] != NULL)
 	{
 		if (msh_count_redir(pipes[i], 0) > 0)
-			pipes[i] = msh_reorder_redirs2(pipes[i], vars,
+			pipes[i] = msh_reorder_redirs2(pipes[i],
 					msh_count_redir(pipes[i], 0));
 		i++;
 	}
