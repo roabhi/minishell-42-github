@@ -6,7 +6,7 @@
 /*   By: eros-gir <eros-gir@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/30 17:41:42 by eros-gir          #+#    #+#             */
-/*   Updated: 2023/07/22 16:20:03 by eros-gir         ###   ########.fr       */
+/*   Updated: 2023/07/23 18:43:36 by eros-gir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ int	msh_check_sigint(int signum)
 	if (signum == 1)
 	{
 		rl_redisplay();
-		write(1, "  ", 2);
+		write(1, "     ", 5);
 		interrupt = 1;
 		ioctl(0, TIOCSTI, "\n");
 	}
