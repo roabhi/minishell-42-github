@@ -6,11 +6,26 @@
 /*   By: rabril-h <rabril-h@student.42barcelona.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/05 17:21:49 by rabril-h          #+#    #+#             */
-/*   Updated: 2023/07/22 18:32:02 by rabril-h         ###   ########.fr       */
+/*   Updated: 2023/07/23 20:31:47 by rabril-h         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../incl/mslib.h"
+
+void	msh_str_to_lower(char *str)
+{
+	int	c;
+
+	c = 0;
+	while (str[c])
+	{
+		if (str[c] <= 90 && str[c] >= 65)
+			str[c] = str[c] + 32;
+		else
+			str[c] = str[c];
+		c++;
+	}
+}
 
 void	msh_init_quotes_struct(t_quotes *quote_struct)
 {

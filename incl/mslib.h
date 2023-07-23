@@ -6,7 +6,7 @@
 /*   By: rabril-h <rabril-h@student.42barcelona.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/27 10:06:39 by eros-gir          #+#    #+#             */
-/*   Updated: 2023/07/23 18:26:38 by rabril-h         ###   ########.fr       */
+/*   Updated: 2023/07/23 20:29:44 by rabril-h         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,6 +84,7 @@ void	msh_update_quotes_status(t_quotes *quotes, char c);
 void	msh_init_quotes_struct(t_quotes *quote_struct);
 char	*msh_free_return_null(char *ptr);
 int		msh_cmd_is_built_in(t_cmd *cmd);
+void	msh_str_to_lower(char *str);
 
 // * Helpers
 
@@ -144,7 +145,7 @@ void	msh_exec_builtin(t_cmd *cmd, t_vars *vars);
 
 // ? exit built in
 void	msh_exec_exit(t_cmd *cmd, t_vars *vars);
-void	msh_exec_exit_extra(t_cmd *cmd, int *error);
+void	msh_exec_exit_extra(t_cmd *cmd, t_vars *vars, int *error);
 int		msh_check_exit_param(char *param, int *error);
 int		msh_check_out_range(int neg, unsigned long long num, int *error);
 int		msh_atoi(char *str, int *error);

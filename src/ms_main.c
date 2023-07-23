@@ -6,7 +6,7 @@
 /*   By: rabril-h <rabril-h@student.42barcelona.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/27 10:05:31 by eros-gir          #+#    #+#             */
-/*   Updated: 2023/07/23 18:56:24 by eros-gir         ###   ########.fr       */
+/*   Updated: 2023/07/23 20:44:41 by rabril-h         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,11 +71,11 @@ void	msh_ignore_signals(t_vars *vars, int ac, char **av)
 {
 	(void)ac;
 	(void)av;
-	if (ac > 1 || av[1] != NULL)
-	{
-		ft_putendl_fd("ERROR: the program does not take any arguments!", 2);
-		exit(1);
-	}
+	// if (ac > 1 || av[1] != NULL)
+	// {
+	// 	ft_putendl_fd("ERROR: the program does not take any arguments!", 2);
+	// 	exit(1);
+	// }
 	vars->sigbool = 1;
 	signal(SIGINT, msh_sigint_handler);
 	signal(SIGTSTP, SIG_IGN);
@@ -124,40 +124,38 @@ int	main(int ac, char **av, char **envp)
 	// Test 2: Desde raiz: python3 -m minishell_test
 	// https://github.com/thallard/minishell_tester
 	// https://github.com/cacharle/minishell_test
-	// if (ac >= 3 && !ft_strncmp(av[1], "-c", 3))
-	// {
-	// 	vars.inpli = av[2];
-	// 	vars.inplen = ft_strlen(vars.inpli);
-	// 	vars.input = msh_sanitize_input(vars.inpli);
-	// 	if (vars.input == NULL)
-	// 		exit(g_return_status);
+	if (ac >= 3 && !ft_strncmp(av[1], "-c", 3))
+	{
+		vars.inpli = av[2];
+		vars.inplen = ft_strlen(vars.inpli);
+		vars.input = msh_sanitize_input(vars.inpli);
+		if (vars.input == NULL)
+			exit(g_return_status);
 
-	// 	vars.cmd = msh_tokenize(&vars);	
-	// 	if (msh_errors_syntax(vars.cmd, NULL))
-	// 	{
-	// 		msh_free_cmd_list(vars.cmd); // ? free args
-	// 		msh_free_raw_array(vars.tokens); // ? free tokens
-	// 		free(vars.input); // ? free trimed input);
-	// 		exit(g_return_status);
-	// 	}
-	// 	msh_free_cmd_list(vars.cmd); // ? free args
-	// 	msh_free_raw_array(vars.tokens); // ? free tokens
-	// 	vars.input = msh_add_space_between_input(vars.input, 0);
-	// 	msh_reorder_redirs(&vars);
-	// 	vars.cmd = msh_tokenize(&vars);
-	// 	if (vars.cmd != NULL){
-	// 		msh_expander(&vars);
-	// 		msh_execute_start(&vars);
-	// 	}
-
-
-	// 	msh_free_cmd_list(vars.cmd); // ? free args
-	// 	msh_free_raw_array(vars.tokens); // ? free tokens
-	// 	free(vars.input); // ? free trimed input);
-	// 	msh_free_envars(&vars);
-	// 	free(vars.prompt);
-	// 	exit(g_return_status);
-	// }
+		vars.cmd = msh_tokenize(&vars);	
+		if (msh_errors_syntax(vars.cmd, NULL))
+		{
+			msh_free_cmd_list(vars.cmd); // ? free args
+			msh_free_raw_array(vars.tokens); // ? free tokens
+			free(vars.input); // ? free trimed input);
+			exit(g_return_status);
+		}
+		msh_free_cmd_list(vars.cmd); // ? free args
+		msh_free_raw_array(vars.tokens); // ? free tokens
+		vars.input = msh_add_space_between_input(vars.input, 0);
+		msh_reorder_redirs(&vars);
+		vars.cmd = msh_tokenize(&vars);
+		if (vars.cmd != NULL){
+			msh_expander(&vars);
+			msh_execute_start(&vars);
+		}
+		msh_free_cmd_list(vars.cmd); // ? free args
+		msh_free_raw_array(vars.tokens); // ? free tokens
+		free(vars.input); // ? free trimed input);
+		msh_free_envars(&vars);
+		free(vars.prompt);
+		exit(g_return_status);
+	}
 	// ! End tesyting mode
 	
 	while (vars.looping)

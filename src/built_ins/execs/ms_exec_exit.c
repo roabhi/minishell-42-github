@@ -6,7 +6,7 @@
 /*   By: rabril-h <rabril-h@student.42barcelona.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/16 14:16:13 by rabril-h          #+#    #+#             */
-/*   Updated: 2023/07/23 16:43:06 by rabril-h         ###   ########.fr       */
+/*   Updated: 2023/07/23 19:49:06 by rabril-h         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,40 +79,39 @@ int	msh_check_exit_param(char *param, int *error)
 	return (i);
 }
 
-void	msh_exec_exit_extra(t_cmd *cmd, int *error)
+void	msh_exec_exit_extra(t_cmd *cmd, t_vars *vars, int *error)
 {
-	if (ft_strcmp(cmd->argv[1], "18446744073709551616") == 0)
+	vars->looping = 1;
+	msh_check_exit_param(cmd->argv[1], error);
+	if (*error == 1)
 	{
-		msh_errors_exit(cmd->argv[1], ": numeric argument required\n");
 		g_return_status = 255;
 		return ;
 	}
-	g_return_status = msh_check_exit_param(cmd->argv[1], error);
-	if (error)
-		g_return_status = 255;
+	msh_errors_exit("", "too many arguments\n");
+	g_return_status = 1;
 }
 
 void	msh_exec_exit(t_cmd *cmd, t_vars *vars)
 {
 	int	error;
 
-	(void)vars;
-	vars->looping = 0;
 	error = 0;
+	vars->looping = 0;
 	if (cmd->argc == 1)
 		g_return_status = 0;
 	else if (cmd->argc == 2)
-		msh_exec_exit_extra(cmd, &error);
-	else
 	{
-		vars->looping = 1;
-		msh_check_exit_param(cmd->argv[1], &error);
-		if (error == 1)
+		if (ft_strcmp(cmd->argv[1], "18446744073709551616") == 0)
 		{
+			msh_errors_exit(cmd->argv[1], ": numeric argument required\n");
 			g_return_status = 255;
 			return ;
 		}
-		msh_errors_exit("", "too many arguments\n");
-		g_return_status = 1;
+		g_return_status = msh_check_exit_param(cmd->argv[1], &error);
+		if (error)
+			g_return_status = 255;
 	}
+	else
+		msh_exec_exit_extra(cmd, vars, &error);
 }

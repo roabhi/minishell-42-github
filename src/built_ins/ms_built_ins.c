@@ -6,7 +6,7 @@
 /*   By: rabril-h <rabril-h@student.42barcelona.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/15 21:14:08 by rabril-h          #+#    #+#             */
-/*   Updated: 2023/07/23 18:29:25 by rabril-h         ###   ########.fr       */
+/*   Updated: 2023/07/23 20:32:18 by rabril-h         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,7 @@ void	msh_exec_builtin(t_cmd *cmd, t_vars *vars)
 
 int	msh_cmd_is_built_in(t_cmd *cmd)
 {
+	msh_str_to_lower(cmd->argv[0]);
 	if (ft_strcmp(cmd->argv[0], "echo") == 0
 		|| ft_strcmp(cmd->argv[0], "cd") == 0
 		|| ft_strcmp(cmd->argv[0], "pwd") == 0
