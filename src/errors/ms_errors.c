@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ms_errors.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rabril-h <rabril-h@student.42barcelona.    +#+  +:+       +#+        */
+/*   By: eros-gir <eros-gir@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/05 20:41:03 by rabril-h          #+#    #+#             */
-/*   Updated: 2023/07/22 18:38:53 by rabril-h         ###   ########.fr       */
+/*   Updated: 2023/07/23 20:51:32 by eros-gir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,12 +57,15 @@ int	msh_errors_syntax(t_cmd *cmd, char *param)
 	int	flag;
 
 	flag = 0;
+
+//dos pipes seguidos no funcionan como se deberia, deberia dar syntax error
 	while (cmd->next)
 	{
 		if (cmd->is_separator == 1 && cmd->next->is_separator == 1)
 		{
 			if (cmd->argv[0][0] != '|' && (cmd->next->argv[0][0] != '<'
-				|| cmd->next->argv[0][0] != '>'))
+				|| cmd->next->argv[0][0] != '>' 
+				|| cmd->next->argv[0][0] != '|'))
 			{
 				flag = 1;
 				param = cmd->next->argv[0];
