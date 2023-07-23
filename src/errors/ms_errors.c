@@ -6,7 +6,7 @@
 /*   By: eros-gir <eros-gir@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/05 20:41:03 by rabril-h          #+#    #+#             */
-/*   Updated: 2023/07/15 19:13:07 by eros-gir         ###   ########.fr       */
+/*   Updated: 2023/07/17 20:48:30 by eros-gir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,9 +51,13 @@ int	msh_errors_syntax(t_cmd *cmd, char *param)
 	{
 		if (cmd->is_separator == 1 && cmd->next->is_separator == 1)
 		{
-			flag = 1;
-			param = cmd->next->argv[0];
-			break ;
+			if (cmd->argv[0][0] != '|' && (cmd->next->argv[0][0] != '<'
+				|| cmd->next->argv[0][0] != '>'))
+			{
+				flag = 1;
+				param = cmd->next->argv[0];
+				break ;
+			}
 		}
 		cmd = cmd->next;
 	}

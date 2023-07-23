@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ms_env_parser.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rabril-h <rabril-h@student.42barcelona.    +#+  +:+       +#+        */
+/*   By: eros-gir <eros-gir@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/13 18:52:50 by rabril-h          #+#    #+#             */
-/*   Updated: 2023/06/14 20:40:36 by rabril-h         ###   ########.fr       */
+/*   Updated: 2023/07/21 20:30:29 by eros-gir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ int	msh_store_env_own_vars(t_vars *vars, char **envp)
 	vars->envar[env_length] = NULL;
 	env_length = 0;
 	while (envp[env_length])
-	{		
+	{
 		if (!msh_store_env_own_lines(vars, envp, env_length))
 			return (0);
 		env_length++;

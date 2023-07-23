@@ -6,7 +6,7 @@
 /*   By: eros-gir <eros-gir@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/06 22:07:56 by rabril-h          #+#    #+#             */
-/*   Updated: 2023/07/15 20:04:40 by eros-gir         ###   ########.fr       */
+/*   Updated: 2023/07/23 18:44:36 by eros-gir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,8 @@ int	msh_malformed_quotes(char *input)
 	if (quotes.quote == 1 || quotes.miniquote == 1)
 	{
 		//write(2, "Malformed input. Please close your quotes\n", 42);
-		ft_putendl_fd("Minishell: Malformed input, please close your quotes", 2);
+		ft_putendl_fd(
+			"Minishell: Malformed input, please close your quotes", 2);
 		return (1);
 	}
 	return (0);
@@ -70,7 +71,7 @@ char	*msh_add_space_between_input(char *input, int qflag)
 	i = -1;
 	j = -1;
 	count = 0;
-	//printf("input: %s\n", input);
+//	printf("input: %s\n", input);
 	while (input[++i] != '\0')
 	{
 		qflag = msh_quote_flag(input[i], qflag);
@@ -90,7 +91,7 @@ char	*msh_add_space_between_input(char *input, int qflag)
 			i ++;
 			count ++;
 		}
-		else if ((input[i] != ' ' || input[i] != '>')
+		else if ((input[i] != ' ' || input[i] != '>' || input[i] != '<')
 			&& (input[i + 1] == '>' || input[i + 1] == '<'))
 			count ++;
 	}
@@ -123,17 +124,20 @@ char	*msh_add_space_between_input(char *input, int qflag)
 			result[++j] = input[++i];
 			result[++j] = ' ';
 		}
-		else if ((input[i] != ' ' || input[i] != '>')
-			&& (input[i + 1] == '>' || input[i + 1] == '<'))
+		else if ((input[i] != ' ' || input[i] != '>' || input[i] != '<')
+			&& (input[i + 1] == '>' || input[i + 1] == '<') 
+			&& input[i + 2] != ' ')
 		{
 			result[++j] = input[i];
 			result[++j] = ' ';
 		}
 		else
+		{
 			result[++j] = input[i];
+		}
 	}
-	//printf("result: %s\n", result);
-	//printf("count spaces = %d\n", count);
+//	printf("result: %s\n", result);
+//	printf("count spaces = %d\n", count);
 	free(input);
 	return (result);
 }

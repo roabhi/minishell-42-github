@@ -6,7 +6,7 @@
 /*   By: eros-gir <eros-gir@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/27 10:05:31 by eros-gir          #+#    #+#             */
-/*   Updated: 2023/07/15 19:16:51 by eros-gir         ###   ########.fr       */
+/*   Updated: 2023/07/23 18:56:24 by eros-gir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,6 +43,9 @@ int	g_return_status;
 
 void	msh_sigint_handler(int sig)
 {
+//	char				*fname;
+//	int					i;
+
 	if (sig != 0)
 	{
 		rl_on_new_line();
@@ -51,6 +54,15 @@ void	msh_sigint_handler(int sig)
 		rl_replace_line("", 0);
 		rl_on_new_line();
 		rl_redisplay();
+		// i = 0;
+		// while (i >= 999)
+		// {
+		// 	printf("i = %d\n", i);
+		// 	fname = ft_joinloc(ft_strdup(".heredoc"), ft_itoa(i));
+		// 	unlink(fname);
+		// 	free(fname);
+		// 	i++;
+		// }
 		g_return_status = 1;
 	}
 }
@@ -88,7 +100,6 @@ int	main(int ac, char **av, char **envp)
 
 	vars.looping = 1;
 	g_return_status = 0;
-	msh_ignore_signals(&vars, ac, av);    //Comentar cuando testing
 	msh_set_vars(&vars, "msh %  ");
 	//free(vars.tokens);
 
@@ -121,11 +132,22 @@ int	main(int ac, char **av, char **envp)
 	// 	if (vars.input == NULL)
 	// 		exit(g_return_status);
 
+	// 	vars.cmd = msh_tokenize(&vars);	
+	// 	if (msh_errors_syntax(vars.cmd, NULL))
+	// 	{
+	// 		msh_free_cmd_list(vars.cmd); // ? free args
+	// 		msh_free_raw_array(vars.tokens); // ? free tokens
+	// 		free(vars.input); // ? free trimed input);
+	// 		exit(g_return_status);
+	// 	}
+	// 	msh_free_cmd_list(vars.cmd); // ? free args
+	// 	msh_free_raw_array(vars.tokens); // ? free tokens
+	// 	vars.input = msh_add_space_between_input(vars.input, 0);
+	// 	msh_reorder_redirs(&vars);
 	// 	vars.cmd = msh_tokenize(&vars);
 	// 	if (vars.cmd != NULL){
 	// 		msh_expander(&vars);
-	// 		if (!msh_errors_syntax(vars.cmd, NULL))
-	// 			msh_execute_start(&vars);
+	// 		msh_execute_start(&vars);
 	// 	}
 
 
@@ -141,6 +163,7 @@ int	main(int ac, char **av, char **envp)
 	while (vars.looping)
 	{
 		vars.looping = 1;
+		msh_ignore_signals(&vars, ac, av);
 		vars.inpli = readline(vars.prompt);
 		if (vars.inpli != NULL)
 		{
@@ -170,6 +193,7 @@ int	main(int ac, char **av, char **envp)
 			msh_free_raw_array(vars.tokens); // ? free tokens
 			vars.input = msh_add_space_between_input(vars.input, 0);
 			msh_reorder_redirs(&vars);
+			//continue ; //testing reorder
 			vars.cmd = msh_tokenize(&vars);		
 			//msh_debug_cmd_list(vars.cmd); // debug tokens
 			//Execution integrando builtins a pipes
@@ -180,7 +204,8 @@ int	main(int ac, char **av, char **envp)
 			}
 
 			//msh_debug_cmd_list(vars.cmd);
-
+			if (vars.hdnumb > 0)
+				msh_clean_heredoc(&vars);
 
 			// if(ft_strcmp(vars.cmd->argv[0], "exit") == 0)
 				// looping = 0; // ? This is now controlled by its own built in
