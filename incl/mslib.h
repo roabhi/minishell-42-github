@@ -6,7 +6,7 @@
 /*   By: rabril-h <rabril-h@student.42barcelona.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/27 10:06:39 by eros-gir          #+#    #+#             */
-/*   Updated: 2023/07/23 16:38:14 by rabril-h         ###   ########.fr       */
+/*   Updated: 2023/07/23 18:26:38 by rabril-h         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,7 +72,7 @@ typedef struct s_vars
 	char			**paths;
 	char			**cmd_buffer;
 	t_cmd			*cmd;
-	int				iofd[2];  // ? 0 = read, 1 = write
+	int				iofd[2];
 	int				hdnumb;
 }	t_vars;
 

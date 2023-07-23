@@ -6,7 +6,7 @@
 /*   By: rabril-h <rabril-h@student.42barcelona.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/06 22:07:56 by rabril-h          #+#    #+#             */
-/*   Updated: 2023/07/23 14:55:30 by rabril-h         ###   ########.fr       */
+/*   Updated: 2023/07/23 18:28:17 by rabril-h         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,8 +52,9 @@ int	msh_malformed_quotes(char *input)
 		msh_update_quotes_status(&quotes, input[c]);
 	if (quotes.quote == 1 || quotes.miniquote == 1)
 	{
-		//write(2, "Malformed input. Please close your quotes\n", 42);
-		ft_putendl_fd("Minishell: Malformed input, please close your quotes", 2);
+		ft_putendl_fd(
+			"Minishell: Malformed input, please close your quotes", 2
+			);
 		return (1);
 	}
 	return (0);
@@ -70,7 +71,6 @@ char	*msh_add_space_between_input(char *input, int qflag)
 	i = -1;
 	j = -1;
 	count = 0;
-	//printf("input: %s\n", input);
 	while (input[++i] != '\0')
 	{
 		qflag = msh_quote_flag(input[i], qflag);
