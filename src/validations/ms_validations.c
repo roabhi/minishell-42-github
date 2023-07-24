@@ -6,7 +6,7 @@
 /*   By: rabril-h <rabril-h@student.42barcelona.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/07 23:19:27 by rabril-h          #+#    #+#             */
-/*   Updated: 2023/06/25 20:51:16 by rabril-h         ###   ########.fr       */
+/*   Updated: 2023/07/24 15:24:26 by rabril-h         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ int	msh_is_space(int c)
 	return (0);
 }
 
-int	msh_chr_can_be_separator(char c)
+int	msh_chr_is_sep(char c)
 {
 	if (c == '<' || c == '|' || c == '>')
 		return (1);

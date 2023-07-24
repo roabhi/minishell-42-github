@@ -6,113 +6,105 @@
 /*   By: rabril-h <rabril-h@student.42barcelona.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/22 20:12:45 by rabril-h          #+#    #+#             */
-/*   Updated: 2023/07/23 20:39:58 by rabril-h         ###   ########.fr       */
+/*   Updated: 2023/07/24 15:43:35 by rabril-h         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../incl/mslib.h"
 
-// void	msh_count_tokens_extra_two(
-// 	char *input, int *tokens, t_quotes quotes, int c
-// 	)
-// {
-// 	if (msh_chr_can_be_separator(input[c])
-// 		&& !quotes.quote && !quotes.miniquote)
-// 	{
-// 		if ((input[c] == '<' && input[c + 1] == '<')
-// 			|| (input[c] == '>' && input[c + 1] == '>'))
-// 			c++;
-// 		tokens++;
-// 	}
-// }
 
-// void	msh_count_tokens_extra(
-// 	char *input, int *tokens, t_quotes quotes, int c
-// 	)
-// {
-// 	if (!msh_chr_can_be_separator(input[c]))
-// 	{
-// 		tokens++;
-// 		while (input[c] && (!msh_chr_can_be_separator(input[c])
-// 				|| (msh_chr_can_be_separator(input[c])
-// 					&& (quotes.quote || quotes.miniquote))))
-// 		{
-// 			c++;
-// 			msh_update_quotes_status(&quotes, input[c]);
-// 		}
-// 	}
-// }
 
-// int	msh_count_tokens(char *input)
-// {
-// 	int				tokens;
-// 	t_quotes		quotes;
-// 	int				c;
 
-// 	c = 0;
-// 	tokens = 0;
-// 	msh_init_quotes_struct(&quotes);
-// 	while (input[c])
-// 	{
-// 		msh_update_quotes_status(&quotes, input[c]);
-// 		msh_count_tokens_extra(input, &tokens, quotes, c);
-// 		msh_count_tokens_extra_two(input, &tokens, quotes, c);
-// 		if (input[c] != '\0')
-// 			c++;
-// 		if (input[c] == ' ' && !quotes.quote && !quotes.miniquote)
-// 			c++;
-// 	}
-// 	return (tokens);
-// }
+char	**msh_do_split_input_in_cmds(t_vars *v, char **splitted, char *cmd)
+{
+	while (v->input[v->c->c1])
+	{
+		msh_update_quotes_status(v->quotes, v->input[v->c->c1]);
+		if (msh_chr_is_sep(v->input[v->c->c1])
+			&& !v->quotes->quote && !v->quotes->miniquote)
+		{
+			if (cmd)
+				splitted[v->c->c2++] = cmd;
+			if (cmd)
+				cmd = NULL;
+			if (v->input[v->c->c1 + 1]
+				&& ((v->input[v->c->c1] == '<' && v->input[v->c->c1 + 1] == '<')
+					|| (v->input[v->c->c1] == '>'
+						&& v->input[v->c->c1 + 1] == '>')))
+				cmd = msh_strjoinchr(cmd, v->input[v->c->c1++]);
+			cmd = msh_strjoinchr(cmd, v->input[v->c->c1]);
+			splitted[v->c->c2++] = cmd;
+			cmd = NULL;
+		}
+		else
+		{
+			if (v->input[v->c->c1] == ' '
+				&& !v->quotes->quote && !v->quotes->miniquote)
+			{
+				if (!msh_chr_is_sep(v->input[v->c->c1 + 1]))
+					cmd = msh_strjoinchr(cmd, v->input[v->c->c1]); 
+			}
+			else
+				cmd = msh_strjoinchr(cmd, v->input[v->c->c1]);
+		}
+		v->c->c1++;
+	}
+	if (cmd != NULL)
+		splitted[v->c->c2++] = cmd;
+	splitted[v->c->c2] = NULL;
+	return (splitted);
+}
 
-// int	msh_how_many_argv_have_the_cmd(char *input)
-// {
-// 	t_quotes	quotes;
-// 	int			num;
-// 	int			end;
-// 	int			c;
+void	msh_count_tokens_not_separator(
+	char *input, t_quotes quotes, int counter
+	)
+{
+	int	c;
 
-// 	c = -1;
-// 	num = 0;
-// 	end = 0;
-// 	msh_init_quotes_struct(&quotes);
-// 	while (input[++c])
-// 	{
-// 		msh_update_quotes_status(&quotes, input[c]);
-// 		if (input[c] != ' ' && ((input[c + 1] == ' '
-// 					&& !quotes.quote && !quotes.miniquote)
-// 				|| input[c + 1] == '\0' ))
-// 		{
-// 			num++;
-// 		}
-// 	}
-// 	return (num);
-// }
+	c = counter;
+	while (input[c] && (!msh_chr_is_sep(input[c])
+			|| (msh_chr_is_sep(input[c])
+				&& (quotes.quote || quotes.miniquote))))
+	{
+		c++;
+		msh_update_quotes_status(&quotes, input[c]);
+	}
+}
 
-// char	**msh_split_cmd_argvs(char *input, int argc)
-// {
-// 	t_quotes	quotes;
-// 	int			start;
-// 	int			c;
-// 	int			num;
-// 	char		**result;
+int	msh_count_tokens_extra(char *input, t_quotes quotes)
+{
+	int	c;
+	int	tokens;
 
-// 	c = -1;
-// 	start = 0;
-// 	num = 0;
-// 	result = malloc(sizeof(char *) * (argc + 1));
-// 	msh_init_quotes_struct(&quotes);
-// 	while (input[++c])
-// 	{
-// 		if (msh_is_startarg(input, c, &quotes))
-// 			start = c;
-// 		msh_update_quotes_status(&quotes, input[c]);
-// 		if (msh_is_endarg(input, c, &quotes))
-// 		{
-// 			result[num] = ft_substr(input, start, c - start + 1);
-// 			num++;
-// 		}
-// 	}
-// 	result[num] = NULL;
-// 	return (result);
-// }
+	c = 0;
+	tokens = 0;
+	while (input[c])
+	{
+		msh_update_quotes_status(&quotes, input[c]);
+		if (!msh_chr_is_sep(input[c]))
+		{
+			tokens++;
+			msh_count_tokens_not_separator(input, quotes, c);
+		}
+		if (msh_chr_is_sep(input[c]) && !quotes.quote && !quotes.miniquote)
+		{
+			if (msh_chr_is_double_redirection(input[c], input[c + 1]))
+				c++;
+			tokens++;
+		}
+		if (input[c] != '\0')
+			c++;
+		if (input[c] == ' ' && !quotes.quote && !quotes.miniquote)
+			c++;
+	}
+	return (tokens);
+}
+
+
+int	msh_count_tokens(char *input)
+{
+	t_quotes		quotes;
+
+	msh_init_quotes_struct(&quotes);
+	return (msh_count_tokens_extra(input, quotes));
+}
