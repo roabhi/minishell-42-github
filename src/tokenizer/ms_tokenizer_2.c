@@ -6,14 +6,25 @@
 /*   By: rabril-h <rabril-h@student.42barcelona.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/22 20:12:45 by rabril-h          #+#    #+#             */
-/*   Updated: 2023/07/24 15:43:35 by rabril-h         ###   ########.fr       */
+/*   Updated: 2023/07/24 19:12:12 by rabril-h         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../incl/mslib.h"
 
-
-
+void	msh_do_split_cmd_sep(t_vars *v, char **splitted, char **cmd)
+{
+	if (*cmd)
+		splitted[v->c->c2++] = *cmd;
+	if (*cmd)
+		*cmd = NULL;
+	if (msh_chr_is_double_redirection(
+			v->input[v->c->c1], v->input[v->c->c1 + 1]))
+		*cmd = msh_strjoinchr(*cmd, v->input[v->c->c1++]);
+	*cmd = msh_strjoinchr(*cmd, v->input[v->c->c1]);
+	splitted[v->c->c2++] = *cmd;
+	*cmd = NULL;
+}
 
 char	**msh_do_split_input_in_cmds(t_vars *v, char **splitted, char *cmd)
 {
@@ -23,18 +34,7 @@ char	**msh_do_split_input_in_cmds(t_vars *v, char **splitted, char *cmd)
 		if (msh_chr_is_sep(v->input[v->c->c1])
 			&& !v->quotes->quote && !v->quotes->miniquote)
 		{
-			if (cmd)
-				splitted[v->c->c2++] = cmd;
-			if (cmd)
-				cmd = NULL;
-			if (v->input[v->c->c1 + 1]
-				&& ((v->input[v->c->c1] == '<' && v->input[v->c->c1 + 1] == '<')
-					|| (v->input[v->c->c1] == '>'
-						&& v->input[v->c->c1 + 1] == '>')))
-				cmd = msh_strjoinchr(cmd, v->input[v->c->c1++]);
-			cmd = msh_strjoinchr(cmd, v->input[v->c->c1]);
-			splitted[v->c->c2++] = cmd;
-			cmd = NULL;
+			msh_do_split_cmd_sep(v, splitted, &cmd);
 		}
 		else
 		{
@@ -99,7 +99,6 @@ int	msh_count_tokens_extra(char *input, t_quotes quotes)
 	}
 	return (tokens);
 }
-
 
 int	msh_count_tokens(char *input)
 {

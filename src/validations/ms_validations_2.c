@@ -6,7 +6,7 @@
 /*   By: rabril-h <rabril-h@student.42barcelona.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/26 22:19:54 by rabril-h          #+#    #+#             */
-/*   Updated: 2023/07/24 15:31:08 by rabril-h         ###   ########.fr       */
+/*   Updated: 2023/07/24 19:14:46 by rabril-h         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,5 +39,3 @@ int	msh_chr_is_double_redirection(char c, char x)
 		return (1);
 	return (0);
 }
-
-
