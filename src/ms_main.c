@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ms_main.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rabril-h <rabril-h@student.42barcelona.    +#+  +:+       +#+        */
+/*   By: eros-gir <eros-gir@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/27 10:05:31 by eros-gir          #+#    #+#             */
-/*   Updated: 2023/07/23 20:44:41 by rabril-h         ###   ########.fr       */
+/*   Updated: 2023/07/24 20:49:48 by eros-gir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -133,7 +133,7 @@ int	main(int ac, char **av, char **envp)
 			exit(g_return_status);
 
 		vars.cmd = msh_tokenize(&vars);	
-		if (msh_errors_syntax(vars.cmd, NULL))
+		if (msh_errors_syntax(vars.cmd, NULL, 0))
 		{
 			msh_free_cmd_list(vars.cmd); // ? free args
 			msh_free_raw_array(vars.tokens); // ? free tokens
@@ -180,7 +180,7 @@ int	main(int ac, char **av, char **envp)
 				continue ;
 			//reordering redirections
 			vars.cmd = msh_tokenize(&vars);	
-			if (msh_errors_syntax(vars.cmd, NULL))
+			if (msh_errors_syntax(vars.cmd, NULL, 0))
 			{
 				msh_free_cmd_list(vars.cmd); // ? free args
 				msh_free_raw_array(vars.tokens); // ? free tokens

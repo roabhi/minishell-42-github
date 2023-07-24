@@ -6,7 +6,7 @@
 /*   By: eros-gir <eros-gir@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/12 18:08:07 by eros-gir          #+#    #+#             */
-/*   Updated: 2023/07/23 20:08:22 by eros-gir         ###   ########.fr       */
+/*   Updated: 2023/07/24 20:52:34 by eros-gir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,17 +68,14 @@ int	msh_count_redir(char *input, int qflag)
 	return (count);
 }
 
-char	*msh_reorder_redirs2(char *cmd, int nmb_redirs)
+//set i always at -1
+char	*msh_reorder_redirs2(char *cmd, int nmb_redirs, int i, int j)
 {
-	int		i;
-	int		j;
 	char	*tmp;
 	char	*tmp2;
 	char	**tcmds;
 
 	tcmds = ft_qsplit(cmd, ' ', 0, 0);
-	i = -1;
-
 	while (tcmds[++i] != NULL && nmb_redirs > 0)
 	{
 		if (msh_is_redirect2(tcmds[i]))
@@ -98,18 +95,7 @@ char	*msh_reorder_redirs2(char *cmd, int nmb_redirs)
 			nmb_redirs --;
 		}
 	}
-	i = 0;
-	free (cmd);
-	cmd = ft_strdup("");
-	while (tcmds[i] != NULL)
-	{
-		cmd = ft_joinloc(cmd, tcmds[i]);
-		if (tcmds[i + 1] != NULL)
-			cmd = ft_joinloc(cmd, ft_strdup(" "));
-		i++;
-	}
-	free (tcmds);
-	return (cmd);
+	return (msh_set_final_cmd(tcmds, cmd));
 }
 
 void	msh_reorder_redirs(t_vars *vars)
@@ -125,7 +111,7 @@ void	msh_reorder_redirs(t_vars *vars)
 	{
 		if (msh_count_redir(pipes[i], 0) > 0)
 			pipes[i] = msh_reorder_redirs2(pipes[i],
-					msh_count_redir(pipes[i], 0));
+					msh_count_redir(pipes[i], 0), -1, 0);
 		i++;
 	}
 	i = 0;

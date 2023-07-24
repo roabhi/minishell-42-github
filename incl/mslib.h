@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   mslib.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rabril-h <rabril-h@student.42barcelona.    +#+  +:+       +#+        */
+/*   By: eros-gir <eros-gir@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/27 10:06:39 by eros-gir          #+#    #+#             */
-/*   Updated: 2023/07/24 15:40:38 by rabril-h         ###   ########.fr       */
+/*   Updated: 2023/07/24 20:55:43 by eros-gir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,6 +107,7 @@ char	*msh_clean_irrelveant_spaces_in_input(char *input);
 int		msh_malformed_quotes(char *input);
 int		msh_quote_flag(char input, int qflag);
 char	*msh_add_space_between_input(char *input, int qflag);
+char	*msh_set_final_cmd(char **tcmds, char *cmd);
 
 // * Validators
 
@@ -130,7 +131,6 @@ int		msh_how_many_argv_have_the_cmd(char *input);
 char	**msh_do_split_input_in_cmds(t_vars *v, char **splitted, char *cmd);
 void	msh_do_split_input_in_cmds_extra(t_vars *v, char **splitted, char *cmd);
 int		msh_count_tokens_extra(char *input, t_quotes quotes);
-
 
 // * Destroyers
 
@@ -232,7 +232,7 @@ int		msh_advance_from_env_var(char *arg);
 void	msh_print_error(char *param, char *msg);
 void	msh_errors_exit(char *param, char *msg);
 void	msh_errors_export(char *param, char *msg);
-int		msh_errors_syntax(t_cmd *cmd, char *param);
+int		msh_errors_syntax(t_cmd *cmd, char *param, int flag);
 int		nsh_errors_syntax_extra(int flag, char *param);
 
 #endif

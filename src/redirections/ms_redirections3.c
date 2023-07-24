@@ -6,7 +6,7 @@
 /*   By: eros-gir <eros-gir@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/26 17:13:45 by eros-gir          #+#    #+#             */
-/*   Updated: 2023/07/22 16:45:41 by eros-gir         ###   ########.fr       */
+/*   Updated: 2023/07/24 20:52:43 by eros-gir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,4 +87,22 @@ int	msh_exec_redirect_first(t_cmd *cmd, int fd, char *argv, int hdnbr)
 	msh_exec_redirect2_first(cmd, fd, hdnbr);
 	close(fd);
 	return (0);
+}
+
+char	*msh_set_final_cmd(char **tcmds, char *cmd)
+{
+	int		i;
+
+	free (cmd);
+	cmd = ft_strdup("");
+	i = 0;
+	while (tcmds[i] != NULL)
+	{
+		cmd = ft_joinloc(cmd, tcmds[i]);
+		if (tcmds[i + 1] != NULL)
+			cmd = ft_joinloc(cmd, ft_strdup(" "));
+		i++;
+	}
+	free (tcmds);
+	return (cmd);
 }
