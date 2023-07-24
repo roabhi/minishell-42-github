@@ -6,7 +6,7 @@
 /*   By: rabril-h <rabril-h@student.42barcelona.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/27 10:06:39 by eros-gir          #+#    #+#             */
-/*   Updated: 2023/07/23 20:29:44 by rabril-h         ###   ########.fr       */
+/*   Updated: 2023/07/24 15:40:38 by rabril-h         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -110,12 +110,15 @@ char	*msh_add_space_between_input(char *input, int qflag);
 
 // * Validators
 
-int		msh_chr_can_be_separator(char c);
+int		msh_chr_is_sep(char c);
+int		msh_chr_is_double_redirection(char c, char x);
 int		msh_is_startarg(char *input, int c, t_quotes *quotes);
 int		msh_is_endarg(char *input, int c, t_quotes *quotes);
 int		msh_is_space(int c);
 int		msh_no_quotes(t_quotes *quotes);
 int		msh_argv_need_expansion(char c);
+int		msh_chr_is_redirection(char c);
+int		msh_chr_is_pipe(char c);
 
 // * Tokenizer-ish
 
@@ -126,12 +129,8 @@ t_cmd	*msh_tokenize(t_vars *vars);
 int		msh_how_many_argv_have_the_cmd(char *input);
 char	**msh_do_split_input_in_cmds(t_vars *v, char **splitted, char *cmd);
 void	msh_do_split_input_in_cmds_extra(t_vars *v, char **splitted, char *cmd);
-void	msh_count_tokens_extra(
-			char *input, int *tokens, t_quotes quotes, int c
-			);
-void	msh_count_tokens_extra_two(
-			char *input, int *tokens, t_quotes quotes, int c
-			);
+int		msh_count_tokens_extra(char *input, t_quotes quotes);
+
 
 // * Destroyers
 
