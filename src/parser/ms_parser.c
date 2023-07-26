@@ -6,7 +6,7 @@
 /*   By: eros-gir <eros-gir@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/06 22:07:56 by rabril-h          #+#    #+#             */
-/*   Updated: 2023/07/24 20:58:41 by eros-gir         ###   ########.fr       */
+/*   Updated: 2023/07/26 20:36:19 by eros-gir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,6 +61,7 @@ int	msh_malformed_quotes(char *input)
 }
 
 // ! Entry point
+// ! comment the free(input) for testing!
 char	*msh_sanitize_input(char *input)
 {
 	char	*trimmed_input;
@@ -71,7 +72,7 @@ char	*msh_sanitize_input(char *input)
 		return (NULL);
 	}
 	trimmed_input = ft_strtrim(input, " ");
-	free(input); // ! coment for testing
+	free(input);
 	input = msh_clean_irrelveant_spaces_in_input(trimmed_input);
 	return (input);
 }

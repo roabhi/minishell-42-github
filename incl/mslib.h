@@ -6,7 +6,7 @@
 /*   By: eros-gir <eros-gir@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/27 10:06:39 by eros-gir          #+#    #+#             */
-/*   Updated: 2023/07/24 20:55:43 by eros-gir         ###   ########.fr       */
+/*   Updated: 2023/07/26 19:57:38 by eros-gir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,7 +106,7 @@ void	msh_reorder_redirs(t_vars *vars);
 char	*msh_clean_irrelveant_spaces_in_input(char *input);
 int		msh_malformed_quotes(char *input);
 int		msh_quote_flag(char input, int qflag);
-char	*msh_add_space_between_input(char *input, int qflag);
+char	*msh_add_space_between_input(char *input, int qflag, int i, int j);
 char	*msh_set_final_cmd(char **tcmds, char *cmd);
 
 // * Validators

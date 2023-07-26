@@ -6,7 +6,7 @@
 /*   By: eros-gir <eros-gir@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/27 10:05:31 by eros-gir          #+#    #+#             */
-/*   Updated: 2023/07/24 20:49:48 by eros-gir         ###   ########.fr       */
+/*   Updated: 2023/07/26 21:21:52 by eros-gir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,7 @@ void	msh_sigint_handler(int sig)
 		rl_on_new_line();
 		rl_redisplay();
 		write(1, "  \n", 3);
-		//rl_replace_line("", 0);
+		rl_replace_line("", 0);
 		rl_on_new_line();
 		rl_redisplay();
 		// i = 0;
@@ -71,11 +71,11 @@ void	msh_ignore_signals(t_vars *vars, int ac, char **av)
 {
 	(void)ac;
 	(void)av;
-	// if (ac > 1 || av[1] != NULL)
-	// {
-	// 	ft_putendl_fd("ERROR: the program does not take any arguments!", 2);
-	// 	exit(1);
-	// }
+	if (ac > 1 || av[1] != NULL)
+	{
+		ft_putendl_fd("ERROR: the program does not take any arguments!", 2);
+		exit(1);
+	}
 	vars->sigbool = 1;
 	signal(SIGINT, msh_sigint_handler);
 	signal(SIGTSTP, SIG_IGN);
@@ -142,7 +142,7 @@ int	main(int ac, char **av, char **envp)
 		}
 		msh_free_cmd_list(vars.cmd); // ? free args
 		msh_free_raw_array(vars.tokens); // ? free tokens
-		vars.input = msh_add_space_between_input(vars.input, 0);
+		vars.input = msh_add_space_between_input(vars.input, 0, -1, -1);
 		msh_reorder_redirs(&vars);
 		vars.cmd = msh_tokenize(&vars);
 		if (vars.cmd != NULL){
@@ -180,16 +180,16 @@ int	main(int ac, char **av, char **envp)
 				continue ;
 			//reordering redirections
 			vars.cmd = msh_tokenize(&vars);	
-			if (msh_errors_syntax(vars.cmd, NULL, 0))
-			{
-				msh_free_cmd_list(vars.cmd); // ? free args
-				msh_free_raw_array(vars.tokens); // ? free tokens
-				free(vars.input); // ? free trimed input);
-				continue ;
-			}
+			// if (msh_errors_syntax(vars.cmd, NULL, 0))
+			// {
+			// 	msh_free_cmd_list(vars.cmd); // ? free args
+			// 	msh_free_raw_array(vars.tokens); // ? free tokens
+			// 	free(vars.input); // ? free trimed input);
+			// 	continue ;
+			// }
 			msh_free_cmd_list(vars.cmd); // ? free args
 			msh_free_raw_array(vars.tokens); // ? free tokens
-			vars.input = msh_add_space_between_input(vars.input, 0);
+			vars.input = msh_add_space_between_input(vars.input, 0, -1, -1);
 			msh_reorder_redirs(&vars);
 			//continue ; //testing reorder
 			vars.cmd = msh_tokenize(&vars);		
