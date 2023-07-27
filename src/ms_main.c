@@ -6,7 +6,7 @@
 /*   By: eros-gir <eros-gir@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/27 10:05:31 by eros-gir          #+#    #+#             */
-/*   Updated: 2023/07/27 20:10:30 by eros-gir         ###   ########.fr       */
+/*   Updated: 2023/07/27 20:32:38 by eros-gir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,10 +47,8 @@ void	msh_ignore_signals(t_vars *vars, int ac, char **av)
 int	main2(t_vars *vars)
 {
 	if (vars->inpli[0] == '\0')
-	{
 		free(vars->inpli);
 		return (g_return_status);
-	}
 	add_history(vars->inpli);
 	return (g_return_status);
 }
@@ -102,6 +100,8 @@ int	main(int ac, char **av, char **envp)
 		if (vars.inpli != NULL)
 		{
 			g_return_status = main2(&vars);
+			if (vars.inpli[0] == '\0')
+				continue ;
 			g_return_status = main3(&vars);
 		}
 		else
