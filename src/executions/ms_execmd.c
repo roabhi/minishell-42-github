@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ms_execmd.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rabril-h <rabril-h@student.42barcelona.    +#+  +:+       +#+        */
+/*   By: eros-gir <eros-gir@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/12 10:21:17 by eros-gir          #+#    #+#             */
-/*   Updated: 2023/07/23 20:42:08 by rabril-h         ###   ########.fr       */
+/*   Updated: 2023/07/27 20:52:19 by eros-gir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,7 +76,7 @@ int	msh_execute_start(t_vars *vars)
 	pobj[0] = 0;
 	pobj[1] = 0;
 	tcmd = vars->cmd;
-	vars->hdnumb = msh_store_heredocs(vars);
+	vars->hdnumb = msh_store_heredocs(vars, 0, fork());
 	g_return_status = 0;
 	msh_save_io(vars->iofd);
 	single = fork();

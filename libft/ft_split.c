@@ -6,14 +6,14 @@
 /*   By: eros-gir <eros-gir@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/19 12:19:42 by eros-gir          #+#    #+#             */
-/*   Updated: 2023/07/10 15:34:42 by eros-gir         ###   ########.fr       */
+/*   Updated: 2023/07/24 20:54:16 by eros-gir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
 size_t	ft_strnum(const char *s, char c)
-{	
+{
 	size_t	len;
 	size_t	numb;
 

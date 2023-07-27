@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: rabril-h <rabril-h@student.42barcelona.    +#+  +:+       +#+         #
+#    By: eros-gir <eros-gir@student.42barcel>       +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/08/02 14:48:15 by eros-gir          #+#    #+#              #
-#    Updated: 2023/07/23 16:37:32 by rabril-h         ###   ########.fr        #
+#    Updated: 2023/07/24 20:59:03 by eros-gir         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -19,6 +19,7 @@ NAME = minishell
 
 SRC = ./src/ms_main.c  \
 	./src/parser/ms_parser.c \
+	./src/parser/ms_parser2.c \
 	./src/executions/ms_execmd.c \
 	./src/executions/ms_execpath.c \
 	./src/executions/ms_pipe.c \
@@ -47,6 +48,7 @@ SRC = ./src/ms_main.c  \
 	./src/validations/ms_validations_2.c \
 	./src/destroyer/ms_destroyer.c \
 	./src/errors/ms_errors.c \
+	./src/errors/ms_errors2.c \
 
 HDR = ./incl/mslib.h ./libft/libft.h
 
