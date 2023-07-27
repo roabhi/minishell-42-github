@@ -6,7 +6,7 @@
 /*   By: eros-gir <eros-gir@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/27 10:06:39 by eros-gir          #+#    #+#             */
-/*   Updated: 2023/07/26 19:57:38 by eros-gir         ###   ########.fr       */
+/*   Updated: 2023/07/27 20:08:55 by eros-gir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,6 +85,7 @@ void	msh_init_quotes_struct(t_quotes *quote_struct);
 char	*msh_free_return_null(char *ptr);
 int		msh_cmd_is_built_in(t_cmd *cmd);
 void	msh_str_to_lower(char *str);
+void	msh_set_vars(t_vars *vars, char *input);
 
 // * Helpers
 
@@ -214,7 +215,7 @@ char	**ft_qsplit(char const *s, char c, size_t n, int qflags);
 
 // ? Heredoc
 void	msh_close_pipes(int pobj[2]);
-int		msh_store_heredocs(t_vars *vars);
+int		msh_store_heredocs(t_vars *vars, int i, pid_t hdproc);
 char	*msh_read_heredoc(int hdnbr);
 void	msh_heredoc(char *delim, char *fnum);
 void	msh_clean_heredoc(t_vars *vars);

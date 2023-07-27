@@ -6,47 +6,64 @@
 /*   By: eros-gir <eros-gir@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/30 17:41:42 by eros-gir          #+#    #+#             */
-/*   Updated: 2023/07/23 20:03:13 by eros-gir         ###   ########.fr       */
+/*   Updated: 2023/07/27 19:58:21 by eros-gir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../incl/mslib.h"
 
-int	msh_store_heredocs(t_vars *vars)
+// i = 0; hdproc = NULL;
+int	msh_store_heredocs(t_vars *vars, int i, pid_t hdproc)
 {
 	t_cmd	*cmd;
-	int		i;
 
-	i = 0;
 	cmd = vars->cmd;
-	while (cmd != NULL && cmd->next != NULL)
+	if (hdproc == 0)
 	{
-		if (msh_is_redirect_first(*cmd) == 4)
+		while (cmd != NULL && cmd->next != NULL)
 		{
-			msh_heredoc(cmd->next->argv[0], ft_itoa(i));
-			i++;
+			if (msh_is_redirect_first(*cmd) == 4)
+			{
+				msh_heredoc(cmd->next->argv[0], ft_itoa(i));
+				i++;
+			}
+			else if (msh_is_redirect(*cmd) == 4)
+			{
+				msh_heredoc(cmd->next->next->argv[0], ft_itoa(i));
+				i++;
+			}
+			cmd = cmd->next->next;
 		}
-		else if (msh_is_redirect(*cmd) == 4)
-		{
-			msh_heredoc(cmd->next->next->argv[0], ft_itoa(i));
-			i++;
-		}
-		cmd = cmd->next->next;
+		exit (g_return_status);
 	}
+	else
+		waitpid(hdproc, NULL, 0);
 	return (i);
 }
+
+//old signal handler
+// int	msh_check_sigint(int signum)
+// {
+// 	static int	interrupt = 0;
+
+// 	if (signum == 1)
+// 	{
+// 		rl_redisplay();
+// 		write(1, "     ", 5);
+// 		interrupt = 1;
+// 		ioctl(0, TIOCSTI, "\n");
+// 	}
+// 	else if (signum == -1)
+// 		interrupt = 0;
+// 	return (interrupt);
+// }
 
 int	msh_check_sigint(int signum)
 {
 	static int	interrupt = 0;
 
 	if (signum == 1)
-	{
-		rl_redisplay();
-		write(1, "     ", 5);
 		interrupt = 1;
-		ioctl(0, TIOCSTI, "\n");
-	}
 	else if (signum == -1)
 		interrupt = 0;
 	return (interrupt);
@@ -71,17 +88,16 @@ void	msh_heredoc(char *delim, char *fnum)
 	{
 		line = readline("> ");
 		if (line == NULL)
-			break ;
+			exit (g_return_status);
 		if ((ft_strcmp(line, delim) == 0) || msh_check_sigint(0))
 		{
 			free(line);
-			break ;
+			exit (g_return_status);
 		}
 		ft_putendl_fd(line, fd);
 		free(line);
 	}
 	msh_check_sigint(-1);
-	signal(SIGINT, msh_sigint_handler);
 	free(fname);
 	close(fd);
 }

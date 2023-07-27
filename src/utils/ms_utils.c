@@ -3,14 +3,21 @@
 /*                                                        :::      ::::::::   */
 /*   ms_utils.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rabril-h <rabril-h@student.42barcelona.    +#+  +:+       +#+        */
+/*   By: eros-gir <eros-gir@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/05 17:21:49 by rabril-h          #+#    #+#             */
-/*   Updated: 2023/07/23 20:31:47 by rabril-h         ###   ########.fr       */
+/*   Updated: 2023/07/27 20:08:23 by eros-gir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../incl/mslib.h"
+
+void	msh_set_vars(t_vars *vars, char *input)
+{
+	vars->prompt = ft_calloc(ft_strlen(input) + 1, 1);
+	vars->inpli = NULL;
+	ft_strlcpy(vars->prompt, input, ft_strlen(input));
+}
 
 void	msh_str_to_lower(char *str)
 {
