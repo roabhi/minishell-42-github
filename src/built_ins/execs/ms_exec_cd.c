@@ -6,7 +6,7 @@
 /*   By: eros-gir <eros-gir@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/19 16:57:11 by rabril-h          #+#    #+#             */
-/*   Updated: 2023/07/29 19:49:03 by eros-gir         ###   ########.fr       */
+/*   Updated: 2023/07/29 19:54:19 by eros-gir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,7 @@ void	msh_cd_go_to_path(t_vars *vars, char *path, char *ret)
 		path = msh_get_env_value(vars, msh_get_env_index(vars, "HOME"));
 	if (chdir(path) != 0)
 	{
-		ft_putendl_fd("cd: No se pudo cambiar el directorio ", 2);
+		msh_errors_cd(path, ": No such file or directory\n");
 		g_return_status = 1;
 	}
 	else
@@ -70,7 +70,7 @@ void	msh_cd_go_to_path(t_vars *vars, char *path, char *ret)
 		ret = getcwd(cwd, PATH_MAX);
 		if (!ret)
 		{
-			ft_putendl_fd("cd: No se pudo cambiar el directorio ", 2);
+			msh_errors_cd(path, ": No such file or directory\n");
 			g_return_status = 1;
 		}
 		else

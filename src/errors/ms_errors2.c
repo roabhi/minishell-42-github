@@ -6,7 +6,7 @@
 /*   By: eros-gir <eros-gir@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/05 20:41:03 by rabril-h          #+#    #+#             */
-/*   Updated: 2023/07/24 20:50:33 by eros-gir         ###   ########.fr       */
+/*   Updated: 2023/07/29 19:50:35 by eros-gir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,41 +52,3 @@ int	msh_errors_syntax(t_cmd *cmd, char *param, int flag)
 	}
 	return (msh_errors_syntax_extra(flag, param));
 }
-
-// int	msh_check_argv(t_cmd *cmd)
-// {
-// 	if ((cmd->argv[0][0] != '|' && (cmd->next->argv[0][0] != '<'
-// 		|| cmd->next->argv[0][0] != '>'))
-// 		|| (cmd->argv[0][0] == '|' && cmd->next->argv[0][0] == '|'))
-// 		return (1);
-// 	return (0);
-// }
-
-// //set flag always at 0
-// //set tmp always at NULL
-// int	msh_errors_syntax(t_cmd *cmd, char *param, int flag, char *tmp)
-// {
-// 	while (cmd->next)
-// 	{
-// 		if (cmd->argv[0][0] == '|' && tmp == NULL)
-// 		{
-// 			flag = 1;
-// 			param = cmd->argv[0];
-// 			break ;
-// 		}
-// 		if (msh_check_argv(cmd))
-// 		{
-// 			flag = 1;
-// 			param = cmd->next->argv[0];
-// 			break ;
-// 		}
-// 		tmp = cmd->argv[0];
-// 		cmd = cmd->next;
-// 	}
-// 	if (cmd->is_separator == 1 && cmd->next == NULL)
-// 	{
-// 		flag = 1;
-// 		param = "newline";
-// 	}
-// 	return (msh_errors_syntax_extra(flag, param));
-// }

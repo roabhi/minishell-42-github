@@ -6,7 +6,7 @@
 /*   By: eros-gir <eros-gir@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/27 10:06:39 by eros-gir          #+#    #+#             */
-/*   Updated: 2023/07/29 19:47:40 by eros-gir         ###   ########.fr       */
+/*   Updated: 2023/07/29 19:52:45 by eros-gir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -235,6 +235,7 @@ int		msh_advance_from_env_var(char *arg);
 void	msh_print_error(char *param, char *msg);
 void	msh_errors_exit(char *param, char *msg);
 void	msh_errors_export(char *param, char *msg);
+void	msh_errors_cd(char *param, char *msg);
 int		msh_errors_syntax(t_cmd *cmd, char *param, int flag);
 int		nsh_errors_syntax_extra(int flag, char *param);
 
