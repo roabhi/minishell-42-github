@@ -6,7 +6,7 @@
 /*   By: eros-gir <eros-gir@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/27 10:06:39 by eros-gir          #+#    #+#             */
-/*   Updated: 2023/07/29 19:17:06 by eros-gir         ###   ########.fr       */
+/*   Updated: 2023/07/29 19:47:40 by eros-gir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -172,7 +172,7 @@ char	*msh_get_env_value(t_vars *vars, int env_index);
 void	msh_exec_cd(t_cmd *cmd, t_vars *vars);
 void	msh_cd_go_home(t_vars *vars);
 int		msh_cd_change_dir(t_vars *vars, char *path);
-void	msh_cd_go_to_path(t_vars *vars, char *path);
+void	msh_cd_go_to_path(t_vars *vars, char *path, char *ret);
 void	msh_set_pwds(t_vars *vars, char *path);
 
 // ? unset builtin

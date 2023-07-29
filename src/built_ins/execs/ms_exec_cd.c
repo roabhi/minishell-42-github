@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ms_exec_cd.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rabril-h <rabril-h@student.42barcelona.    +#+  +:+       +#+        */
+/*   By: eros-gir <eros-gir@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/19 16:57:11 by rabril-h          #+#    #+#             */
-/*   Updated: 2023/07/22 21:55:52 by rabril-h         ###   ########.fr       */
+/*   Updated: 2023/07/29 19:49:03 by eros-gir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,13 +53,13 @@ void	msh_cd_go_home(t_vars *vars)
 	msh_cd_change_dir(vars, home_ref);
 }
 
-void	msh_cd_go_to_path(t_vars *vars, char *path)
+//settear siemppre ret = NULL;
+void	msh_cd_go_to_path(t_vars *vars, char *path, char *ret)
 {
-	char	*ret;
 	char	cwd[PATH_MAX];
 
-	(void)vars;
-	ret = NULL;
+	if (path[0] == '~')
+		path = msh_get_env_value(vars, msh_get_env_index(vars, "HOME"));
 	if (chdir(path) != 0)
 	{
 		ft_putendl_fd("cd: No se pudo cambiar el directorio ", 2);
@@ -92,7 +92,7 @@ void	msh_exec_cd(t_cmd *cmd, t_vars *vars)
 		if (cmd->argc == 1)
 			msh_cd_go_home(vars);
 		else if (cmd->argc == 2)
-			msh_cd_go_to_path(vars, cmd->argv[1]);
+			msh_cd_go_to_path(vars, cmd->argv[1], NULL);
 		else
 			ft_putendl_fd("cd: Too many arguments ", 2);
 	}
