@@ -6,7 +6,7 @@
 /*   By: eros-gir <eros-gir@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/30 17:41:42 by eros-gir          #+#    #+#             */
-/*   Updated: 2023/07/22 16:04:27 by eros-gir         ###   ########.fr       */
+/*   Updated: 2023/07/29 19:17:52 by eros-gir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,8 +23,8 @@ void	msh_clean_heredoc(t_vars *vars)
 	char	*fname;
 	int		i;
 
-	i = 0;
-	while (i >= 999)
+	i = -1;
+	while (i <= 999)
 	{
 		fname = ft_joinloc(ft_strdup(".heredoc"), ft_itoa(i));
 		unlink(fname);
@@ -32,4 +32,28 @@ void	msh_clean_heredoc(t_vars *vars)
 		i++;
 	}
 	vars->hdnumb = 0;
+}
+
+int	msh_check_sigint(int signum)
+{
+	static int	interrupt = 0;
+
+	if (signum == 1)
+	{
+		interrupt = 1;
+		rl_redisplay();
+		write(1, "     ", 5);
+		ioctl(0, TIOCSTI, "\n");
+		g_return_status = 1;
+		interrupt = 1;
+	}
+	else if (signum == -1)
+		interrupt = 0;
+	return (interrupt);
+}
+
+void	msh_sigint_heredoc(int signum)
+{
+	(void)signum;
+	msh_check_sigint(1);
 }

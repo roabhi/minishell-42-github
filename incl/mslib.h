@@ -6,7 +6,7 @@
 /*   By: eros-gir <eros-gir@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/27 10:06:39 by eros-gir          #+#    #+#             */
-/*   Updated: 2023/07/27 20:08:55 by eros-gir         ###   ########.fr       */
+/*   Updated: 2023/07/29 19:17:06 by eros-gir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,6 +74,7 @@ typedef struct s_vars
 	t_cmd			*cmd;
 	int				iofd[2];
 	int				hdnumb;
+	struct termios	term;
 }	t_vars;
 
 // * Utils
@@ -197,6 +198,7 @@ int		msh_pipe_fork1(t_vars *vars, t_cmd *cmd, int prev_pobj[2], int rc);
 int		msh_pipe_fork2(t_vars *vars, t_cmd tcmd, int pobj[2], pid_t child2);
 void	msh_pipe_execute(t_vars *vars, t_cmd *tcmd2, t_cmd *tcmd);
 void	msh_single_cmd(t_vars *vars, pid_t single, t_cmd *tcmd);
+void	msh_final_return(void);
 
 // ? Redirections
 int		msh_is_pipe(t_cmd tcmd);
@@ -235,5 +237,14 @@ void	msh_errors_exit(char *param, char *msg);
 void	msh_errors_export(char *param, char *msg);
 int		msh_errors_syntax(t_cmd *cmd, char *param, int flag);
 int		nsh_errors_syntax_extra(int flag, char *param);
+
+// SIGNALs
+void	msh_sigint_handler_block_cmds(int sig);
+void	msh_sigquit_handler(int sig);
+void	msh_ignore_signals(t_vars *vars, int ac, char **av);
+void	msh_sigint_handler(int sig);
+void	msh_sigint_heredoc(int sig);
+void	msh_set_signals(int type);
+int		msh_check_sigint(int signum);
 
 #endif

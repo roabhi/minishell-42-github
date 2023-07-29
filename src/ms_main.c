@@ -6,7 +6,7 @@
 /*   By: eros-gir <eros-gir@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/27 10:05:31 by eros-gir          #+#    #+#             */
-/*   Updated: 2023/07/27 20:54:35 by eros-gir         ###   ########.fr       */
+/*   Updated: 2023/07/29 19:10:18 by eros-gir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,37 +15,9 @@
 //Global variable
 int	g_return_status;
 
-void	msh_sigint_handler(int sig)
-{
-	if (sig != 0)
-	{
-		rl_on_new_line();
-		rl_redisplay();
-		write(1, "                              \n", 31);
-		rl_replace_line("", 0);
-		rl_on_new_line();
-		rl_redisplay();
-		g_return_status = 1;
-	}
-}
-
-void	msh_ignore_signals(t_vars *vars, int ac, char **av)
-{
-	(void)ac;
-	(void)av;
-	if (ac > 1 || av[1] != NULL)
-	{
-		ft_putendl_fd("ERROR: the program does not take any arguments!", 2);
-		exit(1);
-	}
-	vars->sigbool = 1;
-	signal(SIGINT, msh_sigint_handler);
-	signal(SIGTSTP, SIG_IGN);
-	signal(SIGQUIT, SIG_IGN);
-}
-
 int	main2(t_vars *vars)
 {
+	msh_set_signals(2);
 	if (vars->inpli[0] == '\0')
 		free(vars->inpli);
 	else
@@ -74,8 +46,7 @@ int	main3(t_vars *vars)
 		msh_expander(vars);
 		msh_execute_start(vars);
 	}
-	if (vars->hdnumb > 0)
-		msh_clean_heredoc(vars);
+	msh_clean_heredoc(vars);
 	msh_free_cmd_list(vars->cmd);
 	msh_free_raw_array(vars->tokens);
 	free(vars->input);
@@ -87,8 +58,6 @@ int	main(int ac, char **av, char **envp)
 {
 	t_vars	vars;
 
-	vars.looping = 1;
-	g_return_status = 0;
 	msh_set_vars(&vars, "msh %  ");
 	if (!msh_store_env_own_vars(&vars, envp))
 		return (-1);
@@ -107,6 +76,7 @@ int	main(int ac, char **av, char **envp)
 		else
 			vars.looping = 0;
 	}
+	printf("exit\n");
 	msh_free_envars(&vars);
 	free(vars.prompt);
 	return (g_return_status);

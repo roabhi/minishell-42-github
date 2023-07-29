@@ -6,7 +6,7 @@
 /*   By: eros-gir <eros-gir@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/12 10:21:17 by eros-gir          #+#    #+#             */
-/*   Updated: 2023/07/27 20:52:19 by eros-gir         ###   ########.fr       */
+/*   Updated: 2023/07/29 19:15:02 by eros-gir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,8 +76,10 @@ int	msh_execute_start(t_vars *vars)
 	pobj[0] = 0;
 	pobj[1] = 0;
 	tcmd = vars->cmd;
-	vars->hdnumb = msh_store_heredocs(vars, 0, fork());
 	g_return_status = 0;
+	vars->hdnumb = msh_store_heredocs(vars, 0, fork());
+	if (g_return_status != 0)
+		return (g_return_status);
 	msh_save_io(vars->iofd);
 	single = fork();
 	if (single < 0)
@@ -86,7 +88,7 @@ int	msh_execute_start(t_vars *vars)
 	{
 		kill (single, SIGKILL);
 		msh_pipe_fork1(vars, vars->cmd, pobj, 0);
-		g_return_status = WEXITSTATUS(g_return_status);
+		msh_final_return();
 	}
 	else
 		msh_single_cmd(vars, single, tcmd);
@@ -121,7 +123,7 @@ void	msh_single_cmd(t_vars *vars, pid_t single, t_cmd *tcmd)
 			exit(g_return_status);
 		}
 		waitpid(single, &g_return_status, 0);
-		g_return_status = WEXITSTATUS(g_return_status);
+		msh_final_return();
 	}
 }
 
