@@ -6,7 +6,7 @@
 /*   By: eros-gir <eros-gir@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/27 10:05:31 by eros-gir          #+#    #+#             */
-/*   Updated: 2023/07/30 17:01:18 by eros-gir         ###   ########.fr       */
+/*   Updated: 2023/07/30 17:18:31 by eros-gir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,6 +66,5 @@ int	main(int ac, char **av, char **envp)
 	}
 	ft_putendl_fd("exit", 1);
 	msh_free_memory_dynamic(&vars, 3);
-	system("leaks minishell");
 	return (g_return_status);
 }
