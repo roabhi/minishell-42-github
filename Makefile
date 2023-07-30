@@ -6,7 +6,7 @@
 #    By: eros-gir <eros-gir@student.42barcel>       +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/08/02 14:48:15 by eros-gir          #+#    #+#              #
-#    Updated: 2023/07/29 16:50:05 by eros-gir         ###   ########.fr        #
+#    Updated: 2023/07/30 16:57:33 by eros-gir         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -18,6 +18,7 @@ C_END=\033[0m
 NAME = minishell
 
 SRC = ./src/ms_main.c  \
+	./src/ms_mainhelpers.c \
 	./src/ms_signals.c \
 	./src/parser/ms_parser.c \
 	./src/parser/ms_parser2.c \

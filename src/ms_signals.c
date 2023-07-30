@@ -6,7 +6,7 @@
 /*   By: eros-gir <eros-gir@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/29 16:48:06 by eros-gir          #+#    #+#             */
-/*   Updated: 2023/07/29 19:11:59 by eros-gir         ###   ########.fr       */
+/*   Updated: 2023/07/30 16:11:23 by eros-gir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,5 +84,6 @@ void	msh_ignore_signals(t_vars *vars, int ac, char **av)
 		exit(1);
 	}
 	vars->sigbool = 1;
+	vars->looping = 1;
 	msh_set_signals(0);
 }

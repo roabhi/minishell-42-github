@@ -6,7 +6,7 @@
 /*   By: eros-gir <eros-gir@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/27 10:06:39 by eros-gir          #+#    #+#             */
-/*   Updated: 2023/07/29 19:52:45 by eros-gir         ###   ########.fr       */
+/*   Updated: 2023/07/30 16:59:28 by eros-gir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,6 +76,17 @@ typedef struct s_vars
 	int				hdnumb;
 	struct termios	term;
 }	t_vars;
+
+// * Main helpers
+
+void	msh_free_memory_dynamic(t_vars *vars, int flag);
+void	msh_reorder_input(t_vars *vars);
+void	msh_execute_main2(t_vars *vars);
+void	msh_execute_main(t_vars *vars);
+int		msh_check_errors_syntax(t_vars *vars);
+void	msh_set_init(t_vars *vars, char **envp);
+int		msh_readline(t_vars *vars, int ac, char **av);
+int		msh_check_inputline(t_vars *vars);
 
 // * Utils
 

@@ -6,7 +6,7 @@
 /*   By: eros-gir <eros-gir@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/13 18:52:50 by rabril-h          #+#    #+#             */
-/*   Updated: 2023/07/22 20:08:42 by rabril-h         ###   ########.fr       */
+/*   Updated: 2023/07/30 16:31:04 by eros-gir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ int	msh_store_env_own_lines(t_vars *vars, char **envp, int index)
 	vars->envar[index] = (char *)malloc(sizeof(char)
 			* env_line_length + 1);
 	if (!vars->envar[index])
-		return (0);
+		exit (-1);
 	env_line_length = -1;
 	while (envp[index][++env_line_length])
 	{
